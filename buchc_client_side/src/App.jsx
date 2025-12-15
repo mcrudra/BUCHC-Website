@@ -3,7 +3,12 @@ import "./App.css";
 function App() {
   return (
     <>
-      <h1>Welcome BUCHC</h1>
+      <div className=" border bg-green-200 text-red-500 ">
+        if tailwind == working{" "}
+        <span>
+          <strong> "Monish Gay"!</strong>
+        </span>
+      </div>
     </>
   );
 }
