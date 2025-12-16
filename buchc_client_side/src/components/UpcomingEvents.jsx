@@ -25,13 +25,13 @@ export default function UpcomingEvents() {
         </p>
 
         {/* Grid container centered */}
-        <div className="flex flex-wrap justify-center gap-15">
+        <div className="flex flex-wrap justify-center gap-15 ">
           {events.map((event, index) => (
             <div
               key={index}
               className="bg-white rounded-xl shadow-lg overflow-hidden w-full max-w-sm hover:shadow-2xl transition"
             >
-              <div className="p-7 text-left">
+              <div className="p-7 text-left border-t-7 border-blue-500 rounded-t-lg">
                 <h4 className="text-xl font-bold mb-4">{event.title}</h4>
 
                 <div className="flex items-center gap-2 text-gray-600">

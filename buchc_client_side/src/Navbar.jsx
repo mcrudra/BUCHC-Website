@@ -23,7 +23,7 @@ const Navbar = () => {
               alt="BUCHC Logo"
               className="w-12 h-12 rounded-full"
             />
-            <span className="text-lg md:text-xl font-bold text-gray-800">
+            <span className="text-lg md:text-xl text-gray-800">
               BRAC University Chess Club
             </span>
           </div>
