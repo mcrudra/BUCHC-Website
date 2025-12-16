@@ -1,15 +1,16 @@
-import "./App.css";
+// App.jsx (main component)
+import React from "react";
+import Navbar from "./Navbar";
+import Hero from "./components/Hero";
+import UpcomingEvents from "./components/UpcomingEvents";
 
 function App() {
   return (
-    <>
-      <div className=" border bg-green-200 text-red-500 ">
-        if tailwind == working{" "}
-        <span>
-          <strong> "Monish Gay"!</strong>
-        </span>
-      </div>
-    </>
+    <div className="w-full">
+      <Navbar />
+      <Hero />
+      <UpcomingEvents />
+    </div>
   );
 }
 
