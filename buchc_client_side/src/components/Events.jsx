@@ -48,7 +48,6 @@ export default function Events() {
   return (
     <section className="py-20 bg-white">
       <div className="max-w-6xl mx-auto px-4">
-        {/* Page Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-gray-900">Events</h2>
           <p className="text-gray-600 mt-2">
@@ -56,8 +55,6 @@ export default function Events() {
           </p>
           <div className="w-16 h-1 bg-blue-500 mx-auto mt-4 rounded-full"></div>
         </div>
-
-        {/* Upcoming Events */}
         <div className="mb-16">
           <div className="flex items-center justify-between mb-8">
             <h3 className="text-2xl font-semibold text-gray-800">
@@ -99,8 +96,6 @@ export default function Events() {
             ))}
           </div>
         </div>
-
-        {/* Past Events */}
         <div>
           <div className="flex items-center justify-between mb-8">
             <h3 className="text-2xl font-semibold text-gray-800">
