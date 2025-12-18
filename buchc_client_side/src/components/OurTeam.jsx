@@ -11,20 +11,23 @@ export default function OurTeam() {
     },
     {
       position: "Vice President",
-      name: "Kamrul Hasan",
-      photo: "/assets/governingBody/rudraBhai.jpg",
+      name: "K,M Ramim Azim",
+      photo:
+        "https://res.cloudinary.com/dxuezm3jb/image/upload/v1766076060/014ef2f860e8e56b27d4a3267e0a193a_xysdgl.jpg",
       mail: "vp@buccclub",
     },
     {
       position: "General Secretary",
-      name: "Nusrat Jahan",
-      photo: "/images/members/nusrat-jahan.jpg",
+      name: "Lewra Prithu",
+      photo:
+        "https://res.cloudinary.com/dxuezm3jb/image/upload/v1766076060/014ef2f860e8e56b27d4a3267e0a193a_xysdgl.jpg",
       mail: "secretary@buccclub",
     },
     {
       position: "Treasurer",
-      name: "Fatima Akter",
-      photo: "/images/members/fatima-akter.jpg",
+      name: "Faiza Prome",
+      photo:
+        "https://res.cloudinary.com/dxuezm3jb/image/upload/v1766076060/014ef2f860e8e56b27d4a3267e0a193a_xysdgl.jpg",
       mail: "treasurer@buccclub",
     },
   ];
@@ -32,13 +35,13 @@ export default function OurTeam() {
   //Event Management
   const em = [
     {
-      position: "President",
+      position: "Director",
       name: "Monish Chandra Rudra",
       photo: rudraBhai,
       mail: "president@buccclub",
     },
     {
-      position: "Vice President",
+      position: "Assistant Director",
       name: "Kamrul Hasan",
       photo: "/assets/governingBody/rudraBhai.jpg",
       mail: "vp@buccclub",
@@ -48,13 +51,13 @@ export default function OurTeam() {
   //Creative & IT
   const creative = [
     {
-      position: "President",
+      position: "Director",
       name: "Monish Chandra Rudra",
       photo: rudraBhai,
       mail: "president@buccclub",
     },
     {
-      position: "Vice President",
+      position: "Assistant Director",
       name: "Kamrul Hasan",
       photo: "/assets/governingBody/rudraBhai.jpg",
       mail: "vp@buccclub",
@@ -64,13 +67,13 @@ export default function OurTeam() {
   //Training & Research
   const training = [
     {
-      position: "President",
+      position: "Director",
       name: "Monish Chandra Rudra",
       photo: rudraBhai,
       mail: "president@buccclub",
     },
     {
-      position: "Vice President",
+      position: "Assistant Director",
       name: "Kamrul Hasan",
       photo: "/assets/governingBody/rudraBhai.jpg",
       mail: "vp@buccclub",
@@ -80,13 +83,13 @@ export default function OurTeam() {
   //Human Resource Management
   const hr = [
     {
-      position: "President",
+      position: "Director",
       name: "Monish Chandra Rudra",
       photo: rudraBhai,
       mail: "president@buccclub",
     },
     {
-      position: "Vice President",
+      position: "Assistant Director",
       name: "Kamrul Hasan",
       photo: "/assets/governingBody/rudraBhai.jpg",
       mail: "vp@buccclub",
