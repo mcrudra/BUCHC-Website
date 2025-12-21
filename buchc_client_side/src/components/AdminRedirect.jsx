@@ -2,17 +2,14 @@ import { useEffect } from "react";
 
 export default function AdminRedirect() {
   useEffect(() => {
-    // Get the current hostname and protocol
-    const currentHost = window.location.hostname;
-    const protocol = window.location.protocol;
-    
-    // For development, use localhost:8000, for production use same hostname
-    const backendUrl = currentHost === 'localhost' || currentHost === '127.0.0.1'
-      ? `${protocol}//${currentHost}:8000/buchcadmin`
-      : `${protocol}//${currentHost}/buchcadmin`;
+    // Get the backend admin URL from environment variable or construct it
+    const backendAdminUrl = import.meta.env.VITE_ADMIN_URL || 
+      (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+        ? 'http://localhost:8000/buchcadmin'
+        : `${window.location.protocol}//${window.location.hostname}/buchcadmin`);
     
     // Redirect to backend admin panel
-    window.location.href = backendUrl;
+    window.location.href = backendAdminUrl;
   }, []);
 
   return (
