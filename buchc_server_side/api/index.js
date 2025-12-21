@@ -114,8 +114,11 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Session configuration
+// Trust proxy (required for Vercel to handle secure cookies correctly)
 const isProduction = process.env.NODE_ENV === 'production' || process.env.VERCEL;
+if (isProduction) {
+  app.set('trust proxy', 1); // Trust first proxy (Vercel)
+}
 
 app.use(session({
   secret: process.env.SESSION_SECRET || 'your-secret-key-change-in-production',
@@ -126,13 +129,18 @@ app.use(session({
     ttl: 14 * 24 * 60 * 60 // 14 days
   }),
   cookie: {
-    secure: isProduction, // HTTPS only in production
+    secure: isProduction, // HTTPS only in production (REQUIRED for sameSite: 'none')
     httpOnly: true,
     sameSite: isProduction ? 'none' : 'lax', // Required for cross-origin cookies in production
     maxAge: 14 * 24 * 60 * 60 * 1000, // 14 days
-    domain: isProduction ? undefined : undefined // Let browser handle domain
+    // Don't set domain - let browser handle it for cross-origin
+    path: '/' // Ensure cookie is available for all paths
   },
-  name: 'buchc.session' // Custom session name
+  name: 'buchc.session', // Custom session name
+  // Trust proxy for Vercel (important for secure cookies)
+  proxy: isProduction,
+  // Save session even if not modified
+  rolling: true
 }));
 
 // Routes - Auth routes first (before admin routes)

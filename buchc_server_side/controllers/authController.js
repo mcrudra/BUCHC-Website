@@ -60,6 +60,7 @@ export const login = async (req, res) => {
     req.session.userEmail = user.email;
     
     console.log('Session set:', { userId: req.session.userId, userEmail: req.session.userEmail });
+    console.log('Session ID:', req.sessionID);
     
     // Save session before responding
     req.session.save((err) => {
@@ -69,7 +70,26 @@ export const login = async (req, res) => {
       }
       
       console.log('Session saved successfully');
-      return res.json({ success: true, message: 'Login successful' });
+      console.log('Cookie will be set:', {
+        name: 'buchc.session',
+        secure: process.env.NODE_ENV === 'production' || process.env.VERCEL,
+        sameSite: (process.env.NODE_ENV === 'production' || process.env.VERCEL) ? 'none' : 'lax',
+        httpOnly: true
+      });
+      
+      // Explicitly set cookie headers for debugging
+      const cookieOptions = {
+        secure: process.env.NODE_ENV === 'production' || process.env.VERCEL,
+        httpOnly: true,
+        sameSite: (process.env.NODE_ENV === 'production' || process.env.VERCEL) ? 'none' : 'lax',
+        maxAge: 14 * 24 * 60 * 60 * 1000
+      };
+      
+      return res.json({ 
+        success: true, 
+        message: 'Login successful',
+        sessionId: req.sessionID
+      });
     });
   } catch (error) {
     console.error('Login error:', error);
