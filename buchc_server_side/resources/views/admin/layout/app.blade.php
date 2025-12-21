@@ -21,6 +21,12 @@
                 <a href="{{ route('admin.events.index') }}" class="block px-3 py-2 rounded hover:bg-gray-700">
                     Events
                 </a>
+                <a href="{{ route('admin.teams.index') }}" class="block px-3 py-2 rounded hover:bg-gray-700">
+                    Buchc Panel + Director
+                </a>
+                <a href="{{ route('admin.players.index') }}" class="block px-3 py-2 rounded hover:bg-gray-700">
+                    Top 10 Players
+                </a>
 
                 <form method="POST" action="{{ route('admin.logout') }}">
                     @csrf

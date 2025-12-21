@@ -13,9 +13,8 @@ class DashboardController extends Controller
     public function index()
     {
         $totalEvents = Event::count();
-        // $totalTeamMembers = TeamMember::count();
-        // $totalTopPlayers = TopPlayer::count();
+        $totalTeamMembers = TeamMember::count();
 
-        return view('admin.dashboard',['totalEvents'=>$totalEvents]);
+        return view('admin.dashboard',['totalEvents'=>$totalEvents,'totalTeamMembers'=>$totalTeamMembers]);
     }
 }
