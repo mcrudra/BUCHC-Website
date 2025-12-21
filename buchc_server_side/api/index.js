@@ -57,7 +57,7 @@ const connectDB = async () => {
   }
 };
 
-// Middleware
+// Middleware - CORS configuration
 const getFrontendUrl = () => {
   if (process.env.FRONTEND_URL) {
     return process.env.FRONTEND_URL;
@@ -70,17 +70,34 @@ const getFrontendUrl = () => {
 
 const frontendUrl = getFrontendUrl();
 
+// CORS - Allow frontend domain
 app.use(cors({
-  origin: frontendUrl,
+  origin: (origin, callback) => {
+    // Allow requests from frontend domain or no origin (like Postman)
+    const allowedOrigins = [
+      frontendUrl,
+      'https://clubbuchc.vercel.app',
+      'http://localhost:5173'
+    ];
+    
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  exposedHeaders: ['Set-Cookie']
 }));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Session configuration
+const isProduction = process.env.NODE_ENV === 'production' || process.env.VERCEL;
+
 app.use(session({
   secret: process.env.SESSION_SECRET || 'your-secret-key-change-in-production',
   resave: false,
@@ -90,10 +107,13 @@ app.use(session({
     ttl: 14 * 24 * 60 * 60 // 14 days
   }),
   cookie: {
-    secure: process.env.NODE_ENV === 'production',
+    secure: isProduction, // HTTPS only in production
     httpOnly: true,
-    maxAge: 14 * 24 * 60 * 60 * 1000 // 14 days
-  }
+    sameSite: isProduction ? 'none' : 'lax', // Required for cross-origin cookies in production
+    maxAge: 14 * 24 * 60 * 60 * 1000, // 14 days
+    domain: isProduction ? undefined : undefined // Let browser handle domain
+  },
+  name: 'buchc.session' // Custom session name
 }));
 
 // Routes - Auth routes first (before admin routes)
