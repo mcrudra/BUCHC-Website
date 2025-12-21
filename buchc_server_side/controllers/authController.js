@@ -10,7 +10,11 @@ export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
     
-    console.log('Login attempt:', { email: email?.toLowerCase().trim(), hasPassword: !!password });
+    console.log('Login attempt:', { 
+      rawEmail: email, 
+      normalizedEmail: email?.toLowerCase().trim(), 
+      hasPassword: !!password 
+    });
     
     if (!email || !password) {
       console.log('Missing email or password');
@@ -18,9 +22,25 @@ export const login = async (req, res) => {
     }
     
     const normalizedEmail = email.toLowerCase().trim();
-    const user = await User.findOne({ email: normalizedEmail });
     
-    console.log('User lookup:', { email: normalizedEmail, found: !!user });
+    // Try to find user with normalized email
+    let user = await User.findOne({ email: normalizedEmail });
+    
+    // If not found, try case-insensitive search
+    if (!user) {
+      user = await User.findOne({ 
+        email: { $regex: new RegExp(`^${normalizedEmail}$`, 'i') }
+      });
+    }
+    
+    // List all users for debugging (remove in production)
+    const allUsers = await User.find({}).select('email name');
+    console.log('All users in database:', allUsers.map(u => ({ email: u.email, name: u.name })));
+    console.log('User lookup:', { 
+      searchedEmail: normalizedEmail, 
+      found: !!user,
+      userEmail: user?.email 
+    });
     
     if (!user) {
       console.log('User not found');

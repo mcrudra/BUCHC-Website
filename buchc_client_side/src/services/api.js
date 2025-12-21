@@ -4,7 +4,12 @@ import axios from 'axios';
 const getApiBaseUrl = () => {
   // Use environment variable if set (for separate server deployment)
   if (import.meta.env.VITE_API_BASE_URL) {
-    return import.meta.env.VITE_API_BASE_URL;
+    let url = import.meta.env.VITE_API_BASE_URL;
+    // Ensure /api is included
+    if (!url.endsWith('/api')) {
+      url = url.endsWith('/') ? `${url}api` : `${url}/api`;
+    }
+    return url;
   }
   // Default to localhost for development
   return 'http://localhost:8000/api';
