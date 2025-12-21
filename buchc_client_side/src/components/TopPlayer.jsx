@@ -36,7 +36,7 @@ export default function TopPlayers() {
 
   if (loading) {
     return (
-      <div className="py-20 bg-gray-50">
+      <div id="top-players" className="py-20 bg-gray-50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-gray-900 text-4xl md:text-5xl mb-4">Top Players</h2>
@@ -51,7 +51,7 @@ export default function TopPlayers() {
   }
 
   return (
-    <div className="py-20 bg-gray-50">
+    <div id="top-players" className="py-20 bg-gray-50">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">
@@ -80,9 +80,8 @@ export default function TopPlayers() {
               {players.map((player, index) => (
                 <div
                   key={index}
-                  className={`grid grid-cols-1 md:grid-cols-12 gap-4 px-8 py-6 hover:bg-blue-50 transition-colors ${
-                    player.rank <= 3 ? 'bg-blue-50/50' : ''
-                  }`}
+                  className={`grid grid-cols-1 md:grid-cols-12 gap-4 px-8 py-6 hover:bg-blue-50 transition-colors ${player.rank <= 3 ? 'bg-blue-50/50' : ''
+                    }`}
                 >
                   {/* Rank */}
                   <div className="col-span-1 md:col-span-2 flex items-center justify-center md:justify-center gap-3">
