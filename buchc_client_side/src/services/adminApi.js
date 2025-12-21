@@ -1,13 +1,10 @@
 import axios from 'axios';
 
-// Auto-detect API URL based on current domain
+// Get API URL - prioritize environment variable for separate deployments
 const getApiBaseUrl = () => {
+  // Use environment variable if set (for separate server deployment)
   if (import.meta.env.VITE_API_BASE_URL) {
     return import.meta.env.VITE_API_BASE_URL;
-  }
-  // If running on Vercel, use same domain
-  if (typeof window !== 'undefined' && window.location.hostname.includes('vercel.app')) {
-    return window.location.origin;
   }
   // Default to localhost for development
   return 'http://localhost:8000';
