@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: buchc-backend
+    runtime: php
+    plan: free
+    buildCommand: composer install --no-dev --optimize-autoloader && php artisan key:generate --ansi && php artisan migrate --force && php artisan config:cache && php artisan route:cache && php artisan view:cache
+    startCommand: php artisan serve --host=0.0.0.0 --port=$PORT
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: LOG_CHANNEL
+        value: stack
+      - key: LOG_LEVEL
+        value: error
+      # Database will be added automatically when you create PostgreSQL service
+      # Add these manually in Render dashboard:
+      # - DB_CONNECTION=pgsql
+      # - DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME, DB_PASSWORD from PostgreSQL service
+
+databases:
+  - name: buchc-database
+    plan: free
+    databaseName: buchc
+    user: buchc_user
+
