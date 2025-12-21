@@ -79,7 +79,7 @@ const getFrontendUrl = () => {
 
 const frontendUrl = getFrontendUrl();
 
-// CORS - Allow frontend domain
+// CORS - Allow frontend domain (including Vercel preview deployments)
 app.use(cors({
   origin: (origin, callback) => {
     // Allow requests from frontend domain or no origin (like Postman)
@@ -89,9 +89,15 @@ app.use(cors({
       'http://localhost:5173'
     ];
     
-    console.log('CORS check:', { origin, frontendUrl, allowedOrigins });
+    // Allow any Vercel preview deployment (clubbuchc-*.vercel.app)
+    const isVercelPreview = origin && (
+      origin.includes('clubbuchc') && 
+      origin.includes('vercel.app')
+    );
     
-    if (!origin || allowedOrigins.includes(origin)) {
+    console.log('CORS check:', { origin, frontendUrl, allowedOrigins, isVercelPreview });
+    
+    if (!origin || allowedOrigins.includes(origin) || isVercelPreview) {
       console.log('CORS allowed for origin:', origin);
       callback(null, true);
     } else {
