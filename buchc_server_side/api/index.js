@@ -21,26 +21,40 @@ const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/buchc'
 
 // Connect to MongoDB (reuse connection if exists)
 // For serverless, we need to handle connection pooling properly
+let isConnecting = false;
 const connectDB = async () => {
+  // If already connected, return
   if (mongoose.connection.readyState === 1) {
     return mongoose.connection;
   }
   
+  // If already connecting, wait
+  if (isConnecting) {
+    return new Promise((resolve) => {
+      const checkConnection = setInterval(() => {
+        if (mongoose.connection.readyState === 1) {
+          clearInterval(checkConnection);
+          resolve(mongoose.connection);
+        }
+      }, 100);
+    });
+  }
+  
+  isConnecting = true;
   try {
     await mongoose.connect(MONGODB_URI, {
-      serverSelectionTimeoutMS: 5000,
+      serverSelectionTimeoutMS: 10000,
       socketTimeoutMS: 45000,
     });
     console.log('✅ Connected to MongoDB');
+    isConnecting = false;
     return mongoose.connection;
   } catch (error) {
+    isConnecting = false;
     console.error('❌ MongoDB connection error:', error);
     throw error;
   }
 };
-
-// Connect on module load
-connectDB().catch(console.error);
 
 // Middleware
 const getFrontendUrl = () => {
@@ -86,39 +100,58 @@ app.use('/', authRoutes);
 app.use('/api', apiRoutes);
 app.use('/admin', adminRoutes);
 
-// Health check
-app.get('/up', (req, res) => {
-  res.json({ status: 'ok' });
+// Health check (before DB connection check)
+app.get('/up', async (req, res) => {
+  try {
+    const dbStatus = mongoose.connection.readyState === 1 ? 'connected' : 'disconnected';
+    res.json({ 
+      status: 'ok',
+      database: dbStatus,
+      env: {
+        hasMongoUri: !!process.env.MONGODB_URI,
+        hasSessionSecret: !!process.env.SESSION_SECRET,
+        frontendUrl: frontendUrl
+      }
+    });
+  } catch (error) {
+    res.json({ 
+      status: 'error',
+      error: error.message 
+    });
+  }
 });
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-  console.error(err.stack);
+  console.error('Express error:', err.stack);
   res.status(500).json({
     message: 'Something went wrong!',
-    error: process.env.NODE_ENV === 'development' ? err.message : {}
+    error: process.env.NODE_ENV === 'development' ? err.message : 'Internal server error'
   });
 });
 
 // 404 handler
 app.use((req, res) => {
-  res.status(404).json({ message: 'Route not found' });
+  res.status(404).json({ message: 'Route not found', path: req.path });
 });
 
 // Export as Vercel serverless function handler
-// Vercel needs an async handler function
 export default async (req, res) => {
-  // Ensure MongoDB connection before handling request
   try {
+    // Ensure MongoDB connection before handling request
     if (mongoose.connection.readyState === 0) {
       await connectDB();
     }
+    
+    // Handle the request with Express app
+    return app(req, res);
   } catch (error) {
-    console.error('MongoDB connection error in handler:', error);
-    return res.status(500).json({ message: 'Database connection failed', error: error.message });
+    console.error('Handler error:', error);
+    // Return error response instead of crashing
+    return res.status(500).json({ 
+      message: 'Server error',
+      error: error.message,
+      details: process.env.NODE_ENV === 'development' ? error.stack : undefined
+    });
   }
-  
-  // Handle the request with Express app
-  return app(req, res);
 };
-
