@@ -17,7 +17,7 @@ export default function Hero() {
             </h1>
             <p className="text-base mb-10">
               Join BRAC University's premier chess community. Whether you're a
-              grandmaster or just learning the game, BUCC is your home for
+              grandmaster or just learning the game, BUCHC is your home for
               competitive play, strategic thinking, and lifelong friendships.
             </p>
             <button className="bg-blue-700 hover:bg-blue-900 text-white font-bold text-xl px-8 py-4 rounded-lg shadow hover:shadow-lg transition">

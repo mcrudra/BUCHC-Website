@@ -1,3 +1,6 @@
+// import { useEffect, useState } from "react";
+// import apiJs from "../api,js";
+
 export default function Events() {
   const upcomingEvents = [
     {
@@ -44,7 +47,15 @@ export default function Events() {
       img: "/events/chess1.jpg",
     },
   ];
+  // const [upcomingEvents, setUpcomingEvents] = useState([]);
+  // const [pastEvents, setPastEvents] = useState([]);
 
+  // useEffect(() => {
+  //   apiJs.get("/events").then((res) => {
+  //     setUpcomingEvents(res.data.upcomingEvents);
+  //     setPastEvents(res.data.pastEvents);
+  //   });
+  // }, []);
   return (
     <section className="py-20 bg-white">
       <div className="max-w-6xl mx-auto px-4">
