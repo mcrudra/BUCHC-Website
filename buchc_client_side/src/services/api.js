@@ -4,18 +4,26 @@ import axios from 'axios';
 const getApiBaseUrl = () => {
   // Use environment variable if set (for separate server deployment)
   if (import.meta.env.VITE_API_BASE_URL) {
-    let url = import.meta.env.VITE_API_BASE_URL;
+    let url = import.meta.env.VITE_API_BASE_URL.trim();
+    // Remove trailing slash
+    if (url.endsWith('/')) {
+      url = url.slice(0, -1);
+    }
     // Ensure /api is included
     if (!url.endsWith('/api')) {
-      url = url.endsWith('/') ? `${url}api` : `${url}/api`;
+      url = `${url}/api`;
     }
+    console.log('API Base URL (from env):', url);
     return url;
   }
   // Default to localhost for development
-  return 'http://localhost:8000/api';
+  const defaultUrl = 'http://localhost:8000/api';
+  console.log('API Base URL (default):', defaultUrl);
+  return defaultUrl;
 };
 
 const API_BASE_URL = getApiBaseUrl();
+console.log('Final API Base URL:', API_BASE_URL);
 
 const api = axios.create({
   baseURL: API_BASE_URL,
