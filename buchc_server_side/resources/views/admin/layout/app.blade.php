@@ -27,6 +27,9 @@
                 <a href="{{ route('admin.players.index') }}" class="block px-3 py-2 rounded hover:bg-gray-700">
                     Top 10 Players
                 </a>
+                <a href="{{ route('admin.settings.index') }}" class="block px-3 py-2 rounded hover:bg-gray-700">
+                    Settings
+                </a>
 
                 <form method="POST" action="{{ route('admin.logout') }}">
                     @csrf

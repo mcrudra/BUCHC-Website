@@ -24,18 +24,9 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">
-                            Position
-                        </label>
-                        <input type="text" name="position" required value="{{ old('position', $team->position) }}"
-                            class="w-full border border-gray-300 rounded-lg px-4 py-2.5
-                               text-gray-800
-                               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">
                             Department
                         </label>
-                        <select name="department" required
+                        <select name="department" id="department" required
                             class="w-full border border-gray-300 rounded-lg px-4 py-2.5
                                bg-white text-gray-800
                                focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
@@ -45,6 +36,17 @@
                             <option value="creative" @selected($team->department === 'creative')>Creative & IT</option>
                             <option value="training" @selected($team->department === 'training')>Training & Research</option>
                             <option value="hr" @selected($team->department === 'hr')>Human Resource</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Position
+                        </label>
+                        <select name="position" id="position" required
+                            class="w-full border border-gray-300 rounded-lg px-4 py-2.5
+                               bg-white text-gray-800
+                               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            <option value="">Select Position</option>
                         </select>
                     </div>
                     <div>
@@ -89,4 +91,61 @@
             </form>
         </div>
     </div>
+
+    <script>
+        const departmentSelect = document.getElementById('department');
+        const positionSelect = document.getElementById('position');
+        const currentDepartment = '{{ $team->department }}';
+        const currentPosition = '{{ $team->position }}';
+
+        const governingPositions = [
+            'President',
+            'Vice President',
+            'General Secretary',
+            'Joint Secretary',
+            'Treasurer',
+            'General Co-ordinator'
+        ];
+
+        const departmentalPositions = [
+            'Director',
+            'Co-Director',
+            'Asst. Director'
+        ];
+
+        function updatePositionOptions() {
+            const department = departmentSelect.value;
+            positionSelect.innerHTML = '<option value="">Select Position</option>';
+
+            let positions = [];
+            if (department === 'governing') {
+                positions = governingPositions;
+            } else if (department && department !== '') {
+                positions = departmentalPositions;
+            }
+
+            positions.forEach(position => {
+                const option = document.createElement('option');
+                option.value = position;
+                option.textContent = position;
+                // Only select current position if department hasn't changed
+                if (position === currentPosition && department === currentDepartment) {
+                    option.selected = true;
+                }
+                positionSelect.appendChild(option);
+            });
+        }
+
+        // Initialize on page load
+        updatePositionOptions();
+
+        // Update when department changes
+        departmentSelect.addEventListener('change', function() {
+            updatePositionOptions();
+            // Reset position if department changed
+            if (departmentSelect.value !== currentDepartment) {
+                positionSelect.value = '';
+            }
+        });
+    </script>
 @endsection

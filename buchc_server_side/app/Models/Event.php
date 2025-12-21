@@ -13,6 +13,7 @@ class Event extends Model
         'time',
         'location',
         'img',
-        'is_past'
+        'is_past',
+        'registration_link'
     ];
 }

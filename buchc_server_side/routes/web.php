@@ -4,9 +4,11 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EventController;
 use \App\Http\Controllers\Admin\TeamController;
 use \App\Http\Controllers\Admin\PlayerController;
+use App\Http\Controllers\Admin\SettingController;
 
 // Admin Login
 Route::get('/', [AuthController::class, 'showLogin'])->name('login');
+Route::get('/buchcadmin', [AuthController::class, 'showLogin'])->name('admin.login.show');
 Route::post('/admin/login', [AuthController::class, 'login'])->name('admin.login');
 
 // Admin Panel
@@ -16,5 +18,6 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::resource('events', EventController::class);
     Route::resource('teams', TeamController::class);
     Route::resource('players', PlayerController::class);
-
+    Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
+    Route::post('/settings', [SettingController::class, 'update'])->name('settings.update');
 });

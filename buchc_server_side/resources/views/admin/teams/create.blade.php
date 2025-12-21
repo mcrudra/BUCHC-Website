@@ -23,18 +23,9 @@
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">
-                        Position
-                    </label>
-                    <input type="text" name="position" required placeholder="e.g. President"
-                        class="w-full rounded-lg border border-gray-300
-                           px-4 py-2
-                           focus:border-blue-500 focus:ring-blue-500">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">
                         Department
                     </label>
-                    <select name="department" required
+                    <select name="department" id="department" required
                         class="w-full rounded-lg border border-gray-300
                            px-4 py-2
                            bg-white
@@ -45,6 +36,18 @@
                         <option value="creative">Creative & IT</option>
                         <option value="training">Training & Research</option>
                         <option value="hr">Human Resource</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                        Position
+                    </label>
+                    <select name="position" id="position" required
+                        class="w-full rounded-lg border border-gray-300
+                           px-4 py-2
+                           bg-white
+                           focus:border-blue-500 focus:ring-blue-500">
+                        <option value="">Select Department First</option>
                     </select>
                 </div>
                 <div>
@@ -79,4 +82,47 @@
             </form>
         </div>
     </div>
+
+    <script>
+        const departmentSelect = document.getElementById('department');
+        const positionSelect = document.getElementById('position');
+
+        const governingPositions = [
+            'President',
+            'Vice President',
+            'General Secretary',
+            'Joint Secretary',
+            'Treasurer',
+            'General Co-ordinator'
+        ];
+
+        const departmentalPositions = [
+            'Director',
+            'Co-Director',
+            'Asst. Director'
+        ];
+
+        function updatePositionOptions() {
+            const department = departmentSelect.value;
+            positionSelect.innerHTML = '<option value="">Select Position</option>';
+
+            if (department === 'governing') {
+                governingPositions.forEach(position => {
+                    const option = document.createElement('option');
+                    option.value = position;
+                    option.textContent = position;
+                    positionSelect.appendChild(option);
+                });
+            } else if (department && department !== '') {
+                departmentalPositions.forEach(position => {
+                    const option = document.createElement('option');
+                    option.value = position;
+                    option.textContent = position;
+                    positionSelect.appendChild(option);
+                });
+            }
+        }
+
+        departmentSelect.addEventListener('change', updatePositionOptions);
+    </script>
 @endsection

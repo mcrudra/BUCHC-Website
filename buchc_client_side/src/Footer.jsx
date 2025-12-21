@@ -1,8 +1,51 @@
+import { useState, useEffect } from "react";
 import { Mail, MapPin, Facebook, Instagram, Linkedin } from "lucide-react";
+import { fetchAllSettings } from "./services/api";
 
 export default function Footer() {
+  const [settings, setSettings] = useState({
+    join_link: "",
+    club_email: "",
+    facebook_link: "",
+    instagram_link: "",
+    linkedin_link: "",
+  });
+
+  useEffect(() => {
+    const loadSettings = async () => {
+      const data = await fetchAllSettings();
+      setSettings(data);
+    };
+    loadSettings();
+  }, []);
+
+  const handleJoinClick = () => {
+    if (settings.join_link) {
+      window.open(settings.join_link, "_blank");
+    }
+  };
+
+  const handleEmailClick = () => {
+    if (settings.club_email) {
+      window.location.href = `mailto:${settings.club_email}`;
+    }
+  };
+
+  const handleSocialClick = (link) => {
+    if (link) {
+      window.open(link, "_blank");
+    }
+  };
+
+  const scrollToSection = (sectionId) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
-    <footer className="bg-gradient-to-b from-[#0b1220] to-[#060b16] text-gray-300 pt-20">
+    <footer id="contact" className="bg-gradient-to-b from-[#0b1220] to-[#060b16] text-gray-300 pt-20">
       <div className="max-w-6xl mx-auto px-4">
         <div className="text-center mb-14">
           <h3 className="text-3xl font-semibold text-white mb-2">
@@ -13,10 +56,15 @@ export default function Footer() {
           </p>
         </div>
         <div className="flex flex-col sm:flex-row justify-center gap-6 mb-10">
-          <div className="bg-[#111a2e] rounded-xl px-6 py-5 w-64 text-center shadow-md hover:shadow-lg transition">
+          <div
+            onClick={handleEmailClick}
+            className={`bg-[#111a2e] rounded-xl px-6 py-5 w-64 text-center shadow-md hover:shadow-lg transition ${settings.club_email ? 'cursor-pointer' : 'cursor-default'}`}
+          >
             <Mail className="mx-auto mb-3 text-blue-500" size={20} />
             <p className="text-sm text-gray-400 mb-1">Email Us</p>
-            <p className="text-white text-sm font-medium">buchc@bracu.ac.bd</p>
+            <p className="text-white text-sm font-medium">
+              {settings.club_email || "club.buchc@bracu.ac.bd"}
+            </p>
           </div>
 
           <div className="bg-[#111a2e] rounded-xl px-6 py-5 w-64 text-center shadow-md hover:shadow-lg transition">
@@ -25,12 +73,15 @@ export default function Footer() {
             <p className="text-white text-sm font-medium">
               BRAC University
               <br />
-              66 Mohakhali, Dhaka 1212
+              Kha 224 Pragati Sarani, Merul Badda , Dhaka 1212
             </p>
           </div>
         </div>
         <div className="text-center mb-12">
-          <button className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-6 py-2 rounded-lg transition">
+          <button
+            onClick={handleJoinClick}
+            className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-6 py-2 rounded-lg transition"
+          >
             Join BUCHC Today
           </button>
         </div>
@@ -47,10 +98,10 @@ export default function Footer() {
           <div className="text-sm">
             <p className="text-white font-medium mb-2">Quick Links</p>
             <ul className="space-y-1 text-gray-400">
-              <li className="hover:text-white cursor-pointer">Home</li>
-              <li className="hover:text-white cursor-pointer">Our Team</li>
-              <li className="hover:text-white cursor-pointer">Top Players</li>
-              <li className="hover:text-white cursor-pointer">Events</li>
+              <li onClick={() => scrollToSection("home")} className="hover:text-white cursor-pointer">Home</li>
+              <li onClick={() => scrollToSection("our-team")} className="hover:text-white cursor-pointer">Our Team</li>
+              <li onClick={() => scrollToSection("top-players")} className="hover:text-white cursor-pointer">Top Players</li>
+              <li onClick={() => scrollToSection("events")} className="hover:text-white cursor-pointer">Events</li>
             </ul>
           </div>
           <div>
@@ -58,15 +109,18 @@ export default function Footer() {
             <div className="flex gap-4">
               <Facebook
                 size={18}
-                className="hover:text-blue-500 cursor-pointer"
+                onClick={() => handleSocialClick(settings.facebook_link)}
+                className={`${settings.facebook_link ? 'hover:text-blue-500 cursor-pointer' : 'cursor-default opacity-50'}`}
               />
               <Instagram
                 size={18}
-                className="hover:text-pink-500 cursor-pointer"
+                onClick={() => handleSocialClick(settings.instagram_link)}
+                className={`${settings.instagram_link ? 'hover:text-pink-500 cursor-pointer' : 'cursor-default opacity-50'}`}
               />
               <Linkedin
                 size={18}
-                className="hover:text-blue-400 cursor-pointer"
+                onClick={() => handleSocialClick(settings.linkedin_link)}
+                className={`${settings.linkedin_link ? 'hover:text-blue-400 cursor-pointer' : 'cursor-default opacity-50'}`}
               />
             </div>
           </div>

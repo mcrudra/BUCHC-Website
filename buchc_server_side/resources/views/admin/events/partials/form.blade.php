@@ -32,6 +32,14 @@
     </div>
 
     <div>
+        <label class="block text-sm font-medium mb-1">Registration Link (Optional)</label>
+        <input type="url" name="registration_link" value="{{ old('registration_link', $event->registration_link ?? '') }}"
+            placeholder="https://example.com/register"
+            class="w-full border p-2 rounded">
+        <p class="text-xs text-gray-500 mt-1">Leave empty if registration is not available</p>
+    </div>
+
+    <div>
         <label class="block text-sm font-medium mb-1">Image URL</label>
         <input type="text" name="img" value="{{ old('img', $event->img ?? '') }}"
             class="w-full border p-2 rounded">

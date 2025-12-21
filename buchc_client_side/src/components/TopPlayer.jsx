@@ -1,18 +1,24 @@
 import { Trophy } from "lucide-react";
+import { useState, useEffect } from "react";
+import { fetchPlayers } from "../services/api";
 
 export default function TopPlayers() {
-  const players = [
-    { rank: 1, name: "Ashrafu Islam Emon", points: 2450 },
-    { rank: 2, name: "Sumaiya Ahmed", points: 2380 },
-    { rank: 3, name: "Tahsin Kabir", points: 2320 },
-    { rank: 4, name: "Nabila Rahman", points: 2280 },
-    { rank: 5, name: "Faisal Hossain", points: 2240 },
-    { rank: 6, name: "Ayesha Siddiqua", points: 2190 },
-    { rank: 7, name: "Rayhan Chowdhury", points: 2150 },
-    { rank: 8, name: "Bristy Akter", points: 2110 },
-    { rank: 9, name: "Imran Khan", points: 2080 },
-    { rank: 10, name: "Sadia Karim", points: 2050 },
-  ];
+  const [players, setPlayers] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadPlayers = async () => {
+      try {
+        const data = await fetchPlayers();
+        setPlayers(data);
+      } catch (error) {
+        console.error("Error loading players:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadPlayers();
+  }, []);
 
   const rankStyle = (rank) => {
     if (rank === 1) return "bg-yellow-400 text-white";
@@ -21,8 +27,26 @@ export default function TopPlayers() {
     return "bg-gray-100 text-gray-700";
   };
 
+  if (loading) {
+    return (
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-4xl mx-auto px-4">
+          <div className="text-center mb-6">
+            <h2 className="text-3xl font-bold text-gray-900">Top Players</h2>
+            <p className="text-sm text-gray-500 mt-2">
+              Rankings based on Monthly Arena Tournament performance
+            </p>
+          </div>
+          <div className="bg-white rounded-xl shadow-md overflow-hidden p-8 text-center">
+            <p className="text-gray-600">Loading players...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
-    <section className="py-16 bg-gray-50">
+    <section id="top-players" className="py-16 bg-gray-50">
       <div className="max-w-4xl mx-auto px-4">
         <div className="text-center mb-6">
           <h2 className="text-3xl font-bold text-gray-900">Top Players</h2>
@@ -36,7 +60,12 @@ export default function TopPlayers() {
             <div className="col-span-7">Player Name</div>
             <div className="col-span-3 text-right">Total Points</div>
           </div>
-          {players.map((player) => (
+          {players.length === 0 ? (
+            <div className="p-8 text-center text-gray-600">
+              No players found. Add players from the admin panel.
+            </div>
+          ) : (
+            players.map((player) => (
             <div
               key={player.rank}
               className="grid grid-cols-12 items-center px-6 py-6 border-b border-gray-300 last:border-b-0 hover:bg-gray-50"
@@ -71,7 +100,8 @@ export default function TopPlayers() {
                 </span>
               </div>
             </div>
-          ))}
+            ))
+          )}
         </div>
         <p className="text-xs text-center text-gray-400 mt-4">
           Rankings are updated monthly based on tournament performance
