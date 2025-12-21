@@ -7,7 +7,7 @@
     "install:client": "cd buchc_client_side && npm install",
     "install:server": "cd buchc_server_side && npm install",
     "install:all": "npm run install:client && npm run install:server",
-    "build:client": "cd buchc_client_side && npm run build",
+    "build:client": "cd buchc_client_side && npm install && npm run build",
     "dev:client": "cd buchc_client_side && npm run dev",
     "dev:server": "cd buchc_server_side && npm run dev"
   },

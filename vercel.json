@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "buildCommand": "cd buchc_client_side && npm install && npm run build",
+  "buildCommand": "npm run build:client",
   "outputDirectory": "buchc_client_side/dist",
-  "installCommand": "npm install && cd buchc_server_side && npm install",
+  "installCommand": "npm install && npm install --prefix buchc_client_side && npm install --prefix buchc_server_side",
   "framework": null,
   "rewrites": [
     {

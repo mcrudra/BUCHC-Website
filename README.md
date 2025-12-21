@@ -3,6 +3,8 @@
 
 A modern, full-stack web application showcasing the BRAC University Chess Club's activities, events, team members, and player rankings.
 
+**Live Site:** [https://clubbuchc.vercel.app/](https://clubbuchc.vercel.app/)
+
 ---
 
 ## ✨ Features
@@ -31,6 +33,8 @@ A modern, full-stack web application showcasing the BRAC University Chess Club's
 
 ### ⚙️ **Admin Dashboard**
 - **Secure Admin Panel** - Protected admin area at `/buchcadmin`
+- **Modern React-based Dashboard** - Built with React and Tailwind CSS
+- **Sidebar Navigation** - Collapsible sidebar with intuitive navigation
 - **Content Management**:
   - Events CRUD operations
   - Players management
@@ -63,14 +67,24 @@ A modern, full-stack web application showcasing the BRAC University Chess Club's
 - **Lucide React** - Beautiful icon library
 
 ### **Backend**
-- **Laravel 12** - PHP framework
-- **SQLite** - Database (can be switched to PostgreSQL/MySQL)
-- **Laravel Sanctum** - API authentication
-- **Blade Templates** - Server-side templating for admin panel
+- **Node.js** - JavaScript runtime
+- **Express.js** - Web application framework
+- **MongoDB** - NoSQL database (MongoDB Atlas)
+- **Mongoose** - MongoDB object modeling
+- **Express Session** - Session management
+- **Connect-Mongo** - MongoDB session store
+
+### **Deployment**
+- **Vercel** - Full-stack deployment platform
+  - Frontend: Static site hosting
+  - Backend: Serverless functions
+- **MongoDB Atlas** - Cloud database hosting
 
 ### **Architecture**
+- **MERN Stack** - MongoDB, Express, React, Node.js
 - **RESTful API** - Clean API endpoints for data fetching
 - **SPA Architecture** - Single Page Application with React
+- **Serverless Functions** - Backend deployed as Vercel serverless functions
 - **Separation of Concerns** - Frontend and backend completely separated
 
 ---
@@ -86,28 +100,50 @@ BUCHC-Website/
 │   │   │   ├── Hero.jsx
 │   │   │   ├── OurTeam.jsx
 │   │   │   ├── TopPlayer.jsx
+│   │   │   ├── admin/          # Admin dashboard components
+│   │   │   │   ├── AdminLogin.jsx
+│   │   │   │   ├── AdminDashboard.jsx
+│   │   │   │   ├── AdminLayout.jsx
+│   │   │   │   ├── EventsManagement.jsx
+│   │   │   │   ├── PlayersManagement.jsx
+│   │   │   │   ├── TeamMembersManagement.jsx
+│   │   │   │   └── SettingsManagement.jsx
 │   │   │   └── UpcomingEvents.jsx
-│   │   ├── services/          # API service layer
-│   │   │   └── api.js
+│   │   ├── services/            # API service layer
+│   │   │   ├── api.js          # Public API client
+│   │   │   └── adminApi.js     # Admin API client
 │   │   ├── App.jsx
 │   │   ├── Navbar.jsx
 │   │   └── Footer.jsx
 │   └── package.json
 │
-└── buchc_server_side/          # Laravel Backend
-    ├── app/
-    │   ├── Http/Controllers/
-    │   │   ├── Admin/         # Admin panel controllers
-    │   │   └── Api/           # API controllers
-    │   └── Models/            # Eloquent models
-    ├── database/
-    │   ├── migrations/        # Database migrations
-    │   └── seeders/           # Database seeders
-    ├── resources/views/
-    │   └── admin/             # Admin panel views
-    └── routes/
-        ├── api.php            # API routes
-        └── web.php            # Web routes
+├── buchc_server_side/          # Node.js/Express Backend
+│   ├── controllers/
+│   │   ├── admin/              # Admin panel controllers
+│   │   ├── api/                # API controllers
+│   │   └── authController.js   # Authentication controller
+│   ├── models/                 # Mongoose models
+│   │   ├── Event.js
+│   │   ├── Player.js
+│   │   ├── TeamMember.js
+│   │   ├── Setting.js
+│   │   └── User.js
+│   ├── routes/
+│   │   ├── admin.js            # Admin routes
+│   │   ├── api.js              # API routes
+│   │   └── auth.js             # Auth routes
+│   ├── middleware/
+│   │   └── auth.js             # Authentication middleware
+│   ├── scripts/
+│   │   └── createAdmin.js      # Admin user creation script
+│   └── server.js               # Express server entry point
+│
+├── api/                        # Vercel serverless functions
+│   ├── index.js               # Serverless function wrapper
+│   └── package.json
+│
+├── vercel.json                 # Vercel deployment configuration
+└── package.json               # Root package.json
 ```
 
 ---
@@ -160,8 +196,10 @@ BUCHC-Website/
 
 ## 🔐 Admin Access
 
-- Secure admin authentication system
-- Content management dashboard
+- **Admin Login**: `/buchcadmin` or `/admin/login`
+- Secure session-based authentication
+- React-based admin dashboard with sidebar navigation
+- Full CRUD operations for all content types
 
 ---
 
