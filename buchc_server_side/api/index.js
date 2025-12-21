@@ -6,10 +6,11 @@ import dotenv from 'dotenv';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 
-// Import routes - paths relative to buchc_server_side root
-import apiRoutes from './routes/api.js';
-import adminRoutes from './routes/admin.js';
-import authRoutes from './routes/auth.js';
+// Import routes - paths relative to api/index.js location
+// api/index.js is in buchc_server_side/api/, routes are in buchc_server_side/routes/
+import apiRoutes from '../routes/api.js';
+import adminRoutes from '../routes/admin.js';
+import authRoutes from '../routes/auth.js';
 
 // Load environment variables
 dotenv.config();
