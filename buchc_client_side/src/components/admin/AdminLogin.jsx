@@ -18,7 +18,12 @@ export default function AdminLogin() {
       console.log('Attempting login with:', { email, hasPassword: !!password });
       const response = await adminLogin(email, password);
       console.log('Login response:', response);
-      navigate('/admin/dashboard');
+      
+      // Wait a bit to ensure session cookie is set
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      // Navigate to dashboard
+      navigate('/admin/dashboard', { replace: true });
     } catch (err) {
       console.error('Login error:', err);
       console.error('Error response:', err.response);

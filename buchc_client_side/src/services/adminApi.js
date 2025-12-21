@@ -4,10 +4,27 @@ import axios from 'axios';
 const getApiBaseUrl = () => {
   // Use environment variable if set (for separate server deployment)
   if (import.meta.env.VITE_API_BASE_URL) {
-    return import.meta.env.VITE_API_BASE_URL;
+    let url = import.meta.env.VITE_API_BASE_URL.trim();
+    // Remove trailing slash
+    if (url.endsWith('/')) {
+      url = url.slice(0, -1);
+    }
+    console.log('Admin API Base URL (from env):', url);
+    return url;
   }
+
+  // In production (Vercel), try to detect backend URL
+  if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+    // Production: use the backend URL
+    const backendUrl = 'https://buchc-website.vercel.app';
+    console.log('Admin API Base URL (production fallback):', backendUrl);
+    return backendUrl;
+  }
+
   // Default to localhost for development
-  return 'http://localhost:8000';
+  const defaultUrl = 'http://localhost:8000';
+  console.log('Admin API Base URL (default):', defaultUrl);
+  return defaultUrl;
 };
 
 const API_BASE_URL = getApiBaseUrl();

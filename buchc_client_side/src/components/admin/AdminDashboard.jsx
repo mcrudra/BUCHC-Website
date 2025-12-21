@@ -26,8 +26,15 @@ export default function AdminDashboard() {
         teams: teamsRes.data.length,
       });
     } catch (err) {
+      console.error('Error loading stats:', err);
+      // Only redirect on 401 (unauthorized), not on other errors
       if (err.response?.status === 401) {
+        console.log('Unauthorized, redirecting to login');
         navigate('/admin/login');
+      } else {
+        // For other errors (404, network, etc.), just show empty stats
+        console.warn('Failed to load stats, showing empty dashboard');
+        setStats({ events: 0, players: 0, teams: 0 });
       }
     } finally {
       setLoading(false);

@@ -16,6 +16,15 @@ const getApiBaseUrl = () => {
     console.log('API Base URL (from env):', url);
     return url;
   }
+  
+  // In production (Vercel), try to detect backend URL
+  if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+    // Production: use the backend URL (assuming it's buchc-website.vercel.app)
+    const backendUrl = 'https://buchc-website.vercel.app/api';
+    console.log('API Base URL (production fallback):', backendUrl);
+    return backendUrl;
+  }
+  
   // Default to localhost for development
   const defaultUrl = 'http://localhost:8000/api';
   console.log('API Base URL (default):', defaultUrl);
