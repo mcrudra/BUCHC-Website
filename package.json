@@ -1,0 +1,18 @@
+{
+  "name": "buchc-website",
+  "version": "1.0.0",
+  "description": "BUCHC Website - Full Stack MERN Application",
+  "private": true,
+  "scripts": {
+    "install:client": "cd buchc_client_side && npm install",
+    "install:server": "cd buchc_server_side && npm install",
+    "install:all": "npm run install:client && npm run install:server",
+    "build:client": "cd buchc_client_side && npm run build",
+    "dev:client": "cd buchc_client_side && npm run dev",
+    "dev:server": "cd buchc_server_side && npm run dev"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
+

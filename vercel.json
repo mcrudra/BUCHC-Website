@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "buildCommand": "cd buchc_client_side && npm install && npm run build",
+  "outputDirectory": "buchc_client_side/dist",
+  "installCommand": "npm install && cd buchc_server_side && npm install",
+  "framework": null,
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
+  "functions": {
+    "api/index.js": {
+      "includeFiles": "buchc_server_side/**"
+    }
+  }
+}
+

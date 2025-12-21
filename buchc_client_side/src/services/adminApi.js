@@ -1,6 +1,19 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+// Auto-detect API URL based on current domain
+const getApiBaseUrl = () => {
+  if (import.meta.env.VITE_API_BASE_URL) {
+    return import.meta.env.VITE_API_BASE_URL;
+  }
+  // If running on Vercel, use same domain
+  if (typeof window !== 'undefined' && window.location.hostname.includes('vercel.app')) {
+    return window.location.origin;
+  }
+  // Default to localhost for development
+  return 'http://localhost:8000';
+};
+
+const API_BASE_URL = getApiBaseUrl();
 
 const adminApi = axios.create({
   baseURL: API_BASE_URL,
@@ -15,7 +28,7 @@ export const adminLogin = async (email, password) => {
   const formData = new URLSearchParams();
   formData.append('email', email);
   formData.append('password', password);
-  
+
   const response = await adminApi.post('/admin/login', formData, {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
