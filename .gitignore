@@ -1,0 +1,4 @@
+# Admin scripts - contain sensitive credentials
+buchc_server_side/scripts/createAdmin.js
+buchc_server_side/scripts/verifyAdmin.js
+

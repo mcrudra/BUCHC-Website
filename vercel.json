@@ -1,23 +1,15 @@
 {
   "version": 2,
-  "buildCommand": "npm run build:client",
+  "comment": "For separate deployments: Set Root Directory in Vercel to 'buchc_client_side' for client, or 'buchc_server_side' for server",
+  "buildCommand": "cd buchc_client_side && npm install && npm run build",
   "outputDirectory": "buchc_client_side/dist",
-  "installCommand": "npm install && npm run install:all",
-  "framework": null,
+  "installCommand": "cd buchc_client_side && npm install",
+  "framework": "vite",
   "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "/api/index.js"
-    },
     {
       "source": "/(.*)",
       "destination": "/index.html"
     }
-  ],
-  "functions": {
-    "api/index.js": {
-      "includeFiles": "buchc_server_side/**"
-    }
-  }
+  ]
 }
 

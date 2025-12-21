@@ -13,4 +13,6 @@ yarn-error.log*
 *.swo
 *~
 
-# Admin scripts - contain sensitive credentials (also in root .gitignore)
+# Admin scripts - contain sensitive credentials
+scripts/createAdmin.js
+scripts/verifyAdmin.js
