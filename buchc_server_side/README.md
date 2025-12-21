@@ -1,59 +1,134 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# BUCHC Backend - MERN Stack
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Node.js/Express backend with MongoDB for the BUCHC website.
 
-## About Laravel
+## 🚀 Quick Start
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### 1. Install Dependencies
+```bash
+npm install
+```
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 2. Create Admin User
+```bash
+npm run create-admin
+```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Default credentials:
+- Email: `admin@buchc.com`
+- Password: `admin123`
 
-## Learning Laravel
+### 3. Start Server
+```bash
+npm run dev
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+Server runs on `http://localhost:8000`
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 📁 Project Structure
 
-## Laravel Sponsors
+```
+buchc_server_side/
+├── controllers/
+│   ├── admin/          # Admin panel controllers
+│   └── api/            # API controllers
+├── models/             # Mongoose models
+├── routes/             # Express routes
+├── middleware/         # Custom middleware
+├── scripts/            # Utility scripts
+└── server.js           # Main server file
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 🔌 API Endpoints
 
-### Premium Partners
+### Public API
+- `GET /api/events` - Get all events (upcoming and past)
+- `GET /api/events/:id` - Get single event
+- `GET /api/players` - Get all players
+- `GET /api/team-members` - Get all team members
+- `GET /api/settings/join-link` - Get join link
+- `GET /api/settings` - Get all settings
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### Admin Routes (Requires Authentication)
+- `GET /admin/dashboard` - Admin dashboard
+- `GET /admin/events` - List events
+- `POST /admin/events` - Create event
+- `PUT /admin/events/:id` - Update event
+- `DELETE /admin/events/:id` - Delete event
+- `GET /admin/players` - List players
+- `POST /admin/players` - Create player
+- `PUT /admin/players/:id` - Update player
+- `DELETE /admin/players/:id` - Delete player
+- `GET /admin/teams` - List team members
+- `POST /admin/teams` - Create team member
+- `PUT /admin/teams/:id` - Update team member
+- `DELETE /admin/teams/:id` - Delete team member
+- `GET /admin/settings` - Get settings
+- `POST /admin/settings` - Update settings
 
-## Contributing
+### Authentication
+- `GET /buchcadmin` - Admin login page
+- `POST /admin/login` - Login
+- `POST /admin/logout` - Logout
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 🗄️ Database Models
 
-## Code of Conduct
+### Event
+- `title` (String, required)
+- `desc` (String)
+- `date` (Date, required)
+- `time` (String)
+- `location` (String)
+- `img` (String)
+- `is_past` (Boolean, default: false)
+- `registration_link` (String)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Player
+- `rank` (Number, required, unique)
+- `name` (String, required)
+- `points` (Number, required)
 
-## Security Vulnerabilities
+### TeamMember
+- `name` (String, required)
+- `position` (String, required)
+- `department` (String, required, enum: ['governing', 'em', 'creative', 'training', 'hr'])
+- `photo` (String)
+- `mail` (String)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Setting
+- `key` (String, required, unique)
+- `value` (String)
 
-## License
+### User
+- `name` (String, required)
+- `email` (String, required, unique)
+- `password` (String, required, hashed)
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 🔐 Authentication
+
+The admin panel uses session-based authentication. Sessions are stored in MongoDB using `connect-mongo`.
+
+## 🛠️ Scripts
+
+- `npm start` - Start production server
+- `npm run dev` - Start development server with nodemon
+- `npm run create-admin` - Create an admin user
+
+## 📝 Environment Variables
+
+Create a `.env` file:
+
+```env
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/BUCHCDB
+PORT=8000
+NODE_ENV=development
+FRONTEND_URL=http://localhost:5173
+SESSION_SECRET=your-super-secret-key-change-this-in-production
+```
+
+## ⚠️ Important Notes
+
+- Change `SESSION_SECRET` in production
+- Use strong passwords for database
+- Change default admin credentials immediately
+- Set `APP_DEBUG=false` in production

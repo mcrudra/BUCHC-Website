@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { fetchEvents } from "../services/api";
-import { X, Calendar, Clock, MapPin, ExternalLink } from "lucide-react";
+import { X, Calendar, Clock, MapPin, ArrowRight } from "lucide-react";
 
 export default function Events() {
   const [upcomingEvents, setUpcomingEvents] = useState([]);
@@ -35,37 +35,36 @@ export default function Events() {
 
   if (loading) {
     return (
-      <section className="py-20 bg-white">
-        <div className="max-w-6xl mx-auto px-4">
+      <div className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900">Events</h2>
-            <p className="text-gray-600 mt-2">
+            <h2 className="text-gray-900 text-4xl md:text-5xl mb-4">Events</h2>
+            <p className="text-gray-600 text-lg">
               Join us for exciting tournaments, workshops, and chess activities
             </p>
-            <div className="w-16 h-1 bg-blue-500 mx-auto mt-4 rounded-full"></div>
           </div>
           <div className="text-center text-gray-600">Loading events...</div>
         </div>
-      </section>
+      </div>
     );
   }
 
   return (
-    <section id="events" className="py-20 bg-white">
-      <div className="max-w-6xl mx-auto px-4">
+    <div className="py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-900">Events</h2>
-          <p className="text-gray-600 mt-2">
+          <h2 className="text-gray-900 text-4xl md:text-5xl mb-4">Events</h2>
+          <p className="text-gray-600 text-lg">
             Join us for exciting tournaments, workshops, and chess activities
           </p>
-          <div className="w-16 h-1 bg-blue-500 mx-auto mt-4 rounded-full"></div>
         </div>
-        <div className="mb-16">
+
+        {/* Upcoming Events */}
+        <div className="mb-20">
           <div className="flex items-center justify-between mb-8">
-            <h3 className="text-2xl font-semibold text-gray-800">
-              Upcoming Events
-            </h3>
-            <div className="w-10 h-0.5 bg-blue-500"></div>
+            <h3 className="text-gray-900 text-3xl">Upcoming Events</h3>
+            <div className="w-24 h-1 bg-blue-600" />
           </div>
 
           {upcomingEvents.length === 0 ? (
@@ -73,59 +72,75 @@ export default function Events() {
               No upcoming events. Add events from the admin panel.
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {upcomingEvents.map((event, index) => (
-              <div
-                key={index}
-                onClick={() => setSelectedEvent(event)}
-                className="bg-white rounded-xl shadow-md hover:shadow-lg transition overflow-hidden border border-gray-100 cursor-pointer"
-              >
-                {event.img && (
-                  <img
-                    src={event.img}
-                    alt={event.title}
-                    className="w-full h-48 object-cover"
-                  />
-                )}
-
-                <div className="p-5">
-                  <h4 className="font-bold text-gray-900 mb-2">
-                    {event.title}
-                  </h4>
-
-                  {event.desc && (
-                    <p className="text-sm text-gray-600 mb-4 line-clamp-2">{event.desc}</p>
-                  )}
-
-                  <div className="text-sm text-gray-500 space-y-1 mb-4">
-                    {event.date && <div>📅 {formatDate(event.date)}</div>}
-                    {event.time && <div>⏰ {event.time}</div>}
-                    {event.location && <div>📍 {event.location}</div>}
+                <div
+                  key={index}
+                  onClick={() => setSelectedEvent(event)}
+                  className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow group cursor-pointer"
+                >
+                  <div className="aspect-video overflow-hidden bg-gray-200">
+                    {event.img ? (
+                      <img
+                        src={event.img}
+                        alt={event.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gray-300 flex items-center justify-center">
+                        <Calendar className="text-gray-400" size={48} />
+                      </div>
+                    )}
                   </div>
-
-                  {event.registration_link && (
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        window.open(event.registration_link, '_blank');
-                      }}
-                      className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg text-sm font-medium transition"
-                    >
-                      Register Now →
-                    </button>
-                  )}
+                  <div className="p-6">
+                    <h4 className="text-gray-900 text-xl mb-4">{event.title}</h4>
+                    {event.desc && (
+                      <p className="text-gray-600 mb-4 line-clamp-2">{event.desc}</p>
+                    )}
+                    <div className="space-y-2 mb-6">
+                      {event.date && (
+                        <div className="flex items-center gap-2 text-gray-600 text-sm">
+                          <Calendar size={16} className="text-blue-600" />
+                          <span>{formatDate(event.date)}</span>
+                        </div>
+                      )}
+                      {event.time && (
+                        <div className="flex items-center gap-2 text-gray-600 text-sm">
+                          <Clock size={16} className="text-blue-600" />
+                          <span>{event.time}</span>
+                        </div>
+                      )}
+                      {event.location && (
+                        <div className="flex items-center gap-2 text-gray-600 text-sm">
+                          <MapPin size={16} className="text-blue-600" />
+                          <span>{event.location}</span>
+                        </div>
+                      )}
+                    </div>
+                    {event.registration_link && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          window.open(event.registration_link, '_blank');
+                        }}
+                        className="w-full bg-blue-600 text-white px-4 py-2.5 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
+                      >
+                        Register Now
+                        <ArrowRight size={18} />
+                      </button>
+                    )}
+                  </div>
                 </div>
-              </div>
               ))}
             </div>
           )}
         </div>
+
+        {/* Past Events */}
         <div>
           <div className="flex items-center justify-between mb-8">
-            <h3 className="text-2xl font-semibold text-gray-800">
-              Past Events
-            </h3>
-            <div className="w-10 h-0.5 bg-blue-500"></div>
+            <h3 className="text-gray-900 text-3xl">Past Events</h3>
+            <div className="w-24 h-1 bg-blue-600" />
           </div>
 
           {pastEvents.length === 0 ? (
@@ -133,26 +148,33 @@ export default function Events() {
               No past events available.
             </div>
           ) : (
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {pastEvents.map((event, index) => (
-              <div
-                key={index}
-                onClick={() => setSelectedEvent(event)}
-                className="bg-white rounded-lg overflow-hidden border border-gray-100 hover:shadow-md transition cursor-pointer"
-              >
-                {event.img && (
-                  <img
-                    src={event.img}
-                    alt={event.title}
-                    className="w-full h-36 object-cover"
-                  />
-                )}
-                <div className="p-3">
-                  <p className="text-sm font-medium text-gray-700">
-                    {event.title}
-                  </p>
+                <div
+                  key={index}
+                  onClick={() => setSelectedEvent(event)}
+                  className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow group cursor-pointer"
+                >
+                  <div className="aspect-square overflow-hidden bg-gray-200">
+                    {event.img ? (
+                      <img
+                        src={event.img}
+                        alt={event.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gray-300 flex items-center justify-center">
+                        <Calendar className="text-gray-400" size={48} />
+                      </div>
+                    )}
+                  </div>
+                  <div className="p-4">
+                    <h4 className="text-gray-900 mb-2">{event.title}</h4>
+                    {event.desc && (
+                      <p className="text-gray-600 text-sm line-clamp-2">{event.desc}</p>
+                    )}
+                  </div>
                 </div>
-              </div>
               ))}
             </div>
           )}
@@ -235,14 +257,13 @@ export default function Events() {
                   className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition"
                 >
                   Register Now
-                  <ExternalLink size={18} />
+                  <ArrowRight size={18} />
                 </a>
               )}
             </div>
           </div>
         </div>
       )}
-    </section>
+    </div>
   );
 }
-
