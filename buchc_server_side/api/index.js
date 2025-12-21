@@ -15,6 +15,15 @@ import authRoutes from '../routes/auth.js';
 // Load environment variables
 dotenv.config();
 
+// Log environment variables for debugging (remove sensitive data in production)
+console.log('Environment check:', {
+  NODE_ENV: process.env.NODE_ENV,
+  VERCEL: !!process.env.VERCEL,
+  FRONTEND_URL: process.env.FRONTEND_URL,
+  MONGODB_URI: process.env.MONGODB_URI ? '***set***' : 'not set',
+  SESSION_SECRET: process.env.SESSION_SECRET ? '***set***' : 'not set'
+});
+
 const app = express();
 
 // MongoDB connection
@@ -80,9 +89,13 @@ app.use(cors({
       'http://localhost:5173'
     ];
     
+    console.log('CORS check:', { origin, frontendUrl, allowedOrigins });
+    
     if (!origin || allowedOrigins.includes(origin)) {
+      console.log('CORS allowed for origin:', origin);
       callback(null, true);
     } else {
+      console.log('CORS blocked for origin:', origin);
       callback(new Error('Not allowed by CORS'));
     }
   },

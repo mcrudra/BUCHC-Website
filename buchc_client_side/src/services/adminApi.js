@@ -12,6 +12,9 @@ const getApiBaseUrl = () => {
 
 const API_BASE_URL = getApiBaseUrl();
 
+// Log API base URL for debugging (remove in production)
+console.log('Admin API Base URL:', API_BASE_URL);
+
 const adminApi = axios.create({
   baseURL: API_BASE_URL,
   headers: {
@@ -19,6 +22,30 @@ const adminApi = axios.create({
   },
   withCredentials: true, // Important for session cookies
 });
+
+// Add request interceptor for debugging
+adminApi.interceptors.request.use(
+  (config) => {
+    console.log('Admin API Request:', config.method?.toUpperCase(), config.url, config.baseURL);
+    return config;
+  },
+  (error) => {
+    console.error('Admin API Request Error:', error);
+    return Promise.reject(error);
+  }
+);
+
+// Add response interceptor for debugging
+adminApi.interceptors.response.use(
+  (response) => {
+    console.log('Admin API Response:', response.status, response.config.url);
+    return response;
+  },
+  (error) => {
+    console.error('Admin API Response Error:', error.response?.status, error.response?.data, error.message);
+    return Promise.reject(error);
+  }
+);
 
 // Auth
 export const adminLogin = async (email, password) => {
