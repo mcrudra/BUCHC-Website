@@ -12,3 +12,5 @@ yarn-error.log*
 *.swp
 *.swo
 *~
+
+# Admin scripts - contain sensitive credentials (also in root .gitignore)
