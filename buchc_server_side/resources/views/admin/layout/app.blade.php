@@ -3,6 +3,7 @@
 
 <head>
     <title>Admin Panel</title>
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
