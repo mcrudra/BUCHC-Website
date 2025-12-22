@@ -5,8 +5,10 @@ use App\Http\Controllers\Api\TeamMemberController;
 use App\Http\Controllers\Api\PlayerController;
 
 Route::get('/events', [EventController::class, 'index']);
-Route::get('/events/{event}', [EventController::class, 'show']);
 
-Route::apiResource('team-members', TeamMemberController::class);
-Route::apiResource('players', PlayerController::class);
+
+Route::get('/teams',[TeamMemberController::class, 'index']);
+Route::get('/players',[PlayerController::class, 'index']);
+
+
 

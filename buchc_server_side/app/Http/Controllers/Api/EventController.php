@@ -14,8 +14,4 @@ class EventController extends Controller
             'pastEvents' => Event::where('is_past', true)->orderByDesc('date')->get(),
         ]);
     }
-    public function show(Event $event)
-    {
-        return response()->json($event);
-    }
 }
