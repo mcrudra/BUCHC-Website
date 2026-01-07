@@ -108,7 +108,7 @@ export default function OurTeam() {
 
           {governingBody.length === 0 ? (
             <div className="text-center text-gray-600 py-8 text-sm sm:text-base">
-              No governing body members. Add team members from the admin panel.
+              No governing body members...
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
@@ -281,10 +281,10 @@ export default function OurTeam() {
                         <p className="text-blue-600 mb-2 sm:mb-3 text-sm sm:text-base">{member.position}</p>
                         {member.mail && (
                           <div className="flex items-start justify-center gap-2 text-gray-600">
-                            <Mail size={14} className="sm:w-4 sm:h-4 flex-shrink-0 mt-0.5" />
+                            <Mail size={16} className="flex-shrink-0 mt-0.5" />
                             <a
                               href={`mailto:${member.mail}`}
-                              className="text-xs sm:text-sm hover:text-blue-600 break-words text-center"
+                              className="text-sm hover:text-blue-600 break-words text-center"
                             >
                               {member.mail}
                             </a>
@@ -300,10 +300,10 @@ export default function OurTeam() {
             {/* Human Resource Management */}
             {hr.length > 0 && (
               <div>
-                <h4 className="text-gray-900 text-xl sm:text-2xl text-center mb-6 sm:mb-8">
+                <h4 className="text-gray-900 text-2xl text-center mb-8">
                   Human Resource Management
                 </h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 max-w-3xl mx-auto">
+                <div className="grid sm:grid-cols-2 gap-8 max-w-3xl mx-auto">
                   {hr.map((member, index) => (
                     <div
                       key={index}
@@ -340,7 +340,7 @@ export default function OurTeam() {
             {/* Show message if no departments have members */}
             {em.length === 0 && creative.length === 0 && training.length === 0 && hr.length === 0 && (
               <div className="text-center text-gray-600 py-8">
-                No departmental directors. Add team members from the admin panel.
+                No departmental directors...
               </div>
             )}
           </div>
