@@ -55,12 +55,12 @@ export default function SettingsManagement() {
 
   return (
     <AdminLayout>
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-3xl mx-auto w-full">
         <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-800">Settings</h1>
-          <p className="text-gray-600 mt-1">Manage Join BUCHC link and social media links</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">Settings</h1>
+          <p className="text-gray-600 mt-1 text-sm sm:text-base">Manage Join BUCHC link and social media links</p>
         </div>
-        <div className="bg-white p-6 rounded-lg shadow">
+        <div className="bg-white p-4 sm:p-6 rounded-lg shadow">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label className="block text-sm font-medium mb-2">Join BUCHC Link</label>

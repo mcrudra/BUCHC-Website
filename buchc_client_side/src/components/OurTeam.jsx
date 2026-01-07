@@ -89,29 +89,29 @@ export default function OurTeam() {
   }
 
   return (
-    <div id="our-team" className="py-20 bg-white">
+    <div id="our-team" className="py-12 sm:py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-gray-900 text-4xl md:text-5xl mb-4">Our Team</h2>
-          <p className="text-gray-600 text-lg">
+        <div className="text-center mb-12 sm:mb-16">
+          <h2 className="text-gray-900 text-3xl sm:text-4xl md:text-5xl mb-4">Our Team</h2>
+          <p className="text-gray-600 text-base sm:text-lg px-4">
             Meet the dedicated leaders driving BUCHC forward
           </p>
         </div>
 
         {/* Governing Body */}
-        <div className="mb-20">
-          <div className="text-center mb-12">
-            <h3 className="text-gray-900 text-3xl mb-2">Governing Body</h3>
-            <div className="w-24 h-1 bg-blue-600 mx-auto" />
+        <div className="mb-12 sm:mb-20">
+          <div className="text-center mb-8 sm:mb-12">
+            <h3 className="text-gray-900 text-2xl sm:text-3xl mb-2">Governing Body</h3>
+            <div className="w-16 sm:w-24 h-1 bg-blue-600 mx-auto" />
           </div>
 
           {governingBody.length === 0 ? (
-            <div className="text-center text-gray-600 py-8">
+            <div className="text-center text-gray-600 py-8 text-sm sm:text-base">
               No governing body members. Add team members from the admin panel.
             </div>
           ) : (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
               {governingBody.map((member, index) => (
                 <div
                   key={index}
@@ -124,13 +124,13 @@ export default function OurTeam() {
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  <div className="p-6 text-center">
-                    <h4 className="text-gray-900 text-xl mb-1">{member.name}</h4>
-                    <p className="text-blue-600 mb-3">{member.position}</p>
+                  <div className="p-4 sm:p-6 text-center">
+                    <h4 className="text-gray-900 text-lg sm:text-xl mb-1">{member.name}</h4>
+                    <p className="text-blue-600 mb-2 sm:mb-3 text-sm sm:text-base">{member.position}</p>
                     {member.mail && (
                       <div className="flex items-start justify-center gap-2 text-gray-600">
-                        <Mail size={16} className="flex-shrink-0 mt-0.5" />
-                        <a href={`mailto:${member.mail}`} className="text-sm hover:text-blue-600 break-words text-center">
+                        <Mail size={14} className="sm:w-4 sm:h-4 flex-shrink-0 mt-0.5" />
+                        <a href={`mailto:${member.mail}`} className="text-xs sm:text-sm hover:text-blue-600 break-words text-center">
                           {member.mail}
                         </a>
                       </div>
@@ -144,10 +144,10 @@ export default function OurTeam() {
 
         {/* General Co-ordinator */}
         {generalCoordinator && (
-          <div className="mb-20">
-            <div className="text-center mb-12">
-              <h3 className="text-gray-900 text-3xl mb-2">General Co-ordinator</h3>
-              <div className="w-24 h-1 bg-blue-600 mx-auto" />
+          <div className="mb-12 sm:mb-20">
+            <div className="text-center mb-8 sm:mb-12">
+              <h3 className="text-gray-900 text-2xl sm:text-3xl mb-2">General Co-ordinator</h3>
+              <div className="w-16 sm:w-24 h-1 bg-blue-600 mx-auto" />
             </div>
             <div className="flex justify-center">
               <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow max-w-sm">
@@ -158,13 +158,13 @@ export default function OurTeam() {
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <div className="p-6 text-center">
-                  <h4 className="text-gray-900 text-xl mb-1">{generalCoordinator.name}</h4>
-                  <p className="text-blue-600 mb-3">{generalCoordinator.position}</p>
+                <div className="p-4 sm:p-6 text-center">
+                  <h4 className="text-gray-900 text-lg sm:text-xl mb-1">{generalCoordinator.name}</h4>
+                  <p className="text-blue-600 mb-2 sm:mb-3 text-sm sm:text-base">{generalCoordinator.position}</p>
                   {generalCoordinator.mail && (
                     <div className="flex items-start justify-center gap-2 text-gray-600">
-                      <Mail size={16} className="flex-shrink-0 mt-0.5" />
-                      <a href={`mailto:${generalCoordinator.mail}`} className="text-sm hover:text-blue-600 break-words text-center">
+                      <Mail size={14} className="sm:w-4 sm:h-4 flex-shrink-0 mt-0.5" />
+                      <a href={`mailto:${generalCoordinator.mail}`} className="text-xs sm:text-sm hover:text-blue-600 break-words text-center">
                         {generalCoordinator.mail}
                       </a>
                     </div>
@@ -177,17 +177,17 @@ export default function OurTeam() {
 
         {/* Departmental Directors */}
         <div>
-          <div className="text-center mb-12">
-            <h3 className="text-gray-900 text-3xl mb-2">Departmental Directors</h3>
-            <div className="w-24 h-1 bg-blue-600 mx-auto" />
+          <div className="text-center mb-8 sm:mb-12">
+            <h3 className="text-gray-900 text-2xl sm:text-3xl mb-2">Departmental Directors</h3>
+            <div className="w-16 sm:w-24 h-1 bg-blue-600 mx-auto" />
           </div>
 
-          <div className="space-y-16">
+          <div className="space-y-12 sm:space-y-16">
             {/* Event Management */}
             {em.length > 0 && (
               <div>
-                <h4 className="text-gray-900 text-2xl text-center mb-8">Event Management</h4>
-                <div className="grid sm:grid-cols-2 gap-8 max-w-3xl mx-auto">
+                <h4 className="text-gray-900 text-xl sm:text-2xl text-center mb-6 sm:mb-8">Event Management</h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 max-w-3xl mx-auto">
                   {em.map((member, index) => (
                     <div
                       key={index}
@@ -200,15 +200,15 @@ export default function OurTeam() {
                           className="w-full h-full object-cover"
                         />
                       </div>
-                      <div className="p-6 text-center">
-                        <h5 className="text-gray-900 text-xl mb-1">{member.name}</h5>
-                        <p className="text-blue-600 mb-3">{member.position}</p>
+                      <div className="p-4 sm:p-6 text-center">
+                        <h5 className="text-gray-900 text-lg sm:text-xl mb-1">{member.name}</h5>
+                        <p className="text-blue-600 mb-2 sm:mb-3 text-sm sm:text-base">{member.position}</p>
                         {member.mail && (
                           <div className="flex items-start justify-center gap-2 text-gray-600">
-                            <Mail size={16} className="flex-shrink-0 mt-0.5" />
+                            <Mail size={14} className="sm:w-4 sm:h-4 flex-shrink-0 mt-0.5" />
                             <a
                               href={`mailto:${member.mail}`}
-                              className="text-sm hover:text-blue-600 break-words text-center"
+                              className="text-xs sm:text-sm hover:text-blue-600 break-words text-center"
                             >
                               {member.mail}
                             </a>
@@ -224,8 +224,8 @@ export default function OurTeam() {
             {/* Creative & IT */}
             {creative.length > 0 && (
               <div>
-                <h4 className="text-gray-900 text-2xl text-center mb-8">Creative & IT</h4>
-                <div className="grid sm:grid-cols-2 gap-8 max-w-3xl mx-auto">
+                <h4 className="text-gray-900 text-xl sm:text-2xl text-center mb-6 sm:mb-8">Creative & IT</h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 max-w-3xl mx-auto">
                   {creative.map((member, index) => (
                     <div
                       key={index}
@@ -238,15 +238,15 @@ export default function OurTeam() {
                           className="w-full h-full object-cover"
                         />
                       </div>
-                      <div className="p-6 text-center">
-                        <h5 className="text-gray-900 text-xl mb-1">{member.name}</h5>
-                        <p className="text-blue-600 mb-3">{member.position}</p>
+                      <div className="p-4 sm:p-6 text-center">
+                        <h5 className="text-gray-900 text-lg sm:text-xl mb-1">{member.name}</h5>
+                        <p className="text-blue-600 mb-2 sm:mb-3 text-sm sm:text-base">{member.position}</p>
                         {member.mail && (
                           <div className="flex items-start justify-center gap-2 text-gray-600">
-                            <Mail size={16} className="flex-shrink-0 mt-0.5" />
+                            <Mail size={14} className="sm:w-4 sm:h-4 flex-shrink-0 mt-0.5" />
                             <a
                               href={`mailto:${member.mail}`}
-                              className="text-sm hover:text-blue-600 break-words text-center"
+                              className="text-xs sm:text-sm hover:text-blue-600 break-words text-center"
                             >
                               {member.mail}
                             </a>
@@ -262,8 +262,8 @@ export default function OurTeam() {
             {/* Training & Research */}
             {training.length > 0 && (
               <div>
-                <h4 className="text-gray-900 text-2xl text-center mb-8">Training & Research</h4>
-                <div className="grid sm:grid-cols-2 gap-8 max-w-3xl mx-auto">
+                <h4 className="text-gray-900 text-xl sm:text-2xl text-center mb-6 sm:mb-8">Training & Research</h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 max-w-3xl mx-auto">
                   {training.map((member, index) => (
                     <div
                       key={index}
@@ -276,15 +276,15 @@ export default function OurTeam() {
                           className="w-full h-full object-cover"
                         />
                       </div>
-                      <div className="p-6 text-center">
-                        <h5 className="text-gray-900 text-xl mb-1">{member.name}</h5>
-                        <p className="text-blue-600 mb-3">{member.position}</p>
+                      <div className="p-4 sm:p-6 text-center">
+                        <h5 className="text-gray-900 text-lg sm:text-xl mb-1">{member.name}</h5>
+                        <p className="text-blue-600 mb-2 sm:mb-3 text-sm sm:text-base">{member.position}</p>
                         {member.mail && (
                           <div className="flex items-start justify-center gap-2 text-gray-600">
-                            <Mail size={16} className="flex-shrink-0 mt-0.5" />
+                            <Mail size={14} className="sm:w-4 sm:h-4 flex-shrink-0 mt-0.5" />
                             <a
                               href={`mailto:${member.mail}`}
-                              className="text-sm hover:text-blue-600 break-words text-center"
+                              className="text-xs sm:text-sm hover:text-blue-600 break-words text-center"
                             >
                               {member.mail}
                             </a>
@@ -300,10 +300,10 @@ export default function OurTeam() {
             {/* Human Resource Management */}
             {hr.length > 0 && (
               <div>
-                <h4 className="text-gray-900 text-2xl text-center mb-8">
+                <h4 className="text-gray-900 text-xl sm:text-2xl text-center mb-6 sm:mb-8">
                   Human Resource Management
                 </h4>
-                <div className="grid sm:grid-cols-2 gap-8 max-w-3xl mx-auto">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 max-w-3xl mx-auto">
                   {hr.map((member, index) => (
                     <div
                       key={index}
@@ -316,15 +316,15 @@ export default function OurTeam() {
                           className="w-full h-full object-cover"
                         />
                       </div>
-                      <div className="p-6 text-center">
-                        <h5 className="text-gray-900 text-xl mb-1">{member.name}</h5>
-                        <p className="text-blue-600 mb-3">{member.position}</p>
+                      <div className="p-4 sm:p-6 text-center">
+                        <h5 className="text-gray-900 text-lg sm:text-xl mb-1">{member.name}</h5>
+                        <p className="text-blue-600 mb-2 sm:mb-3 text-sm sm:text-base">{member.position}</p>
                         {member.mail && (
                           <div className="flex items-start justify-center gap-2 text-gray-600">
-                            <Mail size={16} className="flex-shrink-0 mt-0.5" />
+                            <Mail size={14} className="sm:w-4 sm:h-4 flex-shrink-0 mt-0.5" />
                             <a
                               href={`mailto:${member.mail}`}
-                              className="text-sm hover:text-blue-600 break-words text-center"
+                              className="text-xs sm:text-sm hover:text-blue-600 break-words text-center"
                             >
                               {member.mail}
                             </a>

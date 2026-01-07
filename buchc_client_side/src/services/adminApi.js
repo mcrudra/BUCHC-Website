@@ -102,6 +102,10 @@ export const getEvents = async () => {
   return await adminApi.get('/admin/events');
 };
 
+export const getEvent = async (id) => {
+  return await adminApi.get(`/admin/events/${id}`);
+};
+
 export const createEvent = async (eventData) => {
   const formData = new FormData();
   

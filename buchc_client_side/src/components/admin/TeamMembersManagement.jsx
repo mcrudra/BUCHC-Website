@@ -129,11 +129,11 @@ export default function TeamMembersManagement() {
 
   return (
     <AdminLayout>
-      <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-center mb-6">
+      <div className="max-w-7xl mx-auto w-full">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-gray-800">Manage Team Members</h1>
-            <p className="text-gray-600 mt-1">Create, update, and delete team members</p>
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">Manage Team Members</h1>
+            <p className="text-gray-600 mt-1 text-sm sm:text-base">Create, update, and delete team members</p>
           </div>
           <button
             onClick={() => {
@@ -156,8 +156,8 @@ export default function TeamMembersManagement() {
         </div>
 
         {showForm && (
-          <div className="bg-white p-6 rounded-lg shadow mb-6">
-            <h2 className="text-2xl font-bold mb-4">
+          <div className="bg-white p-4 sm:p-6 rounded-lg shadow mb-6">
+            <h2 className="text-xl sm:text-2xl font-bold mb-4">
               {editingMember ? 'Edit Team Member' : 'Create Team Member'}
             </h2>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -251,41 +251,45 @@ export default function TeamMembersManagement() {
         )}
 
         <div className="bg-white rounded-lg shadow overflow-hidden">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Position</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Department</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {members.map((member) => (
-                <tr key={member._id}>
-                  <td className="px-6 py-4 whitespace-nowrap">{member.name}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{member.position}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{member.department}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{member.mail || 'N/A'}</td>
-                  <td className="px-6 py-4 whitespace-nowrap space-x-2">
-                    <button
-                      onClick={() => handleEdit(member)}
-                      className="text-purple-600 hover:text-purple-800"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDelete(member._id)}
-                      className="text-red-600 hover:text-red-800"
-                    >
-                      Delete
-                    </button>
-                  </td>
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
+                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Position</th>
+                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Department</th>
+                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
+                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {members.map((member) => (
+                  <tr key={member._id}>
+                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm">{member.name}</td>
+                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm">{member.position}</td>
+                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm">{member.department}</td>
+                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm">{member.mail || 'N/A'}</td>
+                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap">
+                      <div className="flex flex-col sm:flex-row gap-2">
+                        <button
+                          onClick={() => handleEdit(member)}
+                          className="text-purple-600 hover:text-purple-800 text-sm"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => handleDelete(member._id)}
+                          className="text-red-600 hover:text-red-800 text-sm"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
           {members.length === 0 && (
             <div className="text-center py-8 text-gray-500">No team members found</div>
           )}

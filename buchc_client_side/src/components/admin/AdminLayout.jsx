@@ -6,7 +6,7 @@ import { useState } from 'react';
 export default function AdminLayout({ children }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false); // Closed by default on mobile
 
   const handleLogout = async () => {
     // Navigate immediately for better UX
@@ -30,17 +30,27 @@ export default function AdminLayout({ children }) {
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
+      {/* Mobile Overlay */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+      
       {/* Sidebar */}
       <aside
         className={`bg-white shadow-lg transition-all duration-300 ${
-          sidebarOpen ? 'w-64' : 'w-20'
-        } fixed h-full z-30`}
+          sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+        } ${
+          sidebarOpen ? 'w-64' : 'w-64 lg:w-20'
+        } fixed h-full z-50 lg:z-30`}
       >
         <div className="flex flex-col h-full">
           {/* Logo/Header */}
-          <div className="p-6 border-b border-gray-200 flex items-center justify-between">
+          <div className="p-4 lg:p-6 border-b border-gray-200 flex items-center justify-between">
             {sidebarOpen && (
-              <h1 className="text-xl font-bold text-purple-600">BUCHC Admin</h1>
+              <h1 className="text-lg lg:text-xl font-bold text-purple-600">BUCHC Admin</h1>
             )}
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -86,8 +96,17 @@ export default function AdminLayout({ children }) {
       </aside>
 
       {/* Main Content */}
-      <div className={`flex-1 transition-all duration-300 ${sidebarOpen ? 'ml-64' : 'ml-20'}`}>
-        <main className="p-6">{children}</main>
+      <div className="flex-1 lg:ml-20 transition-all duration-300">
+        {/* Mobile Menu Button */}
+        <div className="lg:hidden bg-white shadow-sm p-4">
+          <button
+            onClick={() => setSidebarOpen(true)}
+            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          >
+            <Menu size={24} />
+          </button>
+        </div>
+        <main className="p-4 lg:p-6">{children}</main>
       </div>
     </div>
   );

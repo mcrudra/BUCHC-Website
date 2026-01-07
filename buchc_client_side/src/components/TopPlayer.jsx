@@ -36,27 +36,27 @@ export default function TopPlayers() {
 
   if (loading) {
     return (
-      <div id="top-players" className="py-20 bg-gray-50">
+      <div id="top-players" className="py-12 sm:py-20 bg-gray-50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-gray-900 text-4xl md:text-5xl mb-4">Top Players</h2>
-            <p className="text-gray-600 text-lg">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-gray-900 text-3xl sm:text-4xl md:text-5xl mb-4">Top Players</h2>
+            <p className="text-gray-600 text-base sm:text-lg px-4">
               Rankings based on Monthly Arena Tournament performance
             </p>
           </div>
-          <div className="text-center text-gray-600">Loading players...</div>
+          <div className="text-center text-gray-600 text-sm sm:text-base">Loading players...</div>
         </div>
       </div>
     );
   }
 
   return (
-    <div id="top-players" className="py-20 bg-gray-50">
+    <div id="top-players" className="py-12 sm:py-20 bg-gray-50">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-gray-900 text-4xl md:text-5xl mb-4">Top Players</h2>
-          <p className="text-gray-600 text-lg">
+        <div className="text-center mb-12 sm:mb-16">
+          <h2 className="text-gray-900 text-3xl sm:text-4xl md:text-5xl mb-4">Top Players</h2>
+          <p className="text-gray-600 text-base sm:text-lg px-4">
             Rankings based on Monthly Arena Tournament performance
           </p>
         </div>
@@ -80,30 +80,30 @@ export default function TopPlayers() {
               {players.map((player, index) => (
                 <div
                   key={index}
-                  className={`grid grid-cols-1 md:grid-cols-12 gap-4 px-8 py-6 hover:bg-blue-50 transition-colors ${player.rank <= 3 ? 'bg-blue-50/50' : ''
+                  className={`grid grid-cols-1 md:grid-cols-12 gap-3 sm:gap-4 px-4 sm:px-6 md:px-8 py-4 sm:py-6 hover:bg-blue-50 transition-colors ${player.rank <= 3 ? 'bg-blue-50/50' : ''
                     }`}
                 >
                   {/* Rank */}
-                  <div className="col-span-1 md:col-span-2 flex items-center justify-center md:justify-center gap-3">
+                  <div className="col-span-1 md:col-span-2 flex items-center justify-center md:justify-center gap-2 sm:gap-3">
                     <div
-                      className={`w-12 h-12 rounded-full flex items-center justify-center ${getRankBadgeColor(
+                      className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center ${getRankBadgeColor(
                         player.rank
                       )}`}
                     >
-                      <span className="text-lg">{player.rank}</span>
+                      <span className="text-base sm:text-lg">{player.rank}</span>
                     </div>
                     {getRankIcon(player.rank)}
                   </div>
 
                   {/* Player Name */}
                   <div className="col-span-1 md:col-span-7 flex items-center justify-center md:justify-start">
-                    <span className="text-gray-900 text-lg">{player.name}</span>
+                    <span className="text-gray-900 text-base sm:text-lg">{player.name}</span>
                   </div>
 
                   {/* Points */}
                   <div className="col-span-1 md:col-span-3 flex items-center justify-center md:justify-end">
-                    <div className="bg-blue-100 text-blue-700 px-4 py-2 rounded-lg">
-                      <span className="text-lg">{player.points} pts</span>
+                    <div className="bg-blue-100 text-blue-700 px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg">
+                      <span className="text-sm sm:text-lg">{player.points} pts</span>
                     </div>
                   </div>
                 </div>
@@ -113,8 +113,8 @@ export default function TopPlayers() {
         </div>
 
         {/* Info Note */}
-        <div className="mt-8 text-center text-gray-600">
-          <p>Rankings are updated monthly based on tournament performance</p>
+        <div className="mt-6 sm:mt-8 text-center text-gray-600">
+          <p className="text-xs sm:text-sm">Rankings are updated monthly based on tournament performance</p>
         </div>
       </div>
     </div>

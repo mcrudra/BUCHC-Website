@@ -1,14 +1,52 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { fetchEvents } from "../services/api";
-import { X, Calendar, Clock, MapPin, ArrowRight } from "lucide-react";
+import { deleteEvent } from "../services/adminApi";
+import { X, Calendar, Clock, MapPin, ArrowRight, Edit2, Trash2 } from "lucide-react";
 
 export default function Events() {
+  const navigate = useNavigate();
   const [upcomingEvents, setUpcomingEvents] = useState([]);
   const [pastEvents, setPastEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [checkingAdmin, setCheckingAdmin] = useState(true);
 
   useEffect(() => {
+    const checkAdminStatus = async () => {
+      try {
+        // Try to access admin dashboard endpoint to check if user is authenticated
+        const getApiBaseUrl = () => {
+          if (import.meta.env.VITE_API_BASE_URL) {
+            let url = import.meta.env.VITE_API_BASE_URL.trim();
+            if (url.endsWith('/')) url = url.slice(0, -1);
+            return url;
+          }
+          if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            return 'https://buchc-website.vercel.app';
+          }
+          return 'http://localhost:8000';
+        };
+
+        const apiUrl = getApiBaseUrl();
+        console.log('Checking admin status at:', `${apiUrl}/admin/dashboard`);
+
+        const response = await fetch(`${apiUrl}/admin/dashboard`, {
+          method: 'GET',
+          credentials: 'include',
+        });
+
+        console.log('Admin check response:', response.status, response.ok);
+        setIsAdmin(response.ok);
+      } catch (error) {
+        console.error('Admin check error:', error);
+        setIsAdmin(false);
+      } finally {
+        setCheckingAdmin(false);
+      }
+    };
+
     const loadEvents = async () => {
       try {
         const data = await fetchEvents();
@@ -20,8 +58,37 @@ export default function Events() {
         setLoading(false);
       }
     };
+
+    checkAdminStatus();
     loadEvents();
   }, []);
+
+  const handleDelete = async (eventId, eventTitle, e) => {
+    e.stopPropagation();
+    if (!window.confirm(`Are you sure you want to delete "${eventTitle}"?`)) {
+      return;
+    }
+
+    try {
+      await deleteEvent(eventId);
+      // Reload events
+      const data = await fetchEvents();
+      setUpcomingEvents(data.upcomingEvents || []);
+      setPastEvents(data.pastEvents || []);
+      // Close modal if the deleted event was selected
+      if (selectedEvent && selectedEvent._id === eventId) {
+        setSelectedEvent(null);
+      }
+    } catch (error) {
+      console.error("Error deleting event:", error);
+      alert("Failed to delete event. Please try again.");
+    }
+  };
+
+  const handleEdit = (eventId, e) => {
+    e.stopPropagation();
+    navigate(`/admin/events?edit=${eventId}`);
+  };
 
   const formatDate = (dateString) => {
     if (!dateString) return "";
@@ -33,7 +100,7 @@ export default function Events() {
     });
   };
 
-  if (loading) {
+  if (loading || checkingAdmin) {
     return (
       <div id="events" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -50,35 +117,53 @@ export default function Events() {
   }
 
   return (
-    <div id="events" className="py-20 bg-white">
+    <div id="events" className="py-12 sm:py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-gray-900 text-4xl md:text-5xl mb-4">Events</h2>
-          <p className="text-gray-600 text-lg">
+        <div className="text-center mb-12 sm:mb-16">
+          <h2 className="text-gray-900 text-3xl sm:text-4xl md:text-5xl mb-4">Events</h2>
+          <p className="text-gray-600 text-base sm:text-lg px-4">
             Join us for exciting tournaments, workshops, and chess activities
           </p>
         </div>
 
         {/* Upcoming Events */}
-        <div className="mb-20">
-          <div className="flex items-center justify-between mb-8">
-            <h3 className="text-gray-900 text-3xl">Upcoming Events</h3>
-            <div className="w-24 h-1 bg-blue-600" />
+        <div className="mb-12 sm:mb-20">
+          <div className="flex items-center justify-between mb-6 sm:mb-8">
+            <h3 className="text-gray-900 text-2xl sm:text-3xl">Upcoming Events</h3>
+            <div className="w-16 sm:w-24 h-1 bg-blue-600" />
           </div>
 
           {upcomingEvents.length === 0 ? (
-            <div className="text-center text-gray-600 py-8">
+            <div className="text-center text-gray-600 py-8 text-sm sm:text-base">
               No upcoming events. Add events from the admin panel.
             </div>
           ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
               {upcomingEvents.map((event, index) => (
                 <div
                   key={index}
                   onClick={() => setSelectedEvent(event)}
-                  className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow group cursor-pointer"
+                  className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow group cursor-pointer relative"
                 >
+                  {isAdmin && event._id && (
+                    <div className="absolute top-2 right-2 flex gap-2 z-10" onClick={(e) => e.stopPropagation()}>
+                      <button
+                        onClick={(e) => handleEdit(event._id, e)}
+                        className="bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition-colors shadow-lg"
+                        title="Edit event"
+                      >
+                        <Edit2 size={16} />
+                      </button>
+                      <button
+                        onClick={(e) => handleDelete(event._id, event.title, e)}
+                        className="bg-red-600 text-white p-2 rounded-lg hover:bg-red-700 transition-colors shadow-lg"
+                        title="Delete event"
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
+                  )}
                   <div className="aspect-video overflow-hidden bg-gray-200">
                     {event.img ? (
                       <img
@@ -92,28 +177,28 @@ export default function Events() {
                       </div>
                     )}
                   </div>
-                  <div className="p-6">
-                    <h4 className="text-gray-900 text-xl mb-4">{event.title}</h4>
+                  <div className="p-4 sm:p-6">
+                    <h4 className="text-gray-900 text-lg sm:text-xl mb-3 sm:mb-4">{event.title}</h4>
                     {event.desc && (
-                      <p className="text-gray-600 mb-4 line-clamp-2">{event.desc}</p>
+                      <p className="text-gray-600 mb-3 sm:mb-4 line-clamp-2 text-sm sm:text-base">{event.desc}</p>
                     )}
-                    <div className="space-y-2 mb-6">
+                    <div className="space-y-2 mb-4 sm:mb-6">
                       {event.date && (
-                        <div className="flex items-center gap-2 text-gray-600 text-sm">
-                          <Calendar size={16} className="text-blue-600" />
+                        <div className="flex items-center gap-2 text-gray-600 text-xs sm:text-sm">
+                          <Calendar size={14} className="sm:w-4 sm:h-4 text-blue-600" />
                           <span>{formatDate(event.date)}</span>
                         </div>
                       )}
                       {event.time && (
-                        <div className="flex items-center gap-2 text-gray-600 text-sm">
-                          <Clock size={16} className="text-blue-600" />
+                        <div className="flex items-center gap-2 text-gray-600 text-xs sm:text-sm">
+                          <Clock size={14} className="sm:w-4 sm:h-4 text-blue-600" />
                           <span>{event.time}</span>
                         </div>
                       )}
                       {event.location && (
-                        <div className="flex items-center gap-2 text-gray-600 text-sm">
-                          <MapPin size={16} className="text-blue-600" />
-                          <span>{event.location}</span>
+                        <div className="flex items-center gap-2 text-gray-600 text-xs sm:text-sm">
+                          <MapPin size={14} className="sm:w-4 sm:h-4 text-blue-600" />
+                          <span className="truncate">{event.location}</span>
                         </div>
                       )}
                     </div>
@@ -123,10 +208,10 @@ export default function Events() {
                           e.stopPropagation();
                           window.open(event.registration_link, '_blank');
                         }}
-                        className="w-full bg-blue-600 text-white px-4 py-2.5 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
+                        className="w-full bg-blue-600 text-white px-4 py-2 sm:py-2.5 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 text-sm sm:text-base"
                       >
                         Register Now
-                        <ArrowRight size={18} />
+                        <ArrowRight size={16} className="sm:w-[18px] sm:h-[18px]" />
                       </button>
                     )}
                   </div>
@@ -138,23 +223,41 @@ export default function Events() {
 
         {/* Past Events */}
         <div>
-          <div className="flex items-center justify-between mb-8">
-            <h3 className="text-gray-900 text-3xl">Past Events</h3>
-            <div className="w-24 h-1 bg-blue-600" />
+          <div className="flex items-center justify-between mb-6 sm:mb-8">
+            <h3 className="text-gray-900 text-2xl sm:text-3xl">Past Events</h3>
+            <div className="w-16 sm:w-24 h-1 bg-blue-600" />
           </div>
 
           {pastEvents.length === 0 ? (
-            <div className="text-center text-gray-600 py-8">
+            <div className="text-center text-gray-600 py-8 text-sm sm:text-base">
               No past events available.
             </div>
           ) : (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
               {pastEvents.map((event, index) => (
                 <div
                   key={index}
                   onClick={() => setSelectedEvent(event)}
-                  className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow group cursor-pointer"
+                  className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow group cursor-pointer relative"
                 >
+                  {isAdmin && event._id && (
+                    <div className="absolute top-2 right-2 flex gap-2 z-10" onClick={(e) => e.stopPropagation()}>
+                      <button
+                        onClick={(e) => handleEdit(event._id, e)}
+                        className="bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition-colors shadow-lg"
+                        title="Edit event"
+                      >
+                        <Edit2 size={16} />
+                      </button>
+                      <button
+                        onClick={(e) => handleDelete(event._id, event.title, e)}
+                        className="bg-red-600 text-white p-2 rounded-lg hover:bg-red-700 transition-colors shadow-lg"
+                        title="Delete event"
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
+                  )}
                   <div className="aspect-square overflow-hidden bg-gray-200">
                     {event.img ? (
                       <img
@@ -168,10 +271,10 @@ export default function Events() {
                       </div>
                     )}
                   </div>
-                  <div className="p-4">
-                    <h4 className="text-gray-900 mb-2">{event.title}</h4>
+                  <div className="p-3 sm:p-4">
+                    <h4 className="text-gray-900 mb-2 text-sm sm:text-base">{event.title}</h4>
                     {event.desc && (
-                      <p className="text-gray-600 text-sm line-clamp-2">{event.desc}</p>
+                      <p className="text-gray-600 text-xs sm:text-sm line-clamp-2">{event.desc}</p>
                     )}
                   </div>
                 </div>
@@ -184,11 +287,11 @@ export default function Events() {
       {/* Event Modal */}
       {selectedEvent && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4"
           onClick={() => setSelectedEvent(null)}
         >
           <div
-            className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
+            className="bg-white rounded-xl sm:rounded-2xl max-w-2xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-y-auto shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             {selectedEvent.img && (
@@ -217,34 +320,61 @@ export default function Events() {
               </div>
             )}
 
-            <div className="p-6">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                {selectedEvent.title}
-              </h2>
+            <div className="p-4 sm:p-6">
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-4 gap-3">
+                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">
+                  {selectedEvent.title}
+                </h2>
+                {isAdmin && selectedEvent._id && (
+                  <div className="flex gap-2 flex-shrink-0">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleEdit(selectedEvent._id, e);
+                        setSelectedEvent(null);
+                      }}
+                      className="bg-blue-600 text-white px-3 sm:px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2 text-sm sm:text-base"
+                    >
+                      <Edit2 size={16} className="sm:w-[18px] sm:h-[18px]" />
+                      <span>Edit</span>
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDelete(selectedEvent._id, selectedEvent.title, e);
+                      }}
+                      className="bg-red-600 text-white px-3 sm:px-4 py-2 rounded-lg hover:bg-red-700 transition-colors flex items-center gap-2 text-sm sm:text-base"
+                    >
+                      <Trash2 size={16} className="sm:w-[18px] sm:h-[18px]" />
+                      <span>Delete</span>
+                    </button>
+                  </div>
+                )}
+              </div>
 
               {selectedEvent.desc && (
-                <p className="text-gray-600 mb-6 leading-relaxed">
+                <p className="text-gray-600 mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">
                   {selectedEvent.desc}
                 </p>
               )}
 
-              <div className="space-y-3 mb-6">
+              <div className="space-y-2 sm:space-y-3 mb-4 sm:mb-6">
                 {selectedEvent.date && (
-                  <div className="flex items-center gap-3 text-gray-700">
-                    <Calendar size={20} className="text-blue-600" />
+                  <div className="flex items-center gap-2 sm:gap-3 text-gray-700 text-sm sm:text-base">
+                    <Calendar size={18} className="sm:w-5 sm:h-5 text-blue-600 flex-shrink-0" />
                     <span>{formatDate(selectedEvent.date)}</span>
                   </div>
                 )}
                 {selectedEvent.time && (
-                  <div className="flex items-center gap-3 text-gray-700">
-                    <Clock size={20} className="text-blue-600" />
+                  <div className="flex items-center gap-2 sm:gap-3 text-gray-700 text-sm sm:text-base">
+                    <Clock size={18} className="sm:w-5 sm:h-5 text-blue-600 flex-shrink-0" />
                     <span>{selectedEvent.time}</span>
                   </div>
                 )}
                 {selectedEvent.location && (
-                  <div className="flex items-center gap-3 text-gray-700">
-                    <MapPin size={20} className="text-blue-600" />
-                    <span>{selectedEvent.location}</span>
+                  <div className="flex items-center gap-2 sm:gap-3 text-gray-700 text-sm sm:text-base">
+                    <MapPin size={18} className="sm:w-5 sm:h-5 text-blue-600 flex-shrink-0" />
+                    <span className="break-words">{selectedEvent.location}</span>
                   </div>
                 )}
               </div>
@@ -254,10 +384,10 @@ export default function Events() {
                   href={selectedEvent.registration_link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition"
+                  className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium transition text-sm sm:text-base w-full sm:w-auto justify-center"
                 >
                   Register Now
-                  <ArrowRight size={18} />
+                  <ArrowRight size={16} className="sm:w-[18px] sm:h-[18px]" />
                 </a>
               )}
             </div>

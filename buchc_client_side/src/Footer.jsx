@@ -45,20 +45,20 @@ export default function Footer() {
   };
 
   return (
-    <footer id="contact" className="bg-gradient-to-b from-[#0b1220] to-[#060b16] text-gray-300 pt-20">
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="text-center mb-14">
-          <h3 className="text-3xl font-semibold text-white mb-2">
+    <footer id="contact" className="bg-gradient-to-b from-[#0b1220] to-[#060b16] text-gray-300 pt-12 sm:pt-20">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="text-center mb-10 sm:mb-14">
+          <h3 className="text-2xl sm:text-3xl font-semibold text-white mb-2">
             Get In Touch
           </h3>
-          <p className="text-gray-400 text-sm">
+          <p className="text-gray-400 text-xs sm:text-sm px-4">
             Have questions? Want to join? We'd love to hear from you!
           </p>
         </div>
-        <div className="flex flex-col sm:flex-row justify-center gap-6 mb-10">
+        <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 mb-8 sm:mb-10">
           <div
             onClick={handleEmailClick}
-            className={`bg-[#111a2e] rounded-xl px-6 py-5 w-64 text-center shadow-md hover:shadow-lg transition ${settings.club_email ? 'cursor-pointer' : 'cursor-default'}`}
+            className={`bg-[#111a2e] rounded-xl px-4 sm:px-6 py-4 sm:py-5 w-full sm:w-64 text-center shadow-md hover:shadow-lg transition ${settings.club_email ? 'cursor-pointer' : 'cursor-default'}`}
           >
             <Mail className="mx-auto mb-3 text-blue-500" size={20} />
             <p className="text-sm text-gray-400 mb-1">Email Us</p>
@@ -67,26 +67,26 @@ export default function Footer() {
             </p>
           </div>
 
-          <div className="bg-[#111a2e] rounded-xl px-6 py-5 w-64 text-center shadow-md hover:shadow-lg transition">
+          <div className="bg-[#111a2e] rounded-xl px-4 sm:px-6 py-4 sm:py-5 w-full sm:w-64 text-center shadow-md hover:shadow-lg transition">
             <MapPin className="mx-auto mb-3 text-blue-500" size={20} />
-            <p className="text-sm text-gray-400 mb-1">Visit Us</p>
-            <p className="text-white text-sm font-medium">
+            <p className="text-xs sm:text-sm text-gray-400 mb-1">Visit Us</p>
+            <p className="text-white text-xs sm:text-sm font-medium">
               BRAC University
               <br />
               Kha 224 Pragati Sarani, Merul Badda , Dhaka 1212
             </p>
           </div>
         </div>
-        <div className="text-center mb-12">
+        <div className="text-center mb-8 sm:mb-12">
           <button
             onClick={handleJoinClick}
-            className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-6 py-2 rounded-lg transition"
+            className="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm px-5 sm:px-6 py-2 rounded-lg transition w-full sm:w-auto"
           >
             Join BUCHC Today
           </button>
         </div>
-        <div className="border-t border-white/10 my-10"></div>
-        <div className="flex flex-col md:flex-row justify-between items-center gap-8 pb-10">
+        <div className="border-t border-white/10 my-6 sm:my-10"></div>
+        <div className="flex flex-col md:flex-row justify-between items-center gap-6 sm:gap-8 pb-8 sm:pb-10">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-blue-600 rounded-md flex items-center justify-center font-bold text-white">
               BU
