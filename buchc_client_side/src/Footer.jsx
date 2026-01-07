@@ -85,8 +85,8 @@ export default function Footer() {
             Join BUCHC Today
           </button>
         </div>
-        <div className="border-t border-white/10 my-6 sm:my-10"></div>
-        <div className="flex flex-col md:flex-row justify-between items-center gap-6 sm:gap-8 pb-8 sm:pb-10">
+        <div className="border-t border-white/10 my-10"></div>
+        <div className="flex flex-col md:flex-row justify-between items-center gap-8 pb-10">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-blue-600 rounded-md flex items-center justify-center font-bold text-white">
               BU
