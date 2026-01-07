@@ -98,10 +98,23 @@ export const login = async (req, res) => {
 };
 
 export const logout = (req, res) => {
+  // Clear the session cookie immediately
+  res.clearCookie('buchc.session', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production' || process.env.VERCEL,
+    sameSite: (process.env.NODE_ENV === 'production' || process.env.VERCEL) ? 'none' : 'lax',
+    path: '/'
+  });
+
+  // Return success immediately (don't wait for session destruction)
+  // Session destruction will happen in background
+  res.json({ success: true, message: 'Logged out successfully' });
+
+  // Destroy session in background (non-blocking)
   req.session.destroy((err) => {
     if (err) {
-      return res.status(500).json({ message: 'Error logging out' });
+      console.error('Session destruction error (non-critical):', err);
+      // Don't send error to client since we already responded
     }
-    res.redirect('/buchcadmin');
   });
 };

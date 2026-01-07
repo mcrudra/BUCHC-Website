@@ -9,12 +9,13 @@ export default function AdminLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const handleLogout = async () => {
-    try {
-      await adminLogout();
-      navigate('/admin/login');
-    } catch (err) {
-      console.error('Logout error:', err);
-    }
+    // Navigate immediately for better UX
+    navigate('/admin/login', { replace: true });
+    
+    // Call logout API in background (don't wait for it)
+    adminLogout().catch(err => {
+      console.error('Logout error (non-critical):', err);
+    });
   };
 
   const menuItems = [

@@ -128,9 +128,9 @@ export default function OurTeam() {
                     <h4 className="text-gray-900 text-xl mb-1">{member.name}</h4>
                     <p className="text-blue-600 mb-3">{member.position}</p>
                     {member.mail && (
-                      <div className="flex items-center justify-center gap-2 text-gray-600">
-                        <Mail size={16} />
-                        <a href={`mailto:${member.mail}`} className="text-sm hover:text-blue-600">
+                      <div className="flex items-start justify-center gap-2 text-gray-600">
+                        <Mail size={16} className="flex-shrink-0 mt-0.5" />
+                        <a href={`mailto:${member.mail}`} className="text-sm hover:text-blue-600 break-words text-center">
                           {member.mail}
                         </a>
                       </div>
@@ -162,9 +162,9 @@ export default function OurTeam() {
                   <h4 className="text-gray-900 text-xl mb-1">{generalCoordinator.name}</h4>
                   <p className="text-blue-600 mb-3">{generalCoordinator.position}</p>
                   {generalCoordinator.mail && (
-                    <div className="flex items-center justify-center gap-2 text-gray-600">
-                      <Mail size={16} />
-                      <a href={`mailto:${generalCoordinator.mail}`} className="text-sm hover:text-blue-600">
+                    <div className="flex items-start justify-center gap-2 text-gray-600">
+                      <Mail size={16} className="flex-shrink-0 mt-0.5" />
+                      <a href={`mailto:${generalCoordinator.mail}`} className="text-sm hover:text-blue-600 break-words text-center">
                         {generalCoordinator.mail}
                       </a>
                     </div>
@@ -204,11 +204,11 @@ export default function OurTeam() {
                         <h5 className="text-gray-900 text-xl mb-1">{member.name}</h5>
                         <p className="text-blue-600 mb-3">{member.position}</p>
                         {member.mail && (
-                          <div className="flex items-center justify-center gap-2 text-gray-600">
-                            <Mail size={16} />
+                          <div className="flex items-start justify-center gap-2 text-gray-600">
+                            <Mail size={16} className="flex-shrink-0 mt-0.5" />
                             <a
                               href={`mailto:${member.mail}`}
-                              className="text-sm hover:text-blue-600"
+                              className="text-sm hover:text-blue-600 break-words text-center"
                             >
                               {member.mail}
                             </a>
@@ -242,11 +242,11 @@ export default function OurTeam() {
                         <h5 className="text-gray-900 text-xl mb-1">{member.name}</h5>
                         <p className="text-blue-600 mb-3">{member.position}</p>
                         {member.mail && (
-                          <div className="flex items-center justify-center gap-2 text-gray-600">
-                            <Mail size={16} />
+                          <div className="flex items-start justify-center gap-2 text-gray-600">
+                            <Mail size={16} className="flex-shrink-0 mt-0.5" />
                             <a
                               href={`mailto:${member.mail}`}
-                              className="text-sm hover:text-blue-600"
+                              className="text-sm hover:text-blue-600 break-words text-center"
                             >
                               {member.mail}
                             </a>
@@ -280,11 +280,11 @@ export default function OurTeam() {
                         <h5 className="text-gray-900 text-xl mb-1">{member.name}</h5>
                         <p className="text-blue-600 mb-3">{member.position}</p>
                         {member.mail && (
-                          <div className="flex items-center justify-center gap-2 text-gray-600">
-                            <Mail size={16} />
+                          <div className="flex items-start justify-center gap-2 text-gray-600">
+                            <Mail size={16} className="flex-shrink-0 mt-0.5" />
                             <a
                               href={`mailto:${member.mail}`}
-                              className="text-sm hover:text-blue-600"
+                              className="text-sm hover:text-blue-600 break-words text-center"
                             >
                               {member.mail}
                             </a>
@@ -320,11 +320,11 @@ export default function OurTeam() {
                         <h5 className="text-gray-900 text-xl mb-1">{member.name}</h5>
                         <p className="text-blue-600 mb-3">{member.position}</p>
                         {member.mail && (
-                          <div className="flex items-center justify-center gap-2 text-gray-600">
-                            <Mail size={16} />
+                          <div className="flex items-start justify-center gap-2 text-gray-600">
+                            <Mail size={16} className="flex-shrink-0 mt-0.5" />
                             <a
                               href={`mailto:${member.mail}`}
-                              className="text-sm hover:text-blue-600"
+                              className="text-sm hover:text-blue-600 break-words text-center"
                             >
                               {member.mail}
                             </a>

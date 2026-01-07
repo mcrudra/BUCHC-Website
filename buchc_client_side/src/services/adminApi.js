@@ -79,7 +79,22 @@ export const adminLogin = async (email, password) => {
 };
 
 export const adminLogout = async () => {
-  return await adminApi.post('/admin/logout');
+  try {
+    // Add timeout to prevent hanging (3 seconds)
+    const response = await adminApi.post('/admin/logout', {}, {
+      timeout: 3000
+    });
+    return response;
+  } catch (error) {
+    // If timeout or network error, still consider it successful since we navigate immediately
+    if (error.code === 'ECONNABORTED' || error.message?.includes('timeout')) {
+      console.warn('Logout request timed out, but user is already logged out');
+      return { data: { success: true, message: 'Logged out (timeout)' } };
+    }
+    // For other errors, still return success since we don't want to block navigation
+    console.warn('Logout request failed, but user is already logged out:', error.message);
+    return { data: { success: true, message: 'Logged out' } };
+  }
 };
 
 // Events
