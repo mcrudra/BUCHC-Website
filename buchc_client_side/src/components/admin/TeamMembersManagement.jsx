@@ -21,8 +21,10 @@ export default function TeamMembersManagement() {
     position: '',
     department: 'governing',
     photo: '',
+    photoFile: null, // File object
     mail: '',
   });
+  const [photoPreview, setPhotoPreview] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -45,10 +47,19 @@ export default function TeamMembersManagement() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      // Prepare data - include photo file if selected
+      const submitData = { ...formData };
+      if (submitData.photoFile) {
+        // If new photo file is selected, use it as 'photo' for the API
+        submitData.photo = submitData.photoFile;
+      }
+      // Remove photoFile from submitData (keep photo URL if no new file)
+      delete submitData.photoFile;
+
       if (editingMember) {
-        await updateTeamMember(editingMember._id, formData);
+        await updateTeamMember(editingMember._id, submitData);
       } else {
-        await createTeamMember(formData);
+        await createTeamMember(submitData);
       }
       setShowForm(false);
       setEditingMember(null);
@@ -57,11 +68,26 @@ export default function TeamMembersManagement() {
         position: '',
         department: 'governing',
         photo: '',
+        photoFile: null,
         mail: '',
       });
+      setPhotoPreview(null);
       loadMembers();
     } catch (err) {
       alert(err.response?.data?.message || 'Error saving team member');
+    }
+  };
+
+  const handlePhotoChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setFormData({ ...formData, photoFile: file, photo: '' });
+      // Create preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPhotoPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -72,8 +98,10 @@ export default function TeamMembersManagement() {
       position: member.position,
       department: member.department,
       photo: member.photo || '',
+      photoFile: null,
       mail: member.mail || '',
     });
+    setPhotoPreview(member.photo || null);
     setShowForm(true);
   };
 
@@ -116,8 +144,10 @@ export default function TeamMembersManagement() {
                 position: '',
                 department: 'governing',
                 photo: '',
+                photoFile: null,
                 mail: '',
               });
+              setPhotoPreview(null);
             }}
             className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700"
           >
@@ -181,13 +211,22 @@ export default function TeamMembersManagement() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Photo URL</label>
+                <label className="block text-sm font-medium mb-1">Photo</label>
                 <input
-                  type="text"
-                  value={formData.photo}
-                  onChange={(e) => setFormData({ ...formData, photo: e.target.value })}
+                  type="file"
+                  accept="image/*"
+                  onChange={handlePhotoChange}
                   className="w-full px-3 py-2 border rounded-md"
                 />
+                {photoPreview && (
+                  <div className="mt-2">
+                    <img
+                      src={photoPreview}
+                      alt="Preview"
+                      className="w-32 h-32 object-cover rounded-md border"
+                    />
+                  </div>
+                )}
               </div>
               <div className="flex space-x-4">
                 <button

@@ -15,9 +15,11 @@ export default function EventsManagement() {
     time: '',
     location: '',
     img: '',
+    image: null, // File object
     registration_link: '',
     is_past: false,
   });
+  const [imagePreview, setImagePreview] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -40,10 +42,21 @@ export default function EventsManagement() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (editingEvent) {
-        await updateEvent(editingEvent._id, formData);
+      // Prepare data - include image file if selected
+      const submitData = { ...formData };
+      if (submitData.image) {
+        // If new image file is selected, use it and remove the old img URL
+        delete submitData.img;
       } else {
-        await createEvent(formData);
+        // If no new image file, remove the image field but keep img URL if it exists
+        delete submitData.image;
+        // Keep img URL in submitData if it exists (for updates without new image)
+      }
+
+      if (editingEvent) {
+        await updateEvent(editingEvent._id, submitData);
+      } else {
+        await createEvent(submitData);
       }
       setShowForm(false);
       setEditingEvent(null);
@@ -54,12 +67,27 @@ export default function EventsManagement() {
         time: '',
         location: '',
         img: '',
+        image: null,
         registration_link: '',
         is_past: false,
       });
+      setImagePreview(null);
       loadEvents();
     } catch (err) {
       alert(err.response?.data?.message || 'Error saving event');
+    }
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setFormData({ ...formData, image: file, img: '' });
+      // Create preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -72,9 +100,11 @@ export default function EventsManagement() {
       time: event.time || '',
       location: event.location || '',
       img: event.img || '',
+      image: null,
       registration_link: event.registration_link || '',
       is_past: event.is_past || false,
     });
+    setImagePreview(event.img || null);
     setShowForm(true);
   };
 
@@ -115,9 +145,11 @@ export default function EventsManagement() {
                 time: '',
                 location: '',
                 img: '',
+                image: null,
                 registration_link: '',
                 is_past: false,
               });
+              setImagePreview(null);
             }}
             className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700"
           >
@@ -181,13 +213,32 @@ export default function EventsManagement() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Image URL</label>
+                <label className="block text-sm font-medium mb-1">Image</label>
                 <input
-                  type="text"
-                  value={formData.img}
-                  onChange={(e) => setFormData({ ...formData, img: e.target.value })}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
                   className="w-full px-3 py-2 border rounded-md"
                 />
+                {imagePreview && (
+                  <div className="mt-2">
+                    <img
+                      src={imagePreview}
+                      alt="Preview"
+                      className="w-32 h-32 object-cover rounded-md border"
+                    />
+                  </div>
+                )}
+                {!imagePreview && formData.img && (
+                  <div className="mt-2">
+                    <p className="text-sm text-gray-500 mb-1">Current image:</p>
+                    <img
+                      src={formData.img}
+                      alt="Current"
+                      className="w-32 h-32 object-cover rounded-md border"
+                    />
+                  </div>
+                )}
               </div>
               <div>
                 <label className="block text-sm font-medium mb-1">Registration Link</label>

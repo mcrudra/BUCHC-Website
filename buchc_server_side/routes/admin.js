@@ -27,6 +27,8 @@ import {
   getSettings,
   updateSettings
 } from '../controllers/admin/settingController.js';
+import { uploadImage } from '../controllers/admin/uploadController.js';
+import { uploadSingle } from '../middleware/upload.js';
 
 const router = express.Router();
 
@@ -46,8 +48,8 @@ router.get('/events/create', (req, res) => {
   return getEvent(req, res);
 });
 router.get('/events/:id', getEvent);
-router.post('/events', createEvent);
-router.put('/events/:id', updateEvent);
+router.post('/events', uploadSingle('image'), createEvent);
+router.put('/events/:id', uploadSingle('image'), updateEvent);
 router.delete('/events/:id', deleteEvent);
 
 // Players
@@ -68,12 +70,15 @@ router.get('/teams/create', (req, res) => {
   return getTeamMember(req, res);
 });
 router.get('/teams/:id', getTeamMember);
-router.post('/teams', createTeamMember);
-router.put('/teams/:id', updateTeamMember);
+router.post('/teams', uploadSingle('photo'), createTeamMember);
+router.put('/teams/:id', uploadSingle('photo'), updateTeamMember);
 router.delete('/teams/:id', deleteTeamMember);
 
 // Settings
 router.get('/settings', getSettings);
 router.post('/settings', updateSettings);
+
+// Image Upload
+router.post('/upload/image', uploadSingle('image'), uploadImage);
 
 export default router;

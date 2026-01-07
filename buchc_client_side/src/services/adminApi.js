@@ -88,11 +88,41 @@ export const getEvents = async () => {
 };
 
 export const createEvent = async (eventData) => {
-  return await adminApi.post('/admin/events', eventData);
+  const formData = new FormData();
+  
+  // Append all fields to FormData
+  Object.keys(eventData).forEach(key => {
+    if (key === 'image' && eventData[key] instanceof File) {
+      formData.append('image', eventData[key]);
+    } else if (key !== 'image') {
+      formData.append(key, eventData[key]);
+    }
+  });
+
+  return await adminApi.post('/admin/events', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
 };
 
 export const updateEvent = async (id, eventData) => {
-  return await adminApi.put(`/admin/events/${id}`, eventData);
+  const formData = new FormData();
+  
+  // Append all fields to FormData
+  Object.keys(eventData).forEach(key => {
+    if (key === 'image' && eventData[key] instanceof File) {
+      formData.append('image', eventData[key]);
+    } else if (key !== 'image') {
+      formData.append(key, eventData[key]);
+    }
+  });
+
+  return await adminApi.put(`/admin/events/${id}`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
 };
 
 export const deleteEvent = async (id) => {
@@ -122,11 +152,41 @@ export const getTeamMembers = async () => {
 };
 
 export const createTeamMember = async (memberData) => {
-  return await adminApi.post('/admin/teams', memberData);
+  const formData = new FormData();
+  
+  // Append all fields to FormData
+  Object.keys(memberData).forEach(key => {
+    if (key === 'photo' && memberData[key] instanceof File) {
+      formData.append('photo', memberData[key]);
+    } else if (key !== 'photo') {
+      formData.append(key, memberData[key]);
+    }
+  });
+
+  return await adminApi.post('/admin/teams', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
 };
 
 export const updateTeamMember = async (id, memberData) => {
-  return await adminApi.put(`/admin/teams/${id}`, memberData);
+  const formData = new FormData();
+  
+  // Append all fields to FormData
+  Object.keys(memberData).forEach(key => {
+    if (key === 'photo' && memberData[key] instanceof File) {
+      formData.append('photo', memberData[key]);
+    } else if (key !== 'photo') {
+      formData.append(key, memberData[key]);
+    }
+  });
+
+  return await adminApi.put(`/admin/teams/${id}`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
 };
 
 export const deleteTeamMember = async (id) => {
