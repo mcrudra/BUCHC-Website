@@ -3,12 +3,33 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+// Validate Cloudinary configuration
+const validateCloudinaryConfig = () => {
+    const required = ['CLOUDINARY_CLOUD_NAME', 'CLOUDINARY_API_KEY', 'CLOUDINARY_API_SECRET'];
+    const missing = required.filter(key => !process.env[key]);
+    
+    if (missing.length > 0) {
+        console.error('❌ Missing Cloudinary environment variables:', missing.join(', '));
+        throw new Error(`Missing Cloudinary configuration: ${missing.join(', ')}`);
+    }
+    
+    return true;
+};
+
 // Configure Cloudinary
-cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET,
-});
+try {
+    cloudinary.config({
+        cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+        api_key: process.env.CLOUDINARY_API_KEY,
+        api_secret: process.env.CLOUDINARY_API_SECRET,
+    });
+    
+    // Validate configuration on module load
+    validateCloudinaryConfig();
+    console.log('✅ Cloudinary configured successfully');
+} catch (error) {
+    console.error('❌ Cloudinary configuration error:', error.message);
+}
 
 /**
  * Upload image to Cloudinary
@@ -18,6 +39,22 @@ cloudinary.config({
  * @returns {Promise<Object>} Cloudinary upload result
  */
 export const uploadToCloudinary = async (fileBuffer, folder, publicId = null) => {
+    // Validate configuration before upload
+    try {
+        validateCloudinaryConfig();
+    } catch (error) {
+        throw new Error(`Cloudinary not configured: ${error.message}`);
+    }
+
+    // Validate file buffer
+    if (!fileBuffer || !Buffer.isBuffer(fileBuffer)) {
+        throw new Error('Invalid file buffer provided');
+    }
+
+    if (fileBuffer.length === 0) {
+        throw new Error('File buffer is empty');
+    }
+
     return new Promise((resolve, reject) => {
         const uploadOptions = {
             folder: `buchc/${folder}`,
@@ -29,12 +66,21 @@ export const uploadToCloudinary = async (fileBuffer, folder, publicId = null) =>
             uploadOptions.public_id = publicId;
         }
 
-        cloudinary.uploader
-            .upload_stream(uploadOptions, (error, result) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
+            uploadOptions,
+            (error, result) => {
                 if (error) {
-                    console.error('Cloudinary upload error:', error);
-                    reject(error);
+                    console.error('Cloudinary upload error:', {
+                        message: error.message,
+                        http_code: error.http_code,
+                        name: error.name
+                    });
+                    reject(new Error(`Cloudinary upload failed: ${error.message}`));
+                } else if (!result || !result.secure_url) {
+                    console.error('Cloudinary upload returned invalid result:', result);
+                    reject(new Error('Cloudinary upload returned invalid result'));
                 } else {
+                    console.log('✅ Image uploaded successfully to Cloudinary');
                     resolve({
                         url: result.secure_url,
                         public_id: result.public_id,
@@ -42,8 +88,15 @@ export const uploadToCloudinary = async (fileBuffer, folder, publicId = null) =>
                         height: result.height,
                     });
                 }
-            })
-            .end(fileBuffer);
+            }
+        );
+
+        uploadStream.on('error', (error) => {
+            console.error('Upload stream error:', error);
+            reject(new Error(`Upload stream error: ${error.message}`));
+        });
+
+        uploadStream.end(fileBuffer);
     });
 };
 

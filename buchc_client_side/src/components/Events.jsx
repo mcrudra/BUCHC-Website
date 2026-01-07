@@ -1,52 +1,14 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { fetchEvents } from "../services/api";
-import { deleteEvent } from "../services/adminApi";
-import { X, Calendar, Clock, MapPin, ArrowRight, Edit2, Trash2 } from "lucide-react";
+import { X, Calendar, Clock, MapPin, ArrowRight } from "lucide-react";
 
 export default function Events() {
-  const navigate = useNavigate();
   const [upcomingEvents, setUpcomingEvents] = useState([]);
   const [pastEvents, setPastEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedEvent, setSelectedEvent] = useState(null);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [checkingAdmin, setCheckingAdmin] = useState(true);
 
   useEffect(() => {
-    const checkAdminStatus = async () => {
-      try {
-        // Try to access admin dashboard endpoint to check if user is authenticated
-        const getApiBaseUrl = () => {
-          if (import.meta.env.VITE_API_BASE_URL) {
-            let url = import.meta.env.VITE_API_BASE_URL.trim();
-            if (url.endsWith('/')) url = url.slice(0, -1);
-            return url;
-          }
-          if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
-            return 'https://buchc-website.vercel.app';
-          }
-          return 'http://localhost:8000';
-        };
-
-        const apiUrl = getApiBaseUrl();
-        console.log('Checking admin status at:', `${apiUrl}/admin/dashboard`);
-
-        const response = await fetch(`${apiUrl}/admin/dashboard`, {
-          method: 'GET',
-          credentials: 'include',
-        });
-
-        console.log('Admin check response:', response.status, response.ok);
-        setIsAdmin(response.ok);
-      } catch (error) {
-        console.error('Admin check error:', error);
-        setIsAdmin(false);
-      } finally {
-        setCheckingAdmin(false);
-      }
-    };
-
     const loadEvents = async () => {
       try {
         const data = await fetchEvents();
@@ -59,36 +21,8 @@ export default function Events() {
       }
     };
 
-    checkAdminStatus();
     loadEvents();
   }, []);
-
-  const handleDelete = async (eventId, eventTitle, e) => {
-    e.stopPropagation();
-    if (!window.confirm(`Are you sure you want to delete "${eventTitle}"?`)) {
-      return;
-    }
-
-    try {
-      await deleteEvent(eventId);
-      // Reload events
-      const data = await fetchEvents();
-      setUpcomingEvents(data.upcomingEvents || []);
-      setPastEvents(data.pastEvents || []);
-      // Close modal if the deleted event was selected
-      if (selectedEvent && selectedEvent._id === eventId) {
-        setSelectedEvent(null);
-      }
-    } catch (error) {
-      console.error("Error deleting event:", error);
-      alert("Failed to delete event. Please try again.");
-    }
-  };
-
-  const handleEdit = (eventId, e) => {
-    e.stopPropagation();
-    navigate(`/admin/events?edit=${eventId}`);
-  };
 
   const formatDate = (dateString) => {
     if (!dateString) return "";
@@ -100,7 +34,7 @@ export default function Events() {
     });
   };
 
-  if (loading || checkingAdmin) {
+  if (loading) {
     return (
       <div id="events" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -146,24 +80,6 @@ export default function Events() {
                   onClick={() => setSelectedEvent(event)}
                   className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow group cursor-pointer relative"
                 >
-                  {isAdmin && event._id && (
-                    <div className="absolute top-2 right-2 flex gap-2 z-10" onClick={(e) => e.stopPropagation()}>
-                      <button
-                        onClick={(e) => handleEdit(event._id, e)}
-                        className="bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition-colors shadow-lg"
-                        title="Edit event"
-                      >
-                        <Edit2 size={16} />
-                      </button>
-                      <button
-                        onClick={(e) => handleDelete(event._id, event.title, e)}
-                        className="bg-red-600 text-white p-2 rounded-lg hover:bg-red-700 transition-colors shadow-lg"
-                        title="Delete event"
-                      >
-                        <Trash2 size={16} />
-                      </button>
-                    </div>
-                  )}
                   <div className="aspect-video overflow-hidden bg-gray-200">
                     {event.img ? (
                       <img
@@ -240,24 +156,6 @@ export default function Events() {
                   onClick={() => setSelectedEvent(event)}
                   className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow group cursor-pointer relative"
                 >
-                  {isAdmin && event._id && (
-                    <div className="absolute top-2 right-2 flex gap-2 z-10" onClick={(e) => e.stopPropagation()}>
-                      <button
-                        onClick={(e) => handleEdit(event._id, e)}
-                        className="bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition-colors shadow-lg"
-                        title="Edit event"
-                      >
-                        <Edit2 size={16} />
-                      </button>
-                      <button
-                        onClick={(e) => handleDelete(event._id, event.title, e)}
-                        className="bg-red-600 text-white p-2 rounded-lg hover:bg-red-700 transition-colors shadow-lg"
-                        title="Delete event"
-                      >
-                        <Trash2 size={16} />
-                      </button>
-                    </div>
-                  )}
                   <div className="aspect-square overflow-hidden bg-gray-200">
                     {event.img ? (
                       <img
@@ -321,35 +219,10 @@ export default function Events() {
             )}
 
             <div className="p-4 sm:p-6">
-              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-4 gap-3">
+              <div className="mb-4">
                 <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">
                   {selectedEvent.title}
                 </h2>
-                {isAdmin && selectedEvent._id && (
-                  <div className="flex gap-2 flex-shrink-0">
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleEdit(selectedEvent._id, e);
-                        setSelectedEvent(null);
-                      }}
-                      className="bg-blue-600 text-white px-3 sm:px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2 text-sm sm:text-base"
-                    >
-                      <Edit2 size={16} className="sm:w-[18px] sm:h-[18px]" />
-                      <span>Edit</span>
-                    </button>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDelete(selectedEvent._id, selectedEvent.title, e);
-                      }}
-                      className="bg-red-600 text-white px-3 sm:px-4 py-2 rounded-lg hover:bg-red-700 transition-colors flex items-center gap-2 text-sm sm:text-base"
-                    >
-                      <Trash2 size={16} className="sm:w-[18px] sm:h-[18px]" />
-                      <span>Delete</span>
-                    </button>
-                  </div>
-                )}
               </div>
 
               {selectedEvent.desc && (

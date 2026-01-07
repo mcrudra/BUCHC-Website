@@ -41,6 +41,32 @@ router.post('/logout', logout);
 // Dashboard
 router.get('/dashboard', getDashboard);
 
+// Helper function to handle multer errors
+const handleMulterError = (req, res, next) => {
+  return (err) => {
+    if (err) {
+      console.error('Multer upload error:', err);
+      if (err.code === 'LIMIT_FILE_SIZE') {
+        return res.status(400).json({ 
+          message: 'File too large',
+          error: 'File size must be less than 5MB'
+        });
+      }
+      if (err.message === 'Only image files are allowed') {
+        return res.status(400).json({ 
+          message: 'Invalid file type',
+          error: 'Only image files are allowed'
+        });
+      }
+      return res.status(400).json({ 
+        message: 'File upload error',
+        error: err.message || 'Failed to process file upload'
+      });
+    }
+    next();
+  };
+};
+
 // Events
 router.get('/events', getEvents);
 router.get('/events/create', (req, res) => {
@@ -48,8 +74,12 @@ router.get('/events/create', (req, res) => {
   return getEvent(req, res);
 });
 router.get('/events/:id', getEvent);
-router.post('/events', uploadSingle('image'), createEvent);
-router.put('/events/:id', uploadSingle('image'), updateEvent);
+router.post('/events', (req, res, next) => {
+  uploadSingle('image')(req, res, handleMulterError(req, res, next));
+}, createEvent);
+router.put('/events/:id', (req, res, next) => {
+  uploadSingle('image')(req, res, handleMulterError(req, res, next));
+}, updateEvent);
 router.delete('/events/:id', deleteEvent);
 
 // Players
@@ -70,8 +100,12 @@ router.get('/teams/create', (req, res) => {
   return getTeamMember(req, res);
 });
 router.get('/teams/:id', getTeamMember);
-router.post('/teams', uploadSingle('photo'), createTeamMember);
-router.put('/teams/:id', uploadSingle('photo'), updateTeamMember);
+router.post('/teams', (req, res, next) => {
+  uploadSingle('photo')(req, res, handleMulterError(req, res, next));
+}, createTeamMember);
+router.put('/teams/:id', (req, res, next) => {
+  uploadSingle('photo')(req, res, handleMulterError(req, res, next));
+}, updateTeamMember);
 router.delete('/teams/:id', deleteTeamMember);
 
 // Settings
@@ -79,6 +113,8 @@ router.get('/settings', getSettings);
 router.post('/settings', updateSettings);
 
 // Image Upload
-router.post('/upload/image', uploadSingle('image'), uploadImage);
+router.post('/upload/image', (req, res, next) => {
+  uploadSingle('image')(req, res, handleMulterError(req, res, next));
+}, uploadImage);
 
 export default router;
