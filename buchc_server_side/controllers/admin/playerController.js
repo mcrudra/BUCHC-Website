@@ -1,5 +1,5 @@
-import Player from '../../models/Player.js';
-import { body, validationResult } from 'express-validator';
+import Player from "../../models/Player.js";
+import { body, validationResult } from "express-validator";
 
 export const getPlayers = async (req, res) => {
   try {
@@ -12,20 +12,20 @@ export const getPlayers = async (req, res) => {
 
 export const getPlayer = async (req, res) => {
   try {
-    const isNew = req.params.id === 'new';
+    const isNew = req.params.id === "new";
 
     if (isNew) {
       return res.json({
-        _id: 'new',
-        rank: '',
-        name: '',
-        points: ''
+        _id: "new",
+        rank: "",
+        name: "",
+        points: "",
       });
     }
 
     const player = await Player.findById(req.params.id);
     if (!player) {
-      return res.status(404).json({ message: 'Player not found' });
+      return res.status(404).json({ message: "Player not found" });
     }
     res.json(player);
   } catch (error) {
@@ -39,20 +39,22 @@ export const createPlayer = async (req, res) => {
     data.rank = parseInt(data.rank);
     data.points = parseInt(data.points);
 
-    // Validate required fields
-    if (!data.name || !data.rank || !data.points) {
-      return res.status(400).json({ message: 'Name, rank, and points are required' });
+    // Validate required fields: allow numeric 0 for points, ensure rank/points are valid numbers
+    if (!data.name || Number.isNaN(data.rank) || Number.isNaN(data.points)) {
+      return res
+        .status(400)
+        .json({ message: "Name, rank, and points are required" });
     }
 
     const existingPlayer = await Player.findOne({ rank: data.rank });
     if (existingPlayer) {
-      return res.status(400).json({ message: 'Rank already exists' });
+      return res.status(400).json({ message: "Rank already exists" });
     }
 
     const player = await Player.create(data);
     res.status(201).json(player);
   } catch (error) {
-    console.error('Create player error:', error);
+    console.error("Create player error:", error);
     res.status(500).json({ message: error.message });
   }
 };
@@ -66,26 +68,25 @@ export const updatePlayer = async (req, res) => {
     if (data.rank) {
       const existingPlayer = await Player.findOne({
         rank: data.rank,
-        _id: { $ne: req.params.id }
+        _id: { $ne: req.params.id },
       });
       if (existingPlayer) {
-        return res.status(400).json({ message: 'Rank already exists' });
+        return res.status(400).json({ message: "Rank already exists" });
       }
     }
 
-    const player = await Player.findByIdAndUpdate(
-      req.params.id,
-      data,
-      { new: true, runValidators: true }
-    );
+    const player = await Player.findByIdAndUpdate(req.params.id, data, {
+      new: true,
+      runValidators: true,
+    });
 
     if (!player) {
-      return res.status(404).json({ message: 'Player not found' });
+      return res.status(404).json({ message: "Player not found" });
     }
 
     res.json(player);
   } catch (error) {
-    console.error('Update player error:', error);
+    console.error("Update player error:", error);
     res.status(500).json({ message: error.message });
   }
 };
@@ -95,10 +96,10 @@ export const deletePlayer = async (req, res) => {
     const player = await Player.findByIdAndDelete(req.params.id);
 
     if (!player) {
-      return res.status(404).json({ message: 'Player not found' });
+      return res.status(404).json({ message: "Player not found" });
     }
 
-    res.json({ message: 'Player deleted successfully' });
+    res.json({ message: "Player deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

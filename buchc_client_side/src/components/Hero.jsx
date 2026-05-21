@@ -1,22 +1,22 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import logo from "../assets/hero_background.jpg";
-import { fetchJoinLink } from "../services/api";
+import { fetchAllSettings } from "../services/api";
 
 export default function Hero() {
-  const [joinLink, setJoinLink] = useState("");
+  const [settings, setSettings] = useState({ registration_open: "false" });
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const loadJoinLink = async () => {
-      const link = await fetchJoinLink();
-      setJoinLink(link);
+    const loadSettings = async () => {
+      const data = await fetchAllSettings();
+      setSettings(data);
     };
-    loadJoinLink();
+    loadSettings();
   }, []);
 
   const handleJoinClick = () => {
-    if (joinLink) {
-      window.open(joinLink, "_blank");
-    }
+    navigate("/registration");
   };
 
   return (
@@ -42,7 +42,9 @@ export default function Hero() {
               onClick={handleJoinClick}
               className="bg-blue-700 hover:bg-blue-900 text-white font-bold text-xl px-8 py-4 rounded-lg shadow hover:shadow-lg transition"
             >
-              Join BUCHC Today
+              {settings.registration_open === "true"
+                ? "Register Now"
+                : "Join BUCHC Today"}
             </button>
           </div>
         </div>

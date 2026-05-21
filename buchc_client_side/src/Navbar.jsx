@@ -1,19 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import logo from "../src/assets/logo.png";
-import { fetchJoinLink } from "./services/api";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
-  const [joinLink, setJoinLink] = useState("");
-
-  useEffect(() => {
-    const loadJoinLink = async () => {
-      const link = await fetchJoinLink();
-      setJoinLink(link);
-    };
-    loadJoinLink();
-  }, []);
+  const navigate = useNavigate();
 
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
@@ -32,9 +24,8 @@ const Navbar = () => {
   ];
 
   const handleJoinClick = () => {
-    if (joinLink) {
-      window.open(joinLink, "_blank");
-    }
+    navigate("/registration");
+    setOpen(false);
   };
 
   return (
@@ -61,7 +52,7 @@ const Navbar = () => {
                 {item.label}
               </button>
             ))}
-            <button 
+            <button
               onClick={handleJoinClick}
               className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-md font-medium"
             >
@@ -75,7 +66,7 @@ const Navbar = () => {
             {open ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
-        
+
         {/* Mobile Menu */}
         {open && (
           <div className="md:hidden">
@@ -89,7 +80,7 @@ const Navbar = () => {
                   {item.label}
                 </button>
               ))}
-              <button 
+              <button
                 onClick={handleJoinClick}
                 className="block w-full text-left px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md font-medium"
               >

@@ -1,33 +1,36 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-const settingSchema = new mongoose.Schema({
-  key: {
-    type: String,
-    required: true,
-    unique: true
+const settingSchema = new mongoose.Schema(
+  {
+    key: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    value: {
+      type: String,
+      default: null,
+    },
   },
-  value: {
-    type: String,
-    default: null
-  }
-}, {
-  timestamps: true
-});
+  {
+    timestamps: true,
+  },
+);
 
 // Static methods
-settingSchema.statics.get = async function(key, defaultValue = null) {
+settingSchema.statics.get = async function (key, defaultValue = null) {
   const setting = await this.findOne({ key });
   return setting ? setting.value : defaultValue;
 };
 
-settingSchema.statics.set = async function(key, value) {
+settingSchema.statics.set = async function (key, value) {
   return await this.findOneAndUpdate(
     { key },
     { value },
-    { upsert: true, new: true }
+    { upsert: true, new: true },
   );
 };
 
-const Setting = mongoose.model('Setting', settingSchema);
+const Setting = mongoose.model("Setting", settingSchema);
 
 export default Setting;
