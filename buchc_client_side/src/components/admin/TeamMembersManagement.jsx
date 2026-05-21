@@ -8,11 +8,14 @@ import {
   deleteTeamMember,
 } from "../../services/adminApi";
 
+const DEFAULT_TEAM_PHOTO = "/logo-Ba1-O6YK.png";
+
 const positionOptions = {
   governing: [
     "President",
     "Vice President",
     "General Secretary",
+    "Asst. General Secretary",
     "Joint Secretary",
     "Treasurer",
     "General Co-ordinator",
@@ -66,6 +69,8 @@ export default function TeamMembersManagement() {
       if (submitData.photoFile) {
         // If new photo file is selected, use it as 'photo' for the API
         submitData.photo = submitData.photoFile;
+      } else if (!submitData.photo) {
+        submitData.photo = DEFAULT_TEAM_PHOTO;
       }
       // Remove photoFile from submitData (keep photo URL if no new file)
       delete submitData.photoFile;

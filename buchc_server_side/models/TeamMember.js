@@ -19,7 +19,7 @@ const teamMemberSchema = new mongoose.Schema(
     },
     photo: {
       type: String,
-      default: null,
+      default: "/logo-Ba1-O6YK.png",
     },
     mail: {
       type: String,

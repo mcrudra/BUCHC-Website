@@ -6,6 +6,8 @@ import {
   deleteFromCloudinary,
 } from "../../utils/cloudinary.js";
 
+const DEFAULT_TEAM_PHOTO = "/logo-Ba1-O6YK.png";
+
 export const getTeamMembers = async (req, res) => {
   try {
     const teamMembers = await TeamMember.find().sort({ createdAt: -1 });
@@ -25,7 +27,7 @@ export const getTeamMember = async (req, res) => {
         name: "",
         position: "",
         department: "governing",
-        photo: "",
+        photo: DEFAULT_TEAM_PHOTO,
         mail: "",
       });
     }
@@ -71,6 +73,10 @@ export const createTeamMember = async (req, res) => {
       data.department = "governing";
     }
 
+    if (!data.photo) {
+      data.photo = DEFAULT_TEAM_PHOTO;
+    }
+
     const teamMember = await TeamMember.create(data);
     res.status(201).json(teamMember);
   } catch (error) {
@@ -112,6 +118,13 @@ export const updateTeamMember = async (req, res) => {
           message: "Failed to upload image",
           error: uploadError.message,
         });
+      }
+    } else {
+      const existingMember = await TeamMember.findById(req.params.id);
+      if (existingMember && existingMember.photo) {
+        data.photo = data.photo || existingMember.photo;
+      } else if (!data.photo) {
+        data.photo = DEFAULT_TEAM_PHOTO;
       }
     }
 
