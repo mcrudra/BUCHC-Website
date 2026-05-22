@@ -267,7 +267,7 @@ export default function OurTeam() {
           <div className="mb-12 sm:mb-20">
             <div className="text-center mb-8 sm:mb-12">
               <h3 className="text-gray-900 text-2xl sm:text-3xl mb-2">
-                Assist. General Secretary
+                Asst. General Secretary
               </h3>
               <div className="w-16 sm:w-24 h-1 bg-blue-600 mx-auto" />
             </div>
