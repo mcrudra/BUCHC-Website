@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/hero_background.jpg";
+import phoneImg from "../assets/phone.jpg";
 import { fetchAllSettings } from "../services/api";
 
 export default function Hero() {
   const [settings, setSettings] = useState({ registration_open: "false" });
+  const [isMobile, setIsMobile] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -15,14 +17,30 @@ export default function Hero() {
     loadSettings();
   }, []);
 
+  useEffect(() => {
+    const check = () => {
+      if (typeof window !== "undefined") setIsMobile(window.innerWidth <= 640);
+    };
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
   const handleJoinClick = () => {
     navigate("/registration");
   };
 
   return (
     <div
-      className="relative min-h-screen flex items-center bg-cover bg-center"
-      style={{ backgroundImage: `url(${logo})` }}
+      className="
+    relative min-h-screen flex items-center
+    bg-cover bg-center
+    md:bg-center
+    bg-[length:140%]
+    sm:bg-[length:120%]
+    md:bg-cover
+  "
+      style={{ backgroundImage: `url(${isMobile ? phoneImg : logo})` }}
     >
       <div className="absolute inset-0 bg-black/55 "></div>
       <div id="home" className="relative z-10 max-w-7xl mx-auto px-4 py-12">

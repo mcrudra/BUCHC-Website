@@ -105,7 +105,7 @@ body {
 .registration-live-track {
   display: flex;
   width: max-content;
-  animation: registration-marquee 16s linear infinite;
+  animation: registration-marquee 25s linear infinite;
 }
 
 .registration-live-copy {

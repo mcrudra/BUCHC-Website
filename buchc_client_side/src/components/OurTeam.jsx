@@ -314,6 +314,27 @@ export default function OurTeam() {
                 )}
               </div>
             )}
+            {/* Training & Research */}
+            {training.length > 0 && (
+              <div>
+                <h4 className="text-gray-900 text-xl sm:text-2xl text-center mb-6 sm:mb-8">
+                  Training & Research
+                </h4>
+                {training.length === 1 ? (
+                  <div className="flex justify-center">
+                    <div className="w-full max-w-sm">
+                      {renderMemberCard(training[0], 0, "training")}
+                    </div>
+                  </div>
+                ) : (
+                  renderMemberGrid(
+                    training,
+                    "training",
+                    "grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 max-w-3xl mx-auto",
+                  )
+                )}
+              </div>
+            )}
 
             {/* Creative & IT */}
             {creative.length > 0 && (
@@ -331,28 +352,6 @@ export default function OurTeam() {
                   renderMemberGrid(
                     creative,
                     "creative",
-                    "grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 max-w-3xl mx-auto",
-                  )
-                )}
-              </div>
-            )}
-
-            {/* Training & Research */}
-            {training.length > 0 && (
-              <div>
-                <h4 className="text-gray-900 text-xl sm:text-2xl text-center mb-6 sm:mb-8">
-                  Training & Research
-                </h4>
-                {training.length === 1 ? (
-                  <div className="flex justify-center">
-                    <div className="w-full max-w-sm">
-                      {renderMemberCard(training[0], 0, "training")}
-                    </div>
-                  </div>
-                ) : (
-                  renderMemberGrid(
-                    training,
-                    "training",
                     "grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 max-w-3xl mx-auto",
                   )
                 )}
