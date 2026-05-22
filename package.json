@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "comment": "For separate deployments: Set Root Directory in Vercel to 'buchc_client_side' for client, or 'buchc_server_side' for server",
+  "buildCommand": "cd buchc_client_side && npm install && npm run build",
+  "outputDirectory": "buchc_client_side/dist",
+  "installCommand": "cd buchc_client_side && npm install",
+  "framework": "vite",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
+  "dependencies": {
+    "react-icons": "^5.6.0"
+  }
+}

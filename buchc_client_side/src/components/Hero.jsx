@@ -1,28 +1,46 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import logo from "../assets/hero_background.jpg";
-import { fetchJoinLink } from "../services/api";
+import phoneImg from "../assets/phone.jpg";
+import { fetchAllSettings } from "../services/api";
 
 export default function Hero() {
-  const [joinLink, setJoinLink] = useState("");
+  const [settings, setSettings] = useState({ registration_open: "false" });
+  const [isMobile, setIsMobile] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const loadJoinLink = async () => {
-      const link = await fetchJoinLink();
-      setJoinLink(link);
+    const loadSettings = async () => {
+      const data = await fetchAllSettings();
+      setSettings(data);
     };
-    loadJoinLink();
+    loadSettings();
+  }, []);
+
+  useEffect(() => {
+    const check = () => {
+      if (typeof window !== "undefined") setIsMobile(window.innerWidth <= 640);
+    };
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
   }, []);
 
   const handleJoinClick = () => {
-    if (joinLink) {
-      window.open(joinLink, "_blank");
-    }
+    navigate("/registration");
   };
 
   return (
     <div
-      className="relative min-h-screen flex items-center bg-cover bg-center"
-      style={{ backgroundImage: `url(${logo})` }}
+      className="
+    relative min-h-screen flex items-center
+    bg-cover bg-center
+    md:bg-center
+    bg-[length:140%]
+    sm:bg-[length:120%]
+    md:bg-cover
+  "
+      style={{ backgroundImage: `url(${isMobile ? phoneImg : logo})` }}
     >
       <div className="absolute inset-0 bg-black/55 "></div>
       <div id="home" className="relative z-10 max-w-7xl mx-auto px-4 py-12">
@@ -42,7 +60,9 @@ export default function Hero() {
               onClick={handleJoinClick}
               className="bg-blue-700 hover:bg-blue-900 text-white font-bold text-xl px-8 py-4 rounded-lg shadow hover:shadow-lg transition"
             >
-              Join BUCHC Today
+              {settings.registration_open === "true"
+                ? "Register Now"
+                : "Join BUCHC Today"}
             </button>
           </div>
         </div>

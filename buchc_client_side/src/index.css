@@ -9,3 +9,120 @@ body,
 body {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
+
+.homepage-background {
+  background:
+    radial-gradient(circle at top, rgba(59, 130, 246, 0.18), transparent 38%),
+    linear-gradient(180deg, #07111d 0%, #0a1524 48%, #07111d 100%);
+}
+
+.homepage-board {
+  position: absolute;
+  inset: 0;
+  opacity: 0.12;
+  background-image:
+    linear-gradient(45deg, rgba(255, 255, 255, 0.08) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(255, 255, 255, 0.08) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(255, 255, 255, 0.08) 75%),
+    linear-gradient(-45deg, transparent 75%, rgba(255, 255, 255, 0.08) 75%);
+  background-size: 120px 120px;
+  background-position:
+    0 0,
+    0 60px,
+    60px -60px,
+    -60px 0;
+  animation: chessboard-drift 30s linear infinite;
+}
+
+.homepage-glow {
+  position: absolute;
+  width: 28rem;
+  height: 28rem;
+  border-radius: 9999px;
+  filter: blur(40px);
+  opacity: 0.38;
+  animation: glow-float 18s ease-in-out infinite;
+}
+
+.homepage-glow-one {
+  top: 4rem;
+  right: -6rem;
+  background: radial-gradient(
+    circle,
+    rgba(59, 130, 246, 0.45),
+    transparent 70%
+  );
+}
+
+.homepage-glow-two {
+  bottom: -8rem;
+  left: -5rem;
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.3), transparent 68%);
+  animation-delay: -9s;
+}
+
+@keyframes chessboard-drift {
+  0% {
+    background-position:
+      0 0,
+      0 60px,
+      60px -60px,
+      -60px 0;
+  }
+  100% {
+    background-position:
+      240px 240px,
+      240px 300px,
+      300px 180px,
+      180px 240px;
+  }
+}
+
+@keyframes glow-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(0, -18px, 0) scale(1.08);
+  }
+}
+
+@keyframes registration-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.registration-live-marquee {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.registration-live-track {
+  display: flex;
+  width: max-content;
+  animation: registration-marquee 25s linear infinite;
+}
+
+.registration-live-copy {
+  display: inline-block;
+  padding-right: 2.5rem;
+  white-space: nowrap;
+}
+
+/* Ensure selects and options are readable in dark mode inside registration form */
+.registration-form select {
+  background-color: rgba(255,255,255,0.03);
+  color: #ffffff;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+.registration-form select option {
+  background-color: #07111d; /* dark option background */
+  color: #ffffff; /* option text */
+}

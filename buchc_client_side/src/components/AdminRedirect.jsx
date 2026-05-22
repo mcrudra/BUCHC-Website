@@ -3,11 +3,13 @@ import { useEffect } from "react";
 export default function AdminRedirect() {
   useEffect(() => {
     // Get the backend admin URL from environment variable or construct it
-    const backendAdminUrl = import.meta.env.VITE_ADMIN_URL || 
-      (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-        ? 'http://localhost:8000/buchcadmin'
+    const backendAdminUrl =
+      import.meta.env.VITE_ADMIN_URL ||
+      (window.location.hostname === "localhost" ||
+      window.location.hostname === "127.0.0.1"
+        ? "http://localhost:8000/buchcadmin"
         : `${window.location.protocol}//${window.location.hostname}/buchcadmin`);
-    
+
     // Redirect to backend admin panel
     window.location.href = backendAdminUrl;
   }, []);
@@ -20,4 +22,3 @@ export default function AdminRedirect() {
     </div>
   );
 }
-

@@ -54,40 +54,40 @@ export default function UpcomingEvents() {
         </p>
 
         {events.length === 0 ? (
-          <div className="text-gray-600">No upcoming events. Add events from the admin panel.</div>
+          <div className="text-gray-600"></div>
         ) : (
           <div className="flex flex-wrap justify-center gap-15 ">
             {events.map((event, index) => (
-            <div
-              key={index}
-              onClick={() => setSelectedEvent(event)}
-              className="bg-white rounded-xl shadow-lg overflow-hidden w-full max-w-sm hover:shadow-2xl transition cursor-pointer"
-            >
-              <div className="p-7 text-left border-t-7 border-blue-500 rounded-t-lg">
-                <h4 className="text-xl font-bold mb-4">{event.title}</h4>
+              <div
+                key={index}
+                onClick={() => setSelectedEvent(event)}
+                className="bg-white rounded-xl shadow-lg overflow-hidden w-full max-w-sm hover:shadow-2xl transition cursor-pointer"
+              >
+                <div className="p-7 text-left border-t-7 border-blue-500 rounded-t-lg">
+                  <h4 className="text-xl font-bold mb-4">{event.title}</h4>
 
-                {event.date && (
-                  <div className="flex items-center gap-2 text-gray-600">
-                    <Calendar color="#007bff" size={18} />
-                    <span>{formatDate(event.date)}</span>
-                  </div>
-                )}
+                  {event.date && (
+                    <div className="flex items-center gap-2 text-gray-600">
+                      <Calendar color="#007bff" size={18} />
+                      <span>{formatDate(event.date)}</span>
+                    </div>
+                  )}
 
-                {event.time && (
-                  <div className="flex items-center gap-2 text-gray-600">
-                    <Clock color="#007bff" size={18} />
-                    <span>{event.time}</span>
-                  </div>
-                )}
+                  {event.time && (
+                    <div className="flex items-center gap-2 text-gray-600">
+                      <Clock color="#007bff" size={18} />
+                      <span>{event.time}</span>
+                    </div>
+                  )}
 
-                {event.location && (
-                  <div className="flex items-center gap-2 text-gray-600">
-                    <MapPin color="#007bff" size={18} />
-                    <span>{event.location}</span>
-                  </div>
-                )}
+                  {event.location && (
+                    <div className="flex items-center gap-2 text-gray-600">
+                      <MapPin color="#007bff" size={18} />
+                      <span>{event.location}</span>
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
             ))}
           </div>
         )}
