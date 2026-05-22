@@ -4,10 +4,6 @@ import { Download, Search, Filter } from "lucide-react";
 import AdminLayout from "./AdminLayout";
 import { exportRegistrations, getRegistrations } from "../../services/adminApi";
 
-const emptyStats = {
-  total: 0,
-  semesters: 0,
-};
 
 export default function RegistrationsListManagement() {
   const [registrations, setRegistrations] = useState([]);
@@ -16,11 +12,26 @@ export default function RegistrationsListManagement() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [exporting, setExporting] = useState(false);
+  const [detailsOpen, setDetailsOpen] = useState(false);
+  const [selectedRegistration, setSelectedRegistration] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    loadRegistrations("");
-  }, []);
+    (async () => {
+      setLoading(true);
+      try {
+        const response = await getRegistrations("");
+        setRegistrations(response.data.registrations || []);
+        setSemesters(response.data.semesters || []);
+      } catch (err) {
+        if (err.response?.status === 401) {
+          navigate("/admin/login");
+        }
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, [navigate]);
 
   const loadRegistrations = async (semester = selectedSemester) => {
     setLoading(true);
@@ -47,6 +58,13 @@ export default function RegistrationsListManagement() {
         registration.studentId,
         registration.currentSemester,
         registration.email,
+        registration.programAndDepartment,
+        registration.interestedDepartment,
+        registration.contactNumber,
+        registration.fideRating,
+        registration.otherDepartmentInterest,
+        registration.involvedInOtherClubs,
+        registration.otherClubsDetails,
         registration.registrationSemester,
       ]
         .join(" ")
@@ -202,6 +220,27 @@ export default function RegistrationsListManagement() {
                         Current Semester
                       </th>
                       <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
+                        Program / Dept
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
+                        Interested Dept
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
+                        Contact
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
+                        FIDE/Online Rating
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
+                        Other Dept Interest
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
+                        In Other Clubs
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
+                        Other Clubs Details
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
                         Email
                       </th>
                       <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
@@ -209,6 +248,9 @@ export default function RegistrationsListManagement() {
                       </th>
                       <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
                         Submitted
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
+                        Actions
                       </th>
                     </tr>
                   </thead>
@@ -225,6 +267,27 @@ export default function RegistrationsListManagement() {
                           {registration.currentSemester}
                         </td>
                         <td className="px-4 py-3 text-sm text-gray-700">
+                          {registration.programAndDepartment}
+                        </td>
+                        <td className="px-4 py-3 text-sm text-gray-700">
+                          {registration.interestedDepartment}
+                        </td>
+                        <td className="px-4 py-3 text-sm text-gray-700">
+                          {registration.contactNumber}
+                        </td>
+                        <td className="px-4 py-3 text-sm text-gray-700">
+                          {registration.fideRating}
+                        </td>
+                        <td className="px-4 py-3 text-sm text-gray-700">
+                          {registration.otherDepartmentInterest}
+                        </td>
+                        <td className="px-4 py-3 text-sm text-gray-700">
+                          {registration.involvedInOtherClubs}
+                        </td>
+                        <td className="px-4 py-3 text-sm text-gray-700">
+                          {registration.otherClubsDetails}
+                        </td>
+                        <td className="px-4 py-3 text-sm text-gray-700">
                           {registration.email}
                         </td>
                         <td className="px-4 py-3 text-sm text-gray-700">
@@ -232,6 +295,17 @@ export default function RegistrationsListManagement() {
                         </td>
                         <td className="px-4 py-3 text-sm text-gray-700">
                           {new Date(registration.createdAt).toLocaleString()}
+                        </td>
+                        <td className="px-4 py-3 text-sm text-gray-700">
+                          <button
+                            onClick={() => {
+                              setSelectedRegistration(registration);
+                              setDetailsOpen(true);
+                            }}
+                            className="rounded-md bg-blue-50 px-3 py-1 text-sm font-medium text-blue-700 hover:bg-blue-100"
+                          >
+                            Details
+                          </button>
                         </td>
                       </tr>
                     ))}
@@ -266,19 +340,103 @@ export default function RegistrationsListManagement() {
                       </span>{" "}
                       {registration.currentSemester}
                     </div>
+                      <div>
+                        <span className="font-medium text-gray-700">Program:</span>{" "}
+                        {registration.programAndDepartment}
+                      </div>
+                      <div>
+                        <span className="font-medium text-gray-700">Interested Dept:</span>{" "}
+                        {registration.interestedDepartment}
+                      </div>
+                      <div>
+                        <span className="font-medium text-gray-700">FIDE/Rating:</span>{" "}
+                        {registration.fideRating || '—'}
+                      </div>
+                      <div>
+                        <span className="font-medium text-gray-700">Other Dept Interest:</span>{" "}
+                        {registration.otherDepartmentInterest || '—'}
+                      </div>
+                      <div>
+                        <span className="font-medium text-gray-700">In Other Clubs:</span>{" "}
+                        {registration.involvedInOtherClubs || 'No'}
+                      </div>
+                      {registration.involvedInOtherClubs === 'Yes' && (
+                        <div>
+                          <span className="font-medium text-gray-700">Other Clubs Details:</span>{" "}
+                          {registration.otherClubsDetails || '—'}
+                        </div>
+                      )}
                     <div>
                       <span className="font-medium text-gray-700">Email:</span>{" "}
                       {registration.email}
                     </div>
+                      <div>
+                        <span className="font-medium text-gray-700">Contact:</span>{" "}
+                        {registration.contactNumber}
+                      </div>
                     <div>
                       <span className="font-medium text-gray-700">
                         Submitted:
                       </span>{" "}
                       {new Date(registration.createdAt).toLocaleString()}
                     </div>
+                    <div className="mt-3">
+                      <button
+                        onClick={() => {
+                          setSelectedRegistration(registration);
+                          setDetailsOpen(true);
+                        }}
+                        className="inline-flex items-center gap-2 rounded-md bg-blue-600 px-3 py-2 text-sm font-medium text-white hover:bg-blue-700"
+                      >
+                        View details
+                      </button>
+                    </div>
                   </div>
                 </article>
               ))}
+            </div>
+          </div>
+        )}
+
+        {detailsOpen && selectedRegistration && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center">
+            <div
+              className="absolute inset-0 bg-black/40"
+              onClick={() => {
+                setDetailsOpen(false);
+                setSelectedRegistration(null);
+              }}
+            />
+
+            <div className="relative max-w-2xl w-full rounded-2xl bg-white p-6 shadow-lg">
+              <div className="flex items-start justify-between gap-4">
+                <h3 className="text-lg font-semibold text-gray-800">
+                  Registration Details
+                </h3>
+                <button
+                  onClick={() => {
+                    setDetailsOpen(false);
+                    setSelectedRegistration(null);
+                  }}
+                  className="text-gray-500 hover:text-gray-700"
+                  aria-label="Close details"
+                >
+                  ✕
+                </button>
+              </div>
+
+              <div className="mt-4 grid grid-cols-1 gap-3 text-sm text-gray-700">
+                {Object.entries(selectedRegistration).map(([key, value]) => {
+                  // Skip internal or large fields
+                  if (key === '__v' || key === '_id') return null;
+                  return (
+                    <div key={key} className="flex gap-2">
+                      <div className="w-48 font-medium text-gray-600">{key}</div>
+                      <div className="flex-1 break-words">{String(value ?? '—')}</div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
         )}

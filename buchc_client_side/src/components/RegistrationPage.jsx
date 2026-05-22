@@ -13,10 +13,19 @@ export default function RegistrationPage() {
     registration_live_text: "Registration is live now",
   });
   const [formData, setFormData] = useState({
+    gSuiteEmail: "",
     name: "",
     studentId: "",
+    programAndDepartment: "",
     currentSemester: "",
-    email: "",
+    contactNumber: "",
+    fideRating: "",
+    interestReason: "",
+    interestedDepartment: "",
+    previousWorkExperience: "",
+    otherDepartmentInterest: "",
+    involvedInOtherClubs: "No",
+    otherClubsDetails: "",
   });
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -43,8 +52,25 @@ export default function RegistrationPage() {
     setErrorMessage("");
 
     try {
-      await submitRegistration(formData);
-      setFormData({ name: "", studentId: "", currentSemester: "", email: "" });
+      // Map gSuiteEmail to email to remain compatible with backend
+      const { gSuiteEmail, ...rest } = formData;
+      const payload = { ...rest, email: gSuiteEmail };
+      await submitRegistration(payload);
+      setFormData({
+        gSuiteEmail: "",
+        name: "",
+        studentId: "",
+        programAndDepartment: "",
+        currentSemester: "",
+        contactNumber: "",
+        fideRating: "",
+        interestReason: "",
+        interestedDepartment: "",
+        previousWorkExperience: "",
+        otherDepartmentInterest: "",
+        involvedInOtherClubs: "No",
+        otherClubsDetails: "",
+      });
       navigate("/registration-success");
     } catch (error) {
       setErrorMessage(
@@ -106,8 +132,9 @@ export default function RegistrationPage() {
                   What to submit
                 </h2>
                 <p className="mt-2 text-sm text-slate-300 leading-6">
-                  Name, student ID, current semester, and email are stored for
-                  the active registration batch.
+                  We collect your G-suite email, name, student ID, program &
+                  department, current semester, contact number, rating (if any),
+                  your interests and experience for club placement.
                 </p>
               </div>
             </div>
@@ -153,7 +180,28 @@ export default function RegistrationPage() {
 
             <div className="p-4 sm:p-6">
               {isOpen ? (
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form
+                  onSubmit={handleSubmit}
+                  className="registration-form space-y-4"
+                >
+                  <div>
+                    <label className="block text-sm font-medium mb-1 text-slate-100">
+                      G-suite Email Address *
+                    </label>
+                    <input
+                      type="email"
+                      value={formData.gSuiteEmail}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          gSuiteEmail: e.target.value,
+                        })
+                      }
+                      className="w-full px-3 py-2 rounded-md border border-white/10 bg-white/5 text-white placeholder:text-slate-400"
+                      required
+                    />
+                  </div>
+
                   <div>
                     <label className="block text-sm font-medium mb-1 text-slate-100">
                       Name *
@@ -168,6 +216,7 @@ export default function RegistrationPage() {
                       required
                     />
                   </div>
+
                   <div>
                     <label className="block text-sm font-medium mb-1 text-slate-100">
                       Student ID *
@@ -182,6 +231,25 @@ export default function RegistrationPage() {
                       required
                     />
                   </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-1 text-slate-100">
+                      Program and Department
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.programAndDepartment}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          programAndDepartment: e.target.value,
+                        })
+                      }
+                      placeholder="e.g. CSE, EEE, BIO, MNS"
+                      className="w-full px-3 py-2 rounded-md border border-white/10 bg-white/5 text-white placeholder:text-slate-400"
+                    />
+                  </div>
+
                   <div>
                     <label className="block text-sm font-medium mb-1 text-slate-100">
                       Current Semester *
@@ -196,24 +264,179 @@ export default function RegistrationPage() {
                         })
                       }
                       className="w-full px-3 py-2 rounded-md border border-white/10 bg-white/5 text-white placeholder:text-slate-400"
-                      placeholder="e.g. 3rd Semester"
+                      placeholder="e.g. 1st/2nd"
                       required
                     />
                   </div>
+
                   <div>
                     <label className="block text-sm font-medium mb-1 text-slate-100">
-                      Email *
+                      Contact Number
                     </label>
                     <input
-                      type="email"
-                      value={formData.email}
+                      type="tel"
+                      value={formData.contactNumber}
                       onChange={(e) =>
-                        setFormData({ ...formData, email: e.target.value })
+                        setFormData({
+                          ...formData,
+                          contactNumber: e.target.value,
+                        })
                       }
                       className="w-full px-3 py-2 rounded-md border border-white/10 bg-white/5 text-white placeholder:text-slate-400"
-                      required
                     />
                   </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-1 text-slate-100">
+                      FIDE Rating or Online Rating
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.fideRating}
+                      onChange={(e) =>
+                        setFormData({ ...formData, fideRating: e.target.value })
+                      }
+                      placeholder="If any"
+                      className="w-full px-3 py-2 rounded-md border border-white/10 bg-white/5 text-white placeholder:text-slate-400"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-1 text-slate-100">
+                      What made you interested in joining BRAC University Chess
+                      Club?
+                    </label>
+                    <textarea
+                      value={formData.interestReason}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          interestReason: e.target.value,
+                        })
+                      }
+                      rows={4}
+                      className="w-full px-3 py-2 rounded-md border border-white/10 bg-white/5 text-white placeholder:text-slate-400"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-1 text-slate-100">
+                      Which department of BUCHC you're interested to join? *
+                    </label>
+                    <select
+                      value={formData.interestedDepartment}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          interestedDepartment: e.target.value,
+                        })
+                      }
+                      className="w-full px-3 py-3 text-base rounded-md border border-white/10 bg-white/5 text-white"
+                    >
+                      <option value="">Select department</option>
+                      <option value="Creative and IT">Creative and IT</option>
+                      <option value="Human Resources Management">
+                        Human Resources Management
+                      </option>
+                      <option value="Event Management">Event Management</option>
+                      <option value="Training and Research">
+                        Training and Research
+                      </option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-1 text-slate-100">
+                      Do you have any previous work experience in event
+                      organization or volunteering in events? *
+                    </label>
+                    <textarea
+                      value={formData.previousWorkExperience}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          previousWorkExperience: e.target.value,
+                        })
+                      }
+                      placeholder="Write No if none"
+                      rows={3}
+                      className="w-full px-3 py-2 rounded-md border border-white/10 bg-white/5 text-white placeholder:text-slate-400"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-1 text-slate-100">
+                      Any other department you're interested to join?
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.otherDepartmentInterest}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          otherDepartmentInterest: e.target.value,
+                        })
+                      }
+                      placeholder="eg. Creative and IT / Event Management / No"
+                      className="w-full px-3 py-2 rounded-md border border-white/10 bg-white/5 text-white placeholder:text-slate-400"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-1 text-slate-100">
+                      Are you involved in any other clubs of BRAC University? *
+                    </label>
+                    <div className="flex items-center gap-4">
+                      <label className="inline-flex items-center gap-2">
+                        <input
+                          type="radio"
+                          name="involvedInOtherClubs"
+                          checked={formData.involvedInOtherClubs === "Yes"}
+                          onChange={() =>
+                            setFormData({
+                              ...formData,
+                              involvedInOtherClubs: "Yes",
+                            })
+                          }
+                        />
+                        <span className="text-sm ml-1">Yes</span>
+                      </label>
+                      <label className="inline-flex items-center gap-2">
+                        <input
+                          type="radio"
+                          name="involvedInOtherClubs"
+                          checked={formData.involvedInOtherClubs === "No"}
+                          onChange={() =>
+                            setFormData({
+                              ...formData,
+                              involvedInOtherClubs: "No",
+                            })
+                          }
+                        />
+                        <span className="text-sm ml-1">No</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  {formData.involvedInOtherClubs === "Yes" && (
+                    <div>
+                      <label className="block text-sm font-medium mb-1 text-slate-100">
+                        Write designation/department/club name *
+                      </label>
+                      <input
+                        type="text"
+                        value={formData.otherClubsDetails}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            otherClubsDetails: e.target.value,
+                          })
+                        }
+                        className="w-full px-3 py-2 rounded-md border border-white/10 bg-white/5 text-white placeholder:text-slate-400"
+                        required
+                      />
+                    </div>
+                  )}
 
                   <div className="rounded-2xl border border-blue-400/20 bg-blue-500/10 px-4 py-3 text-sm text-blue-100">
                     You are registering for Fresher's orientation of{" "}
@@ -231,6 +454,24 @@ export default function RegistrationPage() {
                     {submitting ? "Submitting..." : "Submit Registration"}
                     <Send size={18} />
                   </button>
+                  <div className="mt-4 text-sm text-slate-300">
+                    <strong>Notice:</strong> Interview & Club Orientation
+                    Details will be mailed to you after the recruitment deadline
+                    is over!
+                    <br />
+                    Till then, Join our Discord Server for further queries:{" "}
+                    <a
+                      href={
+                        settings.join_link ||
+                        "https://discord.com/invite/KWyShyZaQz"
+                      }
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-blue-300 underline"
+                    >
+                      {settings.join_link ? "Discord" : "Discord"}
+                    </a>
+                  </div>
                 </form>
               ) : (
                 <div className="rounded-2xl border border-dashed border-white/20 bg-white/5 p-6 text-slate-200 flex items-center gap-3">

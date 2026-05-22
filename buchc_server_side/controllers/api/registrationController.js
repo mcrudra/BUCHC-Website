@@ -16,7 +16,21 @@ export const createRegistration = async (req, res) => {
       "registration_semester_label",
       "Spring 26",
     );
-    const { name, studentId, currentSemester, email } = req.body;
+    const {
+      name,
+      studentId,
+      currentSemester,
+      email,
+      programAndDepartment,
+      contactNumber,
+      fideRating,
+      interestReason,
+      interestedDepartment,
+      previousWorkExperience,
+      otherDepartmentInterest,
+      involvedInOtherClubs,
+      otherClubsDetails,
+    } = req.body;
 
     if (!name || !studentId || !currentSemester || !email) {
       return res.status(400).json({
@@ -29,6 +43,15 @@ export const createRegistration = async (req, res) => {
       studentId,
       currentSemester,
       email,
+      programAndDepartment,
+      contactNumber,
+      fideRating,
+      interestReason,
+      interestedDepartment,
+      previousWorkExperience,
+      otherDepartmentInterest,
+      involvedInOtherClubs,
+      otherClubsDetails,
       registrationSemester: activeSemester,
     });
 

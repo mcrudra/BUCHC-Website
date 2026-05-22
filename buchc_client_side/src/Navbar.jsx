@@ -20,6 +20,7 @@ const Navbar = () => {
     { label: "Our Team", sectionId: "our-team" },
     { label: "Top Players", sectionId: "top-players" },
     { label: "Events", sectionId: "events" },
+    { label: "BUCHC Gallery", route: "/galary" },
     { label: "Contact Us", sectionId: "contact" },
   ];
 
@@ -43,15 +44,28 @@ const Navbar = () => {
             </span>
           </div>
           <div className="hidden md:flex items-center gap-6">
-            {navItems.map((item) => (
-              <button
-                key={item.label}
-                onClick={() => scrollToSection(item.sectionId)}
-                className="text-gray-500 hover:text-gray-900 font-medium"
-              >
-                {item.label}
-              </button>
-            ))}
+            {navItems.map((item) =>
+              item.sectionId ? (
+                <button
+                  key={item.label}
+                  onClick={() => scrollToSection(item.sectionId)}
+                  className="text-gray-500 hover:text-gray-900 font-medium"
+                >
+                  {item.label}
+                </button>
+              ) : (
+                <button
+                  key={item.label}
+                  onClick={() => {
+                    navigate(item.route);
+                    setOpen(false);
+                  }}
+                  className="text-gray-500 hover:text-gray-900 font-medium"
+                >
+                  {item.label}
+                </button>
+              ),
+            )}
             <button
               onClick={handleJoinClick}
               className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-md font-medium"
@@ -71,15 +85,28 @@ const Navbar = () => {
         {open && (
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 bg-white border-t">
-              {navItems.map((item) => (
-                <button
-                  key={item.label}
-                  onClick={() => scrollToSection(item.sectionId)}
-                  className="block w-full text-left px-3 py-2 text-gray-500 hover:text-gray-900 hover:bg-gray-50 rounded-md font-medium"
-                >
-                  {item.label}
-                </button>
-              ))}
+              {navItems.map((item) =>
+                item.sectionId ? (
+                  <button
+                    key={item.label}
+                    onClick={() => scrollToSection(item.sectionId)}
+                    className="block w-full text-left px-3 py-2 text-gray-500 hover:text-gray-900 hover:bg-gray-50 rounded-md font-medium"
+                  >
+                    {item.label}
+                  </button>
+                ) : (
+                  <button
+                    key={item.label}
+                    onClick={() => {
+                      navigate(item.route);
+                      setOpen(false);
+                    }}
+                    className="block w-full text-left px-3 py-2 text-gray-500 hover:text-gray-900 hover:bg-gray-50 rounded-md font-medium"
+                  >
+                    {item.label}
+                  </button>
+                ),
+              )}
               <button
                 onClick={handleJoinClick}
                 className="block w-full text-left px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md font-medium"

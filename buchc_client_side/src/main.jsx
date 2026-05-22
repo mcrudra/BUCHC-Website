@@ -13,6 +13,7 @@ import RegistrationsListManagement from "./components/admin/RegistrationsListMan
 import SettingsManagement from "./components/admin/SettingsManagement.jsx";
 import RegistrationPage from "./components/RegistrationPage.jsx";
 import RegistrationSuccess from "./components/RegistrationSuccess.jsx";
+import GalleryPage from "./components/Gallery.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -35,6 +36,7 @@ createRoot(document.getElementById("root")).render(
         <Route path="/admin/settings" element={<SettingsManagement />} />
         <Route path="/registration" element={<RegistrationPage />} />
         <Route path="/registration-success" element={<RegistrationSuccess />} />
+        <Route path="/galary" element={<GalleryPage />} />
         <Route path="/*" element={<App />} />
       </Routes>
     </BrowserRouter>

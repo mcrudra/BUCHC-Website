@@ -113,3 +113,16 @@ body {
   padding-right: 2.5rem;
   white-space: nowrap;
 }
+
+/* Ensure selects and options are readable in dark mode inside registration form */
+.registration-form select {
+  background-color: rgba(255,255,255,0.03);
+  color: #ffffff;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+.registration-form select option {
+  background-color: #07111d; /* dark option background */
+  color: #ffffff; /* option text */
+}
