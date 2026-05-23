@@ -89,9 +89,9 @@ export default function OurTeam() {
   const renderMemberCard = (member, index, cardKeyPrefix = "member") => (
     <div
       key={`${cardKeyPrefix}-${index}`}
-      className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
+      className="chess-panel rounded-2xl overflow-hidden transition hover:-translate-y-1"
     >
-      <div className="aspect-square overflow-hidden bg-gray-200">
+      <div className="aspect-square overflow-hidden bg-slate-800">
         <img
           src={getImageSrc(member.photo)}
           alt={member.name}
@@ -100,16 +100,16 @@ export default function OurTeam() {
         />
       </div>
       <div className="p-4 sm:p-6 text-center">
-        <h4 className="text-gray-900 text-lg sm:text-xl mb-1">{member.name}</h4>
-        <p className="text-blue-600 mb-2 sm:mb-3 text-sm sm:text-base">
+        <h4 className="text-white text-lg sm:text-xl mb-1">{member.name}</h4>
+        <p className="text-amber-400 mb-2 sm:mb-3 text-sm sm:text-base">
           {member.position}
         </p>
         {member.mail && (
-          <div className="flex items-start justify-center gap-2 text-gray-600">
+          <div className="flex items-start justify-center gap-2 text-slate-300">
             <Mail size={14} className="sm:w-4 sm:h-4 flex-shrink-0 mt-0.5" />
             <a
               href={`mailto:${member.mail}`}
-              className="text-xs sm:text-sm hover:text-blue-600 break-words text-center"
+              className="text-xs sm:text-sm hover:text-amber-300 break-words text-center"
             >
               {member.mail}
             </a>
@@ -157,17 +157,17 @@ export default function OurTeam() {
 
   if (loading) {
     return (
-      <div id="our-team" className="py-20 bg-white">
+      <div id="our-team" className="chess-section py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-gray-900 text-4xl md:text-5xl mb-4">
+            <h2 className="chess-section-title text-4xl md:text-5xl mb-4">
               Our Team
             </h2>
-            <p className="text-gray-600 text-lg">
+            <p className="chess-section-subtitle text-lg">
               Meet the dedicated leaders driving BUCHC forward
             </p>
           </div>
-          <div className="text-center text-gray-600">
+          <div className="text-center chess-text-muted">
             Loading team members...
           </div>
         </div>
@@ -176,14 +176,14 @@ export default function OurTeam() {
   }
 
   return (
-    <div id="our-team" className="py-12 sm:py-20 bg-white">
+    <div id="our-team" className="chess-section py-12 sm:py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-12 sm:mb-16">
-          <h2 className="text-gray-900 text-3xl sm:text-4xl md:text-5xl mb-4">
+          <h2 className="chess-section-title text-3xl sm:text-4xl md:text-5xl mb-4">
             Our Team
           </h2>
-          <p className="text-gray-600 text-base sm:text-lg px-4">
+          <p className="chess-section-subtitle text-base sm:text-lg px-4">
             Meet the dedicated leaders driving BUCHC forward
           </p>
         </div>
@@ -191,14 +191,14 @@ export default function OurTeam() {
         {/* Governing Body */}
         <div className="mb-12 sm:mb-20">
           <div className="text-center mb-8 sm:mb-12">
-            <h3 className="text-gray-900 text-2xl sm:text-3xl mb-2">
+            <h3 className="text-white text-2xl sm:text-3xl mb-2">
               Governing Body
             </h3>
-            <div className="w-16 sm:w-24 h-1 bg-blue-600 mx-auto" />
+            <div className="chess-accent-line w-16 sm:w-24 h-1 mx-auto" />
           </div>
 
           {governingBody.length === 0 ? (
-            <div className="text-center text-gray-600 py-8 text-sm sm:text-base">
+            <div className="text-center chess-text-muted py-8 text-sm sm:text-base">
               No governing body members...
             </div>
           ) : governingBody.length === 1 ? (
@@ -221,14 +221,14 @@ export default function OurTeam() {
         {generalCoordinator && (
           <div className="mb-12 sm:mb-20">
             <div className="text-center mb-8 sm:mb-12">
-              <h3 className="text-gray-900 text-2xl sm:text-3xl mb-2">
+              <h3 className="text-white text-2xl sm:text-3xl mb-2">
                 General Co-ordinator
               </h3>
-              <div className="w-16 sm:w-24 h-1 bg-blue-600 mx-auto" />
+              <div className="chess-accent-line w-16 sm:w-24 h-1 mx-auto" />
             </div>
             <div className="flex justify-center">
-              <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow max-w-sm">
-                <div className="aspect-square overflow-hidden bg-gray-200">
+              <div className="chess-panel rounded-2xl overflow-hidden max-w-sm transition hover:-translate-y-1">
+                <div className="aspect-square overflow-hidden bg-slate-800">
                   <img
                     src={getImageSrc(generalCoordinator.photo)}
                     alt={generalCoordinator.name}
@@ -236,21 +236,21 @@ export default function OurTeam() {
                   />
                 </div>
                 <div className="p-4 sm:p-6 text-center">
-                  <h4 className="text-gray-900 text-lg sm:text-xl mb-1">
+                  <h4 className="text-white text-lg sm:text-xl mb-1">
                     {generalCoordinator.name}
                   </h4>
-                  <p className="text-blue-600 mb-2 sm:mb-3 text-sm sm:text-base">
+                  <p className="text-amber-400 mb-2 sm:mb-3 text-sm sm:text-base">
                     {generalCoordinator.position}
                   </p>
                   {generalCoordinator.mail && (
-                    <div className="flex items-start justify-center gap-2 text-gray-600">
+                    <div className="flex items-start justify-center gap-2 text-slate-300">
                       <Mail
                         size={14}
                         className="sm:w-4 sm:h-4 flex-shrink-0 mt-0.5"
                       />
                       <a
                         href={`mailto:${generalCoordinator.mail}`}
-                        className="text-xs sm:text-sm hover:text-blue-600 break-words text-center"
+                        className="text-xs sm:text-sm hover:text-amber-300 break-words text-center"
                       >
                         {generalCoordinator.mail}
                       </a>
@@ -266,10 +266,10 @@ export default function OurTeam() {
         {assistantGeneralSecretary && (
           <div className="mb-12 sm:mb-20">
             <div className="text-center mb-8 sm:mb-12">
-              <h3 className="text-gray-900 text-2xl sm:text-3xl mb-2">
+              <h3 className="text-white text-2xl sm:text-3xl mb-2">
                 Asst. General Secretary
               </h3>
-              <div className="w-16 sm:w-24 h-1 bg-blue-600 mx-auto" />
+              <div className="chess-accent-line w-16 sm:w-24 h-1 mx-auto" />
             </div>
             <div className="flex justify-center">
               <div className="w-full max-w-sm">
@@ -286,17 +286,17 @@ export default function OurTeam() {
         {/* Departmental Directors */}
         <div>
           <div className="text-center mb-8 sm:mb-12">
-            <h3 className="text-gray-900 text-2xl sm:text-3xl mb-2">
+            <h3 className="text-white text-2xl sm:text-3xl mb-2">
               Departmental Directors
             </h3>
-            <div className="w-16 sm:w-24 h-1 bg-blue-600 mx-auto" />
+            <div className="chess-accent-line w-16 sm:w-24 h-1 mx-auto" />
           </div>
 
           <div className="space-y-12 sm:space-y-16">
             {/* Event Management */}
             {em.length > 0 && (
               <div>
-                <h4 className="text-gray-900 text-xl sm:text-2xl text-center mb-6 sm:mb-8">
+                <h4 className="text-white text-xl sm:text-2xl text-center mb-6 sm:mb-8">
                   Event Management
                 </h4>
                 {em.length === 1 ? (
@@ -317,7 +317,7 @@ export default function OurTeam() {
             {/* Training & Research */}
             {training.length > 0 && (
               <div>
-                <h4 className="text-gray-900 text-xl sm:text-2xl text-center mb-6 sm:mb-8">
+                <h4 className="text-white text-xl sm:text-2xl text-center mb-6 sm:mb-8">
                   Training & Research
                 </h4>
                 {training.length === 1 ? (
@@ -339,7 +339,7 @@ export default function OurTeam() {
             {/* Creative & IT */}
             {creative.length > 0 && (
               <div>
-                <h4 className="text-gray-900 text-xl sm:text-2xl text-center mb-6 sm:mb-8">
+                <h4 className="text-white text-xl sm:text-2xl text-center mb-6 sm:mb-8">
                   Creative & IT
                 </h4>
                 {creative.length === 1 ? (
@@ -361,7 +361,7 @@ export default function OurTeam() {
             {/* Human Resource Management */}
             {hr.length > 0 && (
               <div>
-                <h4 className="text-gray-900 text-2xl text-center mb-8">
+                <h4 className="text-white text-2xl text-center mb-8">
                   Human Resource Management
                 </h4>
                 {hr.length === 1 ? (
@@ -385,7 +385,7 @@ export default function OurTeam() {
               creative.length === 0 &&
               training.length === 0 &&
               hr.length === 0 && (
-                <div className="text-center text-gray-600 py-8">
+                <div className="text-center chess-text-muted py-8">
                   No departmental directors...
                 </div>
               )}

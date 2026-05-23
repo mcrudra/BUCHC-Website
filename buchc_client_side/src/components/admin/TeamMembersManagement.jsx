@@ -157,10 +157,10 @@ export default function TeamMembersManagement() {
       <div className="max-w-7xl mx-auto w-full">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">
+            <h1 className="text-2xl sm:text-3xl font-bold text-black">
               Manage Team Members
             </h1>
-            <p className="text-gray-600 mt-1 text-sm sm:text-base">
+            <p className="text-black mt-1 text-sm sm:text-base">
               Create, update, and delete team members
             </p>
           </div>
@@ -288,7 +288,7 @@ export default function TeamMembersManagement() {
                     setEditingMember(null);
                   }}
                   disabled={submitting}
-                  className={`bg-gray-300 text-gray-700 px-4 py-2 rounded-md ${submitting ? "opacity-60 cursor-not-allowed" : "hover:bg-gray-400"}`}
+                  className={`bg-gray-300 text-black px-4 py-2 rounded-md ${submitting ? "opacity-60 cursor-not-allowed" : "hover:bg-gray-400"}`}
                 >
                   Cancel
                 </button>
@@ -302,19 +302,19 @@ export default function TeamMembersManagement() {
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-black uppercase">
                     Name
                   </th>
-                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-black uppercase">
                     Position
                   </th>
-                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-black uppercase">
                     Department
                   </th>
-                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-black uppercase">
                     Email
                   </th>
-                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-black uppercase">
                     Actions
                   </th>
                 </tr>
@@ -356,7 +356,7 @@ export default function TeamMembersManagement() {
             </table>
           </div>
           {members.length === 0 && (
-            <div className="text-center py-8 text-gray-500">
+            <div className="text-center py-8 text-black">
               No team members found
             </div>
           )}

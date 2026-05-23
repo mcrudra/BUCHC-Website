@@ -96,10 +96,10 @@ export default function PlayersManagement() {
       <div className="max-w-7xl mx-auto w-full">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">
+            <h1 className="text-2xl sm:text-3xl font-bold text-black">
               Manage Top Players
             </h1>
-            <p className="text-gray-600 mt-1 text-sm sm:text-base">
+            <p className="text-black mt-1 text-sm sm:text-base">
               Create, update, and delete top players
             </p>
           </div>
@@ -182,7 +182,7 @@ export default function PlayersManagement() {
                     setEditingPlayer(null);
                   }}
                   disabled={submitting}
-                  className={`bg-gray-300 text-gray-700 px-4 py-2 rounded-md ${submitting ? "opacity-60 cursor-not-allowed" : "hover:bg-gray-400"}`}
+                  className={`bg-gray-300 text-black px-4 py-2 rounded-md ${submitting ? "opacity-60 cursor-not-allowed" : "hover:bg-gray-400"}`}
                 >
                   Cancel
                 </button>
@@ -196,16 +196,16 @@ export default function PlayersManagement() {
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-black uppercase">
                     Rank
                   </th>
-                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-black uppercase">
                     Name
                   </th>
-                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-black uppercase">
                     Points
                   </th>
-                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-black uppercase">
                     Actions
                   </th>
                 </tr>
@@ -244,9 +244,7 @@ export default function PlayersManagement() {
             </table>
           </div>
           {players.length === 0 && (
-            <div className="text-center py-8 text-gray-500">
-              No players found
-            </div>
+            <div className="text-center py-8 text-black">No players found</div>
           )}
         </div>
       </div>

@@ -42,7 +42,7 @@ export default function AdminLayout({ children }) {
   const isActive = (path) => location.pathname === path;
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="min-h-screen bg-gray-50 flex text-black">
       {/* Mobile Overlay */}
       {sidebarOpen && (
         <div
@@ -85,7 +85,7 @@ export default function AdminLayout({ children }) {
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
                     active
                       ? "bg-purple-600 text-white"
-                      : "text-gray-700 hover:bg-gray-100"
+                      : "text-black hover:bg-gray-100"
                   }`}
                 >
                   <Icon size={20} />
@@ -111,7 +111,7 @@ export default function AdminLayout({ children }) {
       </aside>
 
       {/* Main Content */}
-      <div className="flex-1 lg:ml-20 transition-all duration-300">
+      <div className="flex-1 lg:ml-20 transition-all duration-300 text-black">
         {/* Mobile Menu Button */}
         <div className="lg:hidden bg-white shadow-sm p-4">
           <button
@@ -121,7 +121,7 @@ export default function AdminLayout({ children }) {
             <Menu size={24} />
           </button>
         </div>
-        <main className="p-4 lg:p-6">{children}</main>
+        <main className="p-4 lg:p-6 text-black">{children}</main>
       </div>
     </div>
   );

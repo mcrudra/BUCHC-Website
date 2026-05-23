@@ -65,10 +65,10 @@ export default function RegistrationManagement() {
     <AdminLayout>
       <div className="max-w-3xl mx-auto w-full">
         <div className="mb-6">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">
+          <h1 className="text-2xl sm:text-3xl font-bold text-black">
             Registration
           </h1>
-          <p className="text-gray-600 mt-1 text-sm sm:text-base">
+          <p className="text-black mt-1 text-sm sm:text-base">
             Control the public registration page and active semester label
           </p>
         </div>
@@ -90,7 +90,7 @@ export default function RegistrationManagement() {
               />
               <label
                 htmlFor="registration_open"
-                className="text-sm font-medium text-gray-700"
+                className="text-sm font-medium text-black"
               >
                 Registration is currently open
               </label>
@@ -148,7 +148,7 @@ export default function RegistrationManagement() {
                 className="w-full px-3 py-2 border rounded-md"
                 placeholder="Spring 26"
               />
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-black mt-1">
                 This label is stored with each registration and is used for
                 semester-wise sorting and export.
               </p>

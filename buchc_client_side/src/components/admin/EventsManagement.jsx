@@ -182,10 +182,10 @@ export default function EventsManagement() {
       <div className="max-w-7xl mx-auto w-full">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">
+            <h1 className="text-2xl sm:text-3xl font-bold text-black">
               Manage Events
             </h1>
-            <p className="text-gray-600 mt-1 text-sm sm:text-base">
+            <p className="text-black mt-1 text-sm sm:text-base">
               Create, update, and delete events
             </p>
           </div>
@@ -312,7 +312,7 @@ export default function EventsManagement() {
                 )}
                 {!imagePreview && formData.img && (
                   <div className="mt-2">
-                    <p className="text-sm text-gray-500 mb-1">Current image:</p>
+                    <p className="text-sm text-black mb-1">Current image:</p>
                     <img
                       src={formData.img}
                       alt="Current"
@@ -372,7 +372,7 @@ export default function EventsManagement() {
                     setEditingEvent(null);
                   }}
                   disabled={saving}
-                  className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400 disabled:opacity-60 disabled:cursor-not-allowed"
+                  className="bg-gray-300 text-black px-4 py-2 rounded-md hover:bg-gray-400 disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   Cancel
                 </button>
@@ -386,19 +386,19 @@ export default function EventsManagement() {
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase w-2/5 min-w-[200px]">
+                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-black uppercase w-2/5 min-w-[200px]">
                     Title
                   </th>
-                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase w-24 min-w-[100px]">
+                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-black uppercase w-24 min-w-[100px]">
                     Date
                   </th>
-                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase w-1/4 min-w-[150px]">
+                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-black uppercase w-1/4 min-w-[150px]">
                     Location
                   </th>
-                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase w-24 min-w-[100px]">
+                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-black uppercase w-24 min-w-[100px]">
                     Status
                   </th>
-                  <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase bg-gray-50 w-16 min-w-[60px]">
+                  <th className="px-2 py-3 text-center text-xs font-medium text-black uppercase bg-gray-50 w-16 min-w-[60px]">
                     Actions
                   </th>
                 </tr>
@@ -469,7 +469,7 @@ export default function EventsManagement() {
                                 openDropdown === event._id ? null : event._id,
                               );
                             }}
-                            className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-colors cursor-pointer flex items-center justify-center"
+                            className="p-2 text-black hover:text-black hover:bg-gray-100 rounded-full transition-colors cursor-pointer flex items-center justify-center"
                             title="More options"
                           >
                             <MoreVertical size={20} strokeWidth={2} />
@@ -492,7 +492,7 @@ export default function EventsManagement() {
                                     setOpenDropdown(null);
                                     handleEdit(event);
                                   }}
-                                  className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors text-left"
+                                  className="w-full flex items-center gap-2 px-4 py-2 text-sm text-black hover:bg-gray-100 transition-colors text-left"
                                 >
                                   <Edit2 size={16} />
                                   <span>Edit</span>
@@ -522,9 +522,7 @@ export default function EventsManagement() {
             </table>
           </div>
           {events.length === 0 && (
-            <div className="text-center py-8 text-gray-500">
-              No events found
-            </div>
+            <div className="text-center py-8 text-black">No events found</div>
           )}
         </div>
       </div>
