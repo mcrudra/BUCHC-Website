@@ -11,6 +11,7 @@ import {
   X,
   BadgeInfo,
   Table2,
+  Image,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -34,6 +35,7 @@ export default function AdminLayout({ children }) {
     { path: "/admin/events", label: "Events", icon: Calendar },
     { path: "/admin/players", label: "Top Players", icon: Users },
     { path: "/admin/teams", label: "Team Members", icon: UserCog },
+    { path: "/admin/gallery", label: "Gallery", icon: Image },
     { path: "/admin/registration", label: "Registration", icon: BadgeInfo },
     { path: "/admin/registrations", label: "Registrations", icon: Table2 },
     { path: "/admin/settings", label: "Settings", icon: SettingsIcon },

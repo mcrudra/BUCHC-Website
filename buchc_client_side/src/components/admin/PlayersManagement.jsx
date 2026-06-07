@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { X } from "lucide-react";
 import AdminLayout from "./AdminLayout";
 import {
   getPlayers,
@@ -20,6 +21,8 @@ export default function PlayersManagement() {
   });
   const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
+  const isEditModal = showForm && !!editingPlayer;
+  const isAddingNew = showForm && !editingPlayer;
 
   useEffect(() => {
     loadPlayers();
@@ -93,7 +96,7 @@ export default function PlayersManagement() {
 
   return (
     <AdminLayout>
-      <div className="max-w-7xl mx-auto w-full">
+      <div className="max-w-7xl mx-auto w-full px-4 sm:px-6">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
           <div>
             <h1 className="text-2xl sm:text-3xl font-bold text-black">
@@ -109,144 +112,190 @@ export default function PlayersManagement() {
               setEditingPlayer(null);
               setFormData({ rank: "", name: "", points: "" });
             }}
-            className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700"
+            className="w-full sm:w-auto bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700"
           >
             + Add Player
           </button>
         </div>
 
         {showForm && (
-          <div className="bg-white p-4 sm:p-6 rounded-lg shadow mb-6">
-            <h2 className="text-xl sm:text-2xl font-bold mb-4">
-              {editingPlayer ? "Edit Player" : "Create Player"}
-            </h2>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium mb-1">Rank *</label>
-                <input
-                  type="number"
-                  value={formData.rank}
-                  onChange={(e) =>
-                    setFormData({ ...formData, rank: e.target.value })
-                  }
-                  className="w-full px-3 py-2 border rounded-md"
-                  required
-                  min="1"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">Name *</label>
-                <input
-                  type="text"
-                  value={formData.name}
-                  onChange={(e) =>
-                    setFormData({ ...formData, name: e.target.value })
-                  }
-                  className="w-full px-3 py-2 border rounded-md"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">
-                  Points *
-                </label>
-                <input
-                  type="number"
-                  value={formData.points}
-                  onChange={(e) =>
-                    setFormData({ ...formData, points: e.target.value })
-                  }
-                  className="w-full px-3 py-2 border rounded-md"
-                  required
-                  min="0"
-                />
-              </div>
-              <div className="flex space-x-4">
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  className={`bg-purple-600 text-white px-4 py-2 rounded-md ${submitting ? "opacity-60 cursor-not-allowed" : "hover:bg-purple-700"}`}
-                >
-                  {submitting
-                    ? editingPlayer
-                      ? "Updating..."
-                      : "Creating..."
-                    : editingPlayer
-                      ? "Update"
-                      : "Create"}
-                </button>
+          <div
+            className={
+              isEditModal
+                ? "fixed inset-0 z-50 flex items-center justify-center p-4"
+                : ""
+            }
+          >
+            {isEditModal && (
+              <div
+                className="absolute inset-0 bg-black/50"
+                onClick={() => {
+                  if (submitting) return;
+                  setShowForm(false);
+                  setEditingPlayer(null);
+                }}
+              />
+            )}
+            <div
+              className={
+                isEditModal
+                  ? "relative z-10 w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-white p-4 sm:p-6 rounded-lg shadow"
+                  : "bg-white p-4 sm:p-6 rounded-lg shadow mb-6"
+              }
+            >
+              {isEditModal && (
                 <button
                   type="button"
                   onClick={() => {
+                    if (submitting) return;
                     setShowForm(false);
                     setEditingPlayer(null);
                   }}
-                  disabled={submitting}
-                  className={`bg-gray-300 text-black px-4 py-2 rounded-md ${submitting ? "opacity-60 cursor-not-allowed" : "hover:bg-gray-400"}`}
+                  className="absolute right-3 top-3 text-gray-500 hover:text-gray-700"
+                  aria-label="Close edit modal"
                 >
-                  Cancel
+                  <X size={18} />
                 </button>
-              </div>
-            </form>
+              )}
+              <h2 className="text-xl sm:text-2xl font-bold mb-4">
+                {editingPlayer ? "Edit Player" : "Create Player"}
+              </h2>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium mb-1">
+                    Rank *
+                  </label>
+                  <input
+                    type="number"
+                    value={formData.rank}
+                    onChange={(e) =>
+                      setFormData({ ...formData, rank: e.target.value })
+                    }
+                    className="w-full px-3 py-2 border rounded-md"
+                    required
+                    min="1"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">
+                    Name *
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.name}
+                    onChange={(e) =>
+                      setFormData({ ...formData, name: e.target.value })
+                    }
+                    className="w-full px-3 py-2 border rounded-md"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">
+                    Points *
+                  </label>
+                  <input
+                    type="number"
+                    value={formData.points}
+                    onChange={(e) =>
+                      setFormData({ ...formData, points: e.target.value })
+                    }
+                    className="w-full px-3 py-2 border rounded-md"
+                    required
+                    min="0"
+                  />
+                </div>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <button
+                    type="submit"
+                    disabled={submitting}
+                    className={`bg-purple-600 text-white px-4 py-2 rounded-md ${submitting ? "opacity-60 cursor-not-allowed" : "hover:bg-purple-700"}`}
+                  >
+                    {submitting
+                      ? editingPlayer
+                        ? "Updating..."
+                        : "Creating..."
+                      : editingPlayer
+                        ? "Update"
+                        : "Create"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowForm(false);
+                      setEditingPlayer(null);
+                    }}
+                    disabled={submitting}
+                    className={`bg-gray-300 text-black px-4 py-2 rounded-md ${submitting ? "opacity-60 cursor-not-allowed" : "hover:bg-gray-400"}`}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         )}
 
-        <div className="bg-white rounded-lg shadow overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-black uppercase">
-                    Rank
-                  </th>
-                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-black uppercase">
-                    Name
-                  </th>
-                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-black uppercase">
-                    Points
-                  </th>
-                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-black uppercase">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {players.map((player) => (
-                  <tr key={player._id}>
-                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm">
-                      {player.rank}
-                    </td>
-                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm">
-                      {player.name}
-                    </td>
-                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm">
-                      {player.points}
-                    </td>
-                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap">
-                      <div className="flex flex-col sm:flex-row gap-2">
-                        <button
-                          onClick={() => handleEdit(player)}
-                          className="text-purple-600 hover:text-purple-800 text-sm"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          onClick={() => handleDelete(player._id)}
-                          className="text-red-600 hover:text-red-800 text-sm"
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </td>
+        {!isAddingNew && (
+          <div className="bg-white rounded-lg shadow overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-black uppercase">
+                      Rank
+                    </th>
+                    <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-black uppercase">
+                      Name
+                    </th>
+                    <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-black uppercase">
+                      Points
+                    </th>
+                    <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-black uppercase">
+                      Actions
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {players.map((player) => (
+                    <tr key={player._id}>
+                      <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm">
+                        {player.rank}
+                      </td>
+                      <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm">
+                        {player.name}
+                      </td>
+                      <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm">
+                        {player.points}
+                      </td>
+                      <td className="px-3 sm:px-6 py-4 whitespace-nowrap">
+                        <div className="flex flex-wrap gap-2">
+                          <button
+                            onClick={() => handleEdit(player)}
+                            className="inline-flex items-center rounded-full bg-purple-100 px-3 py-1 text-xs font-semibold text-purple-700 hover:bg-purple-200"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => handleDelete(player._id)}
+                            className="inline-flex items-center rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-700 hover:bg-red-200"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            {players.length === 0 && (
+              <div className="text-center py-8 text-black">
+                No players found
+              </div>
+            )}
           </div>
-          {players.length === 0 && (
-            <div className="text-center py-8 text-black">No players found</div>
-          )}
-        </div>
+        )}
       </div>
     </AdminLayout>
   );
