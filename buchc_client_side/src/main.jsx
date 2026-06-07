@@ -38,7 +38,7 @@ createRoot(document.getElementById("root")).render(
         <Route path="/admin/settings" element={<SettingsManagement />} />
         <Route path="/registration" element={<RegistrationPage />} />
         <Route path="/registration-success" element={<RegistrationSuccess />} />
-        <Route path="/galary" element={<GalleryPage />} />
+        <Route path="/gallery" element={<GalleryPage />} />
         <Route path="/*" element={<App />} />
       </Routes>
     </BrowserRouter>
