@@ -47,7 +47,7 @@ const Navbar = () => {
     { label: "Our Team", sectionId: "our-team" },
     { label: "Top Players", sectionId: "top-players" },
     { label: "Events", sectionId: "events" },
-    { label: "BUCHC Gallery", route: "/galary" },
+    { label: "BUCHC Gallery", route: "/gallery" },
     { label: "Contact Us", sectionId: "contact" },
   ];
 
