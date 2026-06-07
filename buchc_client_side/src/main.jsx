@@ -8,6 +8,7 @@ import AdminDashboard from "./components/admin/AdminDashboard.jsx";
 import EventsManagement from "./components/admin/EventsManagement.jsx";
 import PlayersManagement from "./components/admin/PlayersManagement.jsx";
 import TeamMembersManagement from "./components/admin/TeamMembersManagement.jsx";
+import GalleryManagement from "./components/admin/GalleryManagement.jsx";
 import RegistrationManagement from "./components/admin/RegistrationManagement.jsx";
 import RegistrationsListManagement from "./components/admin/RegistrationsListManagement.jsx";
 import SettingsManagement from "./components/admin/SettingsManagement.jsx";
@@ -25,6 +26,7 @@ createRoot(document.getElementById("root")).render(
         <Route path="/admin/events" element={<EventsManagement />} />
         <Route path="/admin/players" element={<PlayersManagement />} />
         <Route path="/admin/teams" element={<TeamMembersManagement />} />
+        <Route path="/admin/gallery" element={<GalleryManagement />} />
         <Route
           path="/admin/registration"
           element={<RegistrationManagement />}

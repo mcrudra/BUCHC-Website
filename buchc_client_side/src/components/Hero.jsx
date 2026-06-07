@@ -40,7 +40,10 @@ export default function Hero() {
     sm:bg-[length:120%]
     md:bg-cover
   "
-      style={{ backgroundImage: `url(${isMobile ? phoneImg : logo})` }}
+      style={{
+        backgroundImage: `url(${isMobile ? phoneImg : logo})`,
+        backgroundPosition: isMobile ? "center 28%" : "center center",
+      }}
     >
       <div className="absolute inset-0 bg-black/55 "></div>
       <div id="home" className="relative z-10 max-w-7xl mx-auto px-4 py-12">
@@ -58,7 +61,7 @@ export default function Hero() {
             </p>
             <button
               onClick={handleJoinClick}
-              className="bg-blue-700 hover:bg-blue-900 text-white font-bold text-xl px-8 py-4 rounded-lg shadow hover:shadow-lg transition"
+              className="rounded-full bg-gradient-to-r from-amber-500 to-amber-600 px-8 py-4 text-xl font-bold text-slate-950 shadow-lg shadow-amber-950/30 transition hover:from-amber-400 hover:to-amber-500"
             >
               {settings.registration_open === "true"
                 ? "Register Now"

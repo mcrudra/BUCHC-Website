@@ -233,6 +233,51 @@ export const deleteTeamMember = async (id) => {
   return await adminApi.delete(`/admin/teams/${id}`);
 };
 
+// Gallery
+export const getGalleryItems = async () => {
+  return await adminApi.get("/admin/gallery");
+};
+
+export const createGalleryItem = async (galleryData) => {
+  const formData = new FormData();
+
+  Object.keys(galleryData).forEach((key) => {
+    if (key === "image" && galleryData[key] instanceof File) {
+      formData.append("image", galleryData[key]);
+    } else if (key !== "image") {
+      formData.append(key, galleryData[key]);
+    }
+  });
+
+  return await adminApi.post("/admin/gallery", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+
+export const updateGalleryItem = async (id, galleryData) => {
+  const formData = new FormData();
+
+  Object.keys(galleryData).forEach((key) => {
+    if (key === "image" && galleryData[key] instanceof File) {
+      formData.append("image", galleryData[key]);
+    } else if (key !== "image") {
+      formData.append(key, galleryData[key]);
+    }
+  });
+
+  return await adminApi.put(`/admin/gallery/${id}`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+
+export const deleteGalleryItem = async (id) => {
+  return await adminApi.delete(`/admin/gallery/${id}`);
+};
+
 // Settings
 export const getSettings = async () => {
   return await adminApi.get("/admin/settings");

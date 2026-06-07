@@ -55,22 +55,25 @@ export const sendRegistrationCompleteMail = async ({
     text: [
       `Hello ${name},`,
       "",
-      "Your BUCHC registration has been completed successfully.",
+      "Your registration has been successfully completed.",
       "",
-      `Student ID: ${studentId}`,
-      `Current Semester: ${currentSemester}`,
-      `Registration Semester: ${registrationSemester}`,
+      "We will notify you shortly about your interview date and time via email. Until then, please follow our official Facebook page for the latest updates and announcements: https://www.facebook.com/realbuchc",
       "",
-      "Thank you for registering with BUCHC.",
+      "You can also join our Discord server to communicate with us directly: https://discord.com/invite/KWyShyZaQz",
+      "",
+      "This is an auto-generated email. Please do not reply to this message.",
+      "",
+      "Thank you.",
     ].join("\n"),
     html: `
       <div style="font-family: Arial, sans-serif; color: #0f172a; line-height: 1.6;">
-        <h2 style="margin-bottom: 16px;">BUCHC Registration Completed</h2>
+        <h2 style="margin-bottom: 16px;">Registration Completed</h2>
         <p>Hello <strong>${name}</strong>,</p>
-        <p>Your BUCHC registration has been completed successfully.</p>
-        
-        
-        <p>Thank you for registering with BUCHC.</p>
+        <p>Your registration has been successfully completed.</p>
+        <p>We will notify you shortly about your interview date and time via email. Until then, please follow our official Facebook page for the latest updates and announcements: <a href="https://www.facebook.com/realbuchc" target="_blank">link</a></p>
+        <p>You can also join our Discord server to communicate with us directly: <a href="https://discord.com/invite/KWyShyZaQz" target="_blank">link</a></p>
+        <p style="color: #6b7280; font-size: 13px;">This is an auto-generated email. Please do not reply to this message.</p>
+        <p>Thank you.</p>
       </div>
     `,
   };

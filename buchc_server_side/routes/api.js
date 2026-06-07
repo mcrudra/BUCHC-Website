@@ -2,6 +2,7 @@ import express from "express";
 import { getEvents, getEventById } from "../controllers/api/eventController.js";
 import { getPlayers } from "../controllers/api/playerController.js";
 import { getTeamMembers } from "../controllers/api/teamMemberController.js";
+import { getGalleryItems } from "../controllers/api/galleryController.js";
 import {
   getJoinLink,
   getAllSettings,
@@ -19,6 +20,9 @@ router.get("/players", getPlayers);
 
 // Team members routes
 router.get("/team-members", getTeamMembers);
+
+// Gallery routes
+router.get("/gallery", getGalleryItems);
 
 // Settings routes
 router.get("/settings/join-link", getJoinLink);

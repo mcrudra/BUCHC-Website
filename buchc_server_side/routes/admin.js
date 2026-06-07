@@ -24,6 +24,13 @@ import {
   getTeamMember,
 } from "../controllers/admin/teamController.js";
 import {
+  getGalleryItems,
+  createGalleryItem,
+  updateGalleryItem,
+  deleteGalleryItem,
+  getGalleryItem,
+} from "../controllers/admin/galleryController.js";
+import {
   getSettings,
   updateSettings,
 } from "../controllers/admin/settingController.js";
@@ -127,6 +134,29 @@ router.put(
   updateTeamMember,
 );
 router.delete("/teams/:id", deleteTeamMember);
+
+// Gallery
+router.get("/gallery", getGalleryItems);
+router.get("/gallery/create", (req, res) => {
+  req.params = { id: "new" };
+  return getGalleryItem(req, res);
+});
+router.get("/gallery/:id", getGalleryItem);
+router.post(
+  "/gallery",
+  (req, res, next) => {
+    uploadSingle("image")(req, res, handleMulterError(req, res, next));
+  },
+  createGalleryItem,
+);
+router.put(
+  "/gallery/:id",
+  (req, res, next) => {
+    uploadSingle("image")(req, res, handleMulterError(req, res, next));
+  },
+  updateGalleryItem,
+);
+router.delete("/gallery/:id", deleteGalleryItem);
 
 // Settings
 router.get("/settings", getSettings);
