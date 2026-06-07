@@ -169,11 +169,11 @@ export default function GalleryPage() {
             </button>
 
             <div className="grid grid-cols-1 lg:grid-cols-5">
-              <div className="lg:col-span-3 min-h-[220px] overflow-hidden">
+              <div className="lg:col-span-3 overflow-hidden flex items-center justify-center">
                 <img
                   src={getItemImage(selectedItem)}
                   alt={selectedItem.title}
-                  className="w-full h-auto max-h-[50vh] lg:max-h-[85vh] object-contain"
+                  className="w-full h-auto max-h-[50vh] lg:max-h-[85vh] object-contain block"
                 />
               </div>
               <div className="lg:col-span-2 border-t border-white/10 bg-slate-900/95 p-5 lg:border-l lg:border-t-0 sm:p-6 lg:max-h-[85vh] overflow-y-auto">
