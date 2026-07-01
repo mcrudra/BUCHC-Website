@@ -4,6 +4,7 @@ import { ArrowLeft, X } from "lucide-react";
 import { GiChessKing, GiChessQueen } from "react-icons/gi";
 import galleryItems from "../assets/galleryItems";
 import { fetchGalleryItems } from "../services/api";
+import LazyImage from "./LazyImage";
 
 export default function GalleryPage() {
   const navigate = useNavigate();
@@ -120,14 +121,13 @@ export default function GalleryPage() {
                 key={item._id || `${item.title}-${index}`}
                 className="group flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-2xl backdrop-blur-md transition-all duration-300 hover:-translate-y-2 hover:border-blue-400/40"
               >
-                <div className="aspect-square overflow-hidden">
-                  <img
-                    src={getItemImage(item)}
-                    alt={item.title}
-                    className="h-full w-full cursor-zoom-in object-cover transition-transform duration-500 group-hover:scale-110"
-                    onClick={() => setSelectedItem(item)}
-                  />
-                </div>
+                <LazyImage
+                  src={getItemImage(item)}
+                  alt={item.title}
+                  className="aspect-square overflow-hidden"
+                  imgClassName="h-full w-full cursor-zoom-in object-cover transition-transform duration-500 group-hover:scale-110"
+                  onClick={() => setSelectedItem(item)}
+                />
 
                 <div className="flex flex-1 flex-col border-t border-white/10 bg-gradient-to-b from-white/5 to-white/[0.02] p-5 sm:p-6">
                   <h2 className="text-xl font-semibold text-white">

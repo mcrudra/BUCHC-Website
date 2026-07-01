@@ -12,6 +12,7 @@ import {
   BadgeInfo,
   Table2,
   Image,
+  Monitor,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -32,12 +33,22 @@ export default function AdminLayout({ children }) {
 
   const menuItems = [
     { path: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
+    { path: "/admin/hero-image", label: "Hero Image", icon: Monitor },
+    { path: "/admin/gallery", label: "Gallery", icon: Image },
+    {
+      path: "/admin/registration",
+      label: "Registration Control",
+      icon: BadgeInfo,
+    },
+    {
+      path: "/admin/registrations",
+      label: "Registration Response",
+      icon: Table2,
+    },
     { path: "/admin/events", label: "Events", icon: Calendar },
     { path: "/admin/players", label: "Top Players", icon: Users },
     { path: "/admin/teams", label: "Team Members", icon: UserCog },
-    { path: "/admin/gallery", label: "Gallery", icon: Image },
-    { path: "/admin/registration", label: "Registration", icon: BadgeInfo },
-    { path: "/admin/registrations", label: "Registrations", icon: Table2 },
+
     { path: "/admin/settings", label: "Settings", icon: SettingsIcon },
   ];
 
@@ -57,7 +68,7 @@ export default function AdminLayout({ children }) {
       <aside
         className={`bg-white shadow-lg transition-all duration-300 ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
-        } ${sidebarOpen ? "w-64" : "w-64 lg:w-20"} fixed h-full z-50 lg:z-30`}
+        } ${sidebarOpen ? "w-70" : "w-64 lg:w-20"} fixed h-full z-50 lg:z-30`}
       >
         <div className="flex flex-col h-full">
           {/* Logo/Header */}

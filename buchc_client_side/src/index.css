@@ -39,6 +39,7 @@ body {
   position: absolute;
   inset: 0;
   opacity: 0.08;
+  will-change: background-position;
   background-image:
     linear-gradient(45deg, rgba(255, 255, 255, 0.08) 25%, transparent 25%),
     linear-gradient(-45deg, rgba(255, 255, 255, 0.08) 25%, transparent 25%),
@@ -60,6 +61,7 @@ body {
   border-radius: 9999px;
   filter: blur(40px);
   opacity: 0.38;
+  will-change: transform;
   animation: glow-float 18s ease-in-out infinite;
 }
 
@@ -146,31 +148,6 @@ body {
   }
 }
 
-@keyframes registration-marquee {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-.registration-live-marquee {
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-.registration-live-track {
-  display: flex;
-  width: max-content;
-  animation: registration-marquee 25s linear infinite;
-}
-
-.registration-live-copy {
-  display: inline-block;
-  padding-right: 2.5rem;
-  white-space: nowrap;
-}
 
 .registration-banner-shell {
   position: relative;
@@ -222,4 +199,15 @@ body {
 
 .animate-fadeIn {
   animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes img-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.img-skeleton {
+  background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+  background-size: 200% 100%;
+  animation: img-shimmer 1.5s ease-in-out infinite;
 }

@@ -35,6 +35,8 @@ export const getAllSettings = async (req, res) => {
         "registration_live_text",
         "Registration is live now",
       ),
+      hero_image_desktop: await Setting.get("hero_image_desktop", ""),
+      hero_image_mobile: await Setting.get("hero_image_mobile", ""),
     });
   } catch (error) {
     res.status(500).json({ message: error.message });

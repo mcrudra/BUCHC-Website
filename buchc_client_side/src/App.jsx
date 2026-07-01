@@ -1,5 +1,4 @@
 // App.jsx
-import React from "react";
 import Navbar from "./Navbar";
 import RegistrationBanner from "./components/RegistrationBanner";
 import Hero from "./components/Hero";
@@ -11,7 +10,7 @@ import Footer from "./Footer";
 
 function App() {
   return (
-    <div className="w-full relative overflow-hidden bg-[#07111d] text-slate-100 pt-[64px] sm:pt-[72px]">
+    <div className="w-full relative overflow-hidden bg-[#07111d] text-slate-100 pt-[52px] md:pt-[80px]">
       <div
         className="homepage-background pointer-events-none absolute inset-0 z-0"
         aria-hidden="true"
