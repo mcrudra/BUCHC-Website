@@ -114,6 +114,8 @@ export const fetchAllSettings = async () => {
       registration_form_link: "",
       registration_live_text: "Registration is live now",
       registration_semester_label: "Spring 26",
+      hero_image_desktop: "",
+      hero_image_mobile: "",
     };
   }
 };

@@ -66,7 +66,7 @@ export default function RegistrationManagement() {
       <div className="max-w-3xl mx-auto w-full">
         <div className="mb-6">
           <h1 className="text-2xl sm:text-3xl font-bold text-black">
-            Registration
+            Registration Form Open/Close
           </h1>
           <p className="text-black mt-1 text-sm sm:text-base">
             Control the public registration page and active semester label

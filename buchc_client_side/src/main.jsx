@@ -12,6 +12,7 @@ import GalleryManagement from "./components/admin/GalleryManagement.jsx";
 import RegistrationManagement from "./components/admin/RegistrationManagement.jsx";
 import RegistrationsListManagement from "./components/admin/RegistrationsListManagement.jsx";
 import SettingsManagement from "./components/admin/SettingsManagement.jsx";
+import HeroImageManagement from "./components/admin/HeroImageManagement.jsx";
 import RegistrationPage from "./components/RegistrationPage.jsx";
 import RegistrationSuccess from "./components/RegistrationSuccess.jsx";
 import GalleryPage from "./components/Gallery.jsx";
@@ -36,6 +37,7 @@ createRoot(document.getElementById("root")).render(
           element={<RegistrationsListManagement />}
         />
         <Route path="/admin/settings" element={<SettingsManagement />} />
+        <Route path="/admin/hero-image" element={<HeroImageManagement />} />
         <Route path="/registration" element={<RegistrationPage />} />
         <Route path="/registration-success" element={<RegistrationSuccess />} />
         <Route path="/gallery" element={<GalleryPage />} />

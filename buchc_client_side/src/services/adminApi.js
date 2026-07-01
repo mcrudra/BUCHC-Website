@@ -287,6 +287,15 @@ export const updateSettings = async (settingsData) => {
   return await adminApi.post("/admin/settings", settingsData);
 };
 
+// Hero Image Upload
+export const uploadHeroImage = async (type, file) => {
+  const formData = new FormData();
+  formData.append("image", file);
+  return await adminApi.post(`/admin/hero-image?type=${type}`, formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+};
+
 // Registrations
 export const getRegistrations = async (semester = "") => {
   const params = semester ? { semester } : {};

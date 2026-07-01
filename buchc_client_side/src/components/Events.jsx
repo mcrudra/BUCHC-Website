@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { fetchEvents } from "../services/api";
 import { X, Calendar, Clock, MapPin, ArrowRight } from "lucide-react";
+import LazyImage from "./LazyImage";
 
 export default function Events() {
   const [upcomingEvents, setUpcomingEvents] = useState([]);
@@ -97,13 +98,14 @@ export default function Events() {
                 >
                   <div className="aspect-video overflow-hidden bg-slate-800">
                     {event.img ? (
-                      <img
+                      <LazyImage
                         src={event.img}
                         alt={event.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        className="w-full h-full"
+                        imgClassName="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                     ) : (
-                      <div className="w-full h-full bg-slate-800 flex items-center justify-center">
+                      <div className="w-full h-full flex items-center justify-center">
                         <Calendar className="text-slate-500" size={48} />
                       </div>
                     )}
@@ -189,13 +191,14 @@ export default function Events() {
                 >
                   <div className="aspect-square overflow-hidden bg-slate-800">
                     {event.img ? (
-                      <img
+                      <LazyImage
                         src={event.img}
                         alt={event.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        className="w-full h-full"
+                        imgClassName="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                     ) : (
-                      <div className="w-full h-full bg-slate-800 flex items-center justify-center">
+                      <div className="w-full h-full flex items-center justify-center">
                         <Calendar className="text-slate-500" size={48} />
                       </div>
                     )}

@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import logo from "../assets/hero_background.jpg";
-import phoneImg from "../assets/phone.jpg";
 import { fetchAllSettings } from "../services/api";
 
 export default function Hero() {
   const [settings, setSettings] = useState({ registration_open: "false" });
   const [isMobile, setIsMobile] = useState(false);
+  const [bgUrl, setBgUrl] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,28 +25,51 @@ export default function Hero() {
     return () => window.removeEventListener("resize", check);
   }, []);
 
+  // Preload the image — only reveal it once fully downloaded
+  useEffect(() => {
+    const url = isMobile
+      ? settings.hero_image_mobile
+      : settings.hero_image_desktop;
+
+    if (!url) return;
+
+    const img = new window.Image();
+    img.onload = () => setBgUrl(url);
+    img.onerror = () => {};
+    img.src = url;
+
+    return () => {
+      img.onload = null;
+      img.onerror = null;
+    };
+  }, [isMobile, settings.hero_image_desktop, settings.hero_image_mobile]);
+
+  // Derived: skeleton shows while target URL exists but hasn't finished loading yet
+  const targetUrl = isMobile
+    ? settings.hero_image_mobile
+    : settings.hero_image_desktop;
+  const imgLoading = !!targetUrl && bgUrl !== targetUrl;
+
   const handleJoinClick = () => {
     navigate("/registration");
   };
 
   return (
     <div
-      className="
-    relative min-h-screen flex items-center
-    bg-cover bg-center
-    md:bg-center
-    bg-[length:140%]
-    sm:bg-[length:120%]
-    md:bg-cover
-  "
+      className="relative min-h-screen flex items-center bg-cover bg-center md:bg-center bg-[length:140%] sm:bg-[length:120%] md:bg-cover"
       style={{
-        backgroundImage: `url(${isMobile ? phoneImg : logo})`,
+        backgroundImage: bgUrl ? `url(${bgUrl})` : undefined,
         backgroundPosition: isMobile ? "center 28%" : "center center",
       }}
     >
-      <div className="absolute inset-0 bg-black/55 "></div>
-      <div id="home" className="relative z-10 max-w-7xl mx-auto px-4 py-12">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+      {imgLoading && (
+        <div className="absolute inset-0 animate-pulse bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900" />
+      )}
+
+      <div className="absolute inset-0 bg-black/55" />
+
+      <div id="home" className="relative z-10 w-full px-6 sm:px-10 lg:px-16 xl:px-24 py-12">
+        <div className="max-w-2xl">
           <div className="text-white">
             <h1 className="text-5xl md:text-6xl font-bold mb-8">
               Where Strategy
@@ -73,3 +95,4 @@ export default function Hero() {
     </div>
   );
 }
+

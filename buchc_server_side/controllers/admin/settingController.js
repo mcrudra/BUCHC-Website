@@ -1,5 +1,6 @@
 import Setting from "../../models/Setting.js";
 import { body, validationResult } from "express-validator";
+import { uploadToCloudinary, deleteFromCloudinary, extractPublicId } from "../../utils/cloudinary.js";
 
 export const getSettings = async (req, res) => {
   try {
@@ -27,6 +28,8 @@ export const getSettings = async (req, res) => {
         "registration_live_text",
         "Registration is live now",
       ),
+      hero_image_desktop: await Setting.get("hero_image_desktop", ""),
+      hero_image_mobile: await Setting.get("hero_image_mobile", ""),
     };
 
     res.json(settings);
@@ -91,6 +94,37 @@ export const updateSettings = async (req, res) => {
       await Setting.set("registration_live_text", registration_live_text || "");
 
     res.json({ message: "Settings updated successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const uploadHeroImage = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: "No image file provided" });
+    }
+
+    const type = req.query.type;
+    if (!["desktop", "mobile"].includes(type)) {
+      return res.status(400).json({ message: "Query param 'type' must be 'desktop' or 'mobile'" });
+    }
+
+    const settingKey = type === "desktop" ? "hero_image_desktop" : "hero_image_mobile";
+
+    // Delete old Cloudinary image if it exists
+    const existingUrl = await Setting.get(settingKey, "");
+    if (existingUrl) {
+      const oldPublicId = extractPublicId(existingUrl);
+      if (oldPublicId) {
+        await deleteFromCloudinary(oldPublicId).catch(() => {});
+      }
+    }
+
+    const result = await uploadToCloudinary(req.file.buffer, "hero");
+    await Setting.set(settingKey, result.url);
+
+    res.json({ success: true, url: result.url, public_id: result.public_id });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

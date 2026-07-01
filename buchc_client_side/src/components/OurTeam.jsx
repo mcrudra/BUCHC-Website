@@ -2,6 +2,7 @@ import { Mail } from "lucide-react";
 import { useState, useEffect } from "react";
 import { fetchTeamMembers } from "../services/api";
 import fallbackLogo from "../assets/logo.png";
+import LazyImage from "./LazyImage";
 
 const DEFAULT_TEAM_PHOTO = "/logo-Ba1-O6YK.png";
 
@@ -77,28 +78,18 @@ export default function OurTeam() {
     return photo;
   };
 
-  const handleImageError = (event) => {
-    if (event.currentTarget.dataset.fallbackApplied === "true") {
-      return;
-    }
-
-    event.currentTarget.dataset.fallbackApplied = "true";
-    event.currentTarget.src = fallbackLogo;
-  };
-
   const renderMemberCard = (member, index, cardKeyPrefix = "member") => (
     <div
       key={`${cardKeyPrefix}-${index}`}
       className="chess-panel rounded-2xl overflow-hidden transition hover:-translate-y-1"
     >
-      <div className="aspect-square overflow-hidden bg-slate-800">
-        <img
-          src={getImageSrc(member.photo)}
-          alt={member.name}
-          className="w-full h-full object-cover"
-          onError={handleImageError}
-        />
-      </div>
+      <LazyImage
+        src={getImageSrc(member.photo)}
+        alt={member.name}
+        className="aspect-square overflow-hidden bg-slate-800"
+        imgClassName="w-full h-full object-cover"
+        fallbackSrc={fallbackLogo}
+      />
       <div className="p-4 sm:p-6 text-center">
         <h4 className="text-white text-lg sm:text-xl mb-1">{member.name}</h4>
         <p className="text-amber-400 mb-2 sm:mb-3 text-sm sm:text-base">
@@ -228,13 +219,13 @@ export default function OurTeam() {
             </div>
             <div className="flex justify-center">
               <div className="chess-panel rounded-2xl overflow-hidden max-w-sm transition hover:-translate-y-1">
-                <div className="aspect-square overflow-hidden bg-slate-800">
-                  <img
-                    src={getImageSrc(generalCoordinator.photo)}
-                    alt={generalCoordinator.name}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
+                <LazyImage
+                  src={getImageSrc(generalCoordinator.photo)}
+                  alt={generalCoordinator.name}
+                  className="aspect-square overflow-hidden bg-slate-800"
+                  imgClassName="w-full h-full object-cover"
+                  fallbackSrc={fallbackLogo}
+                />
                 <div className="p-4 sm:p-6 text-center">
                   <h4 className="text-white text-lg sm:text-xl mb-1">
                     {generalCoordinator.name}

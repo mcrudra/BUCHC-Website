@@ -33,6 +33,7 @@ import {
 import {
   getSettings,
   updateSettings,
+  uploadHeroImage,
 } from "../controllers/admin/settingController.js";
 import {
   getRegistrations,
@@ -161,6 +162,15 @@ router.delete("/gallery/:id", deleteGalleryItem);
 // Settings
 router.get("/settings", getSettings);
 router.post("/settings", updateSettings);
+
+// Hero Image Upload
+router.post(
+  "/hero-image",
+  (req, res, next) => {
+    uploadSingle("image")(req, res, handleMulterError(req, res, next));
+  },
+  uploadHeroImage,
+);
 
 // Registrations
 router.get("/registrations", getRegistrations);
